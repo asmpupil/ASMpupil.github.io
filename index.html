@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>爱数码PE发布页</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: #fff;
+            line-height: 1.6;
+            padding-bottom: 60px;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 100;
+        }
+        
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            position: relative;
+        }
+        
+        h1 {
+            font-size: 3.5rem;
+            text-shadow: 0 0 15px rgba(0, 191, 255, 0.7);
+            margin-bottom: 20px;
+            letter-spacing: 3px;
+            background: linear-gradient(45deg, #1e90ff, #00ffcc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: titleGlow 2s infinite alternate;
+        }
+        
+        @keyframes titleGlow {
+            from { text-shadow: 0 0 10px rgba(30, 144, 255, 0.6); }
+            to { text-shadow: 0 0 20px rgba(0, 255, 204, 0.8), 0 0 30px rgba(30, 144, 255, 0.9); }
+        }
+        
+        .divider {
+            height: 3px;
+            background: linear-gradient(to right, transparent, #00bfff, #0078ff, #00bfff, transparent);
+            width: 80%;
+            margin: 20px auto;
+        }
+        
+        .image-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin: 30px 0;
+        }
+        
+        .image-card {
+            flex: 1;
+            min-width: 300px;
+            max-width: 550px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            background: rgba(0, 0, 20, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(64, 224, 208, 0.5);
+            position: relative;
+        }
+        
+        .image-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+        }
+        
+        .image-wrapper {
+            width: 100%;
+            height: 320px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .pe-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* 确保图片完整显示 */
+            display: block;
+            transition: transform 0.5s ease;
+        }
+        
+        .image-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 50, 0.8);
+            color: white;
+            text-align: center;
+            padding: 15px 0;
+            font-size: 1.5rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .content-section {
+            background: rgba(15, 25, 60, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 191, 255, 0.3);
+        }
+        
+        .pe-info {
+            text-align: center;
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            padding: 15px;
+            line-height: 1.8;
+            color: #e0f7ff;
+        }
+        
+        .pe-info strong {
+            color: #00ffff;
+        }
+        
+        .download-section {
+            margin: 40px 0;
+        }
+        
+        .download-header {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 30px;
+            color: #00ffea;
+            text-shadow: 0 0 10px rgba(0, 255, 234, 0.5);
+            letter-spacing: 1px;
+        }
+        
+        .download-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        
+        .download-group {
+            flex: 1;
+            min-width: 280px;
+            max-width: 600px;
+            background: rgba(20, 30, 70, 0.8);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(0, 195, 255, 0.4);
+        }
+        
+        .group-title {
+            text-align: center;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #00bfff;
+            color: #00ffea;
+        }
+        
+        .download-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .download-item {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .download-item:hover {
+            transform: translateY(-5px);
+            background: linear-gradient(135deg, #2a5298, #1e3c72);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4);
+        }
+        
+        .download-item i {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: #00ffff;
+        }
+        
+        .download-type {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #fff;
+        }
+        
+        .download-link {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 20px;
+            background: linear-gradient(90deg, #00c6ff, #0072ff);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 114, 255, 0.3);
+        }
+        
+        .download-link:hover {
+            background: linear-gradient(90deg, #0072ff, #00c6ff);
+            box-shadow: 0 6px 15px rgba(0, 114, 255, 0.5);
+            transform: translateY(-2px);
+        }
+        
+        .bilibili-section {
+            text-align: center;
+            margin: 40px auto;
+            padding: 20px;
+            max-width: 600px;
+        }
+        
+        .bilibili-link {
+            font-size: 1.2rem;
+            color: #00eeff;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .bilibili-link:hover {
+            color: #ff3860;
+            transform: scale(1.05);
+        }
+        
+        .jump-button {
+            background: linear-gradient(90deg, #ff3860, #ff2b56);
+            color: white;
+            font-size: 1.3rem;
+            padding: 15px 45px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 56, 96, 0.4);
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+        
+        .jump-button:hover {
+            background: linear-gradient(90deg, #ff2b56, #ff3860);
+            box-shadow: 0 8px 20px rgba(255, 56, 96, 0.6);
+            transform: translateY(-3px);
+        }
+        
+        .jump-button:active {
+            transform: translateY(1px);
+        }
+        
+        footer {
+            margin-top: 60px;
+            text-align: center;
+            padding: 20px;
+            font-size: 1rem;
+        }
+        
+        .copyright {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+        }
+        
+        .copyright span:first-child {
+            margin-right: auto;
+        }
+        
+        .copyright span:last-child {
+            margin-left: auto;
+        }
+        
+        .rights-text {
+            flex: 1;
+            text-align: center;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .image-card {
+                min-width: 90%;
+            }
+            
+            .image-wrapper {
+                height: 250px;
+            }
+            
+            .download-group {
+                min-width: 90%;
+            }
+            
+            .copyright {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .copyright span:first-child, 
+            .copyright span:last-child {
+                margin: 0;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .image-wrapper {
+                height: 200px;
+            }
+            
+            .download-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .jump-button {
+                width: 90%;
+                padding: 15px;
+            }
+        }
+        
+        /* 樱花花瓣样式 */
+        .sakura-petal {
+            position: fixed;
+            top: -100px;
+            width: 15px;
+            height: 15px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M416.5 149.9c-.9-43.2-27.3-79.9-64-92.4-28.6-9.7-59.3-2.7-83.4 16.2-6.7 5.2-17.3-1.4-15.8-9.5 3.9-20.2-12.8-36.2-32.3-36.2s-36.2 16-32.3 36.2c1.5 8.1-9.1 14.7-15.8 9.5-24.1-18.9-54.8-25.9-83.4-16.2-36.7 12.5-63.1 49.1-64 92.4-.1 5 .4 9.9 1.3 14.8-1 .1-1.9.3-2.9.4-41.4 7.3-72 44-72 86.8s30.6 79.5 72 86.8c34.8 6.1 66.1-12.7 79.2-42.1 1.2-2.6 4.5-3.7 7.1-2.5 4.3 2 8.9 3.1 13.5 3.1 18.9 0 35.8-12.4 41.7-30.2 1.6-4.9-3.1-9.4-8.1-7.5-33.3 12.5-70.9-3-84.1-36.1-1.4-3.2-4.9-5-8.3-4.3-20.1 4-40.9-6.7-49.3-25-4.1-8.9-6.1-18.7-5.9-28.6.1-5 4.2-9.1 9.2-9.1s8.9 4.1 8.9 9.1c.1 12.2 5.5 23.6 14.5 31.4 7.1 6.2 16.3 9.3 25.5 8.8 20.2-1.1 37.9-13.7 47.2-31.1 2.9-5.4 11.3-3.5 10.4 2.6-1.6 10.8-8.5 20.6-18.7 26 33.3 2.5 65.1-12 80.6-38.2 2.7-4.5-.9-10.4-6.2-9-3.3.8-6.8 1.3-10.3 1.3-18.9 0-35.8-12.4-41.7-30.2-1.6-4.9-8.6-4.9-10.2 0-5.9 17.8-22.8 30.2-41.7 30.2-3.5 0-7-.5-10.3-1.3-5.3-1.4-8.9 4.5-6.2 9C166 206 197.8 220.5 231.1 218c-10.2-5.4-17.1-15.3-18.7-26-.9-6.1 7.5-8 10.4-2.6 9.3 17.4 27 29.9 47.2 31.1 9.2.5 18.4-2.6 25.5-8.8 9-7.8 14.4-19.2 14.5-31.4 0-5 4-9.1 8.9-9.1s9.1 4.1 9.2 9.1c.2 9.8-1.8 19.7-5.9 28.6-8.4 18.3-29.2 29-49.3 25-3.5-.7-6.9 1.1-8.3 4.3-13.2 33.1-50.8 48.6-84.1 36.1-5-1.9-9.7 2.6-8.1 7.5 5.9 17.8 22.8 30.2 41.7 30.2 4.6 0 9.1-1.1 13.5-3.1 2.6-1.2 5.9.1 7.1 2.5 13.1 29.4 44.4 48.3 79.2 42.1 41.4-7.3 72-44 72-86.8s-30.6-79.5-72-86.8c-1-.1-1.9-.3-2.9-.4.9-4.9 1.4-9.8 1.3-14.8z" fill="%23ff8db3"/></svg>');
+            background-size: contain;
+            z-index: 1000;
+            pointer-events: none;
+            opacity: 0.9;
+            filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.7));
+        }
+
+        /* 樱花飘落动画 */
+        @keyframes petalFall {
+            0% {
+                transform: translate3d(var(--start-x), 0, 0) rotate(0deg);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translate3d(var(--end-x), 100vh, 0) rotate(360deg);
+                opacity: 0.3;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>爱数码PE发布页</h1>
+            <div class="divider"></div>
+        </header>
+        
+        <div class="image-container">
+            <div class="image-card">
+                <div class="image-wrapper">
+                    <img src="1.png" alt="维护PE V1.0" class="pe-image">
+                    <div class="image-caption">维护PE V1.0</div>
+                </div>
+            </div>
+            
+            <div class="image-card">
+                <div class="image-wrapper">
+                    <img src="2.png" alt="多功能PE V2.0" class="pe-image">
+                    <div class="image-caption">多功能PE V2.0</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="content-section">
+            <div class="pe-info">
+                <p>本PE为分支版本，<strong>第一个版本</strong>几乎只能用于维护，也可以运行一些其他软件或者联网。</p>
+                <p><strong>第二个版本</strong>可以运行许多软件，还可以实现SYSTEM和ADMIN账户之间的互相切换。</p>
+            </div>
+            
+            <div class="divider"></div>
+            
+            <div class="download-section">
+                <h2 class="download-header">下载专区</h2>
+                
+                <div class="download-container">
+                    <div class="download-group">
+                        <h3 class="group-title">第一个维护PE</h3>
+                        <div class="download-grid">
+                            <div class="download-item">
+                                <i class="fas fa-download"></i>
+                                <div class="download-type">云盘下载(百度网盘)</div>
+                                <a href="https://pan.baidu.com/s/1MrVBYhPSFYfHPaErCr4ikQ?pwd=q3y3" class="download-link">立即下载</a>
+                            </div>
+                            
+                            <div class="download-item">
+                                <i class="fas fa-cloud-download-alt"></i>
+                                <div class="download-type">云盘下载(123云盘)</div>
+                                <a href="https://www.123pan.com/s/flz3Td-K4t0A" class="download-link">前往下载</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="download-group">
+                        <h3 class="group-title">第二个PE/RAMOS</h3>
+                        <div class="download-grid">
+                            <div class="download-item">
+                                <i class="fas fa-download"></i>
+                                <div class="download-type">云盘下载(百度网盘)</div>
+                                <a href="https://pan.baidu.com/s/1gTTtle5wDBkzoqFqugXhJw?pwd=xz9g" class="download-link">立即下载</a>
+                            </div>
+                            
+                            <div class="download-item">
+                                <i class="fas fa-cloud-download-alt"></i>
+                                <div class="download-type">云盘下载(123云盘)</div>
+                                <a href="https://www.123pan.com/s/flz3Td-dut0A" class="download-link">前往下载</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bilibili-section">
+            <a href="https://b23.tv/8VYR1YK" class="bilibili-link" target="_blank">
+                <i class="fab fa-bilibili"></i> 爱数码的小学生B站主页
+            </a>
+            <div style="height: 15px;"></div>
+            <button class="jump-button" onclick="window.open('https://b23.tv/8VYR1YK', '_blank')">立即跳转</button>
+        </div>
+        
+        <footer>
+            <div class="copyright">
+                <span></span>
+                <span class="rights-text">爱数码的小学生专有权利</span>
+                <span>2025</span>
+            </div>
+        </footer>
+    </div>
+    
+    <!-- 樱花容器 -->
+    <div id="sakura-container"></div>
+
+    <script>
+        // 樱花飘落效果
+        document.addEventListener('DOMContentLoaded', () => {
+            const sakuraContainer = document.getElementById('sakura-container');
+            
+            // 创建樱花花瓣
+            function createPetal() {
+                const petal = document.createElement('div');
+                petal.className = 'sakura-petal';
+                
+                // 随机位置和大小
+                const size = Math.random() * 15 + 8;
+                const startX = Math.random() * window.innerWidth;
+                const endX = Math.random() * 40 - 20; // -20px 到 20px 的偏移
+                
+                petal.style.width = `${size}px`;
+                petal.style.height = `${size}px`;
+                petal.style.left = `${startX}px`;
+                petal.style.setProperty('--start-x', `${endX}px`);
+                petal.style.setProperty('--end-x', `${Math.random() * 60 - 30}px`);
+                
+                // 随机的下落速度
+                const duration = Math.random() * 8 + 8; // 8-16秒
+                petal.style.animation = `petalFall ${duration}s linear infinite`;
+                petal.style.animationDelay = `${Math.random() * 5}s`;
+                
+                sakuraContainer.appendChild(petal);
+                
+                // 花瓣落地后移除
+                setTimeout(() => {
+                    if (petal.parentNode) {
+                        petal.remove();
+                    }
+                }, duration * 1000);
+            }
+            
+            // 初始创建花瓣
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    createPetal();
+                }, Math.random() * 3000);
+            }
+            
+            // 每隔一段时间创建新花瓣
+            setInterval(() => {
+                createPetal();
+            }, 500);
+        });
+    </script>
+</body>
+</html>
