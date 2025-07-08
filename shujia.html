@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>暑假倒计时</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2980 0%, #26d0ce 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            color: white;
+        }
+        
+        .container {
+            max-width: 900px;
+            width: 100%;
+            margin: 30px auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.4rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .settings-panel {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        
+        .setting {
+            display: flex;
+            flex-direction: column;
+            min-width: 250px;
+        }
+        
+        label {
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+        }
+        
+        label i {
+            margin-right: 10px;
+            color: #FFD700;
+        }
+        
+        input[type="date"] {
+            background: rgba(0, 0, 0, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            padding: 15px 20px;
+            font-size: 1.2rem;
+            color: white;
+            outline: none;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+        
+        input[type="date"]:focus {
+            border-color: #FFD700;
+            box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.3);
+        }
+        
+        button {
+            background: linear-gradient(to right, #FF9A00, #FF6600);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 16px 35px;
+            font-size: 1.3rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            margin-top: 10px;
+            width: 100%;
+            box-shadow: 0 5px 15px rgba(255, 102, 0, 0.4);
+        }
+        
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 102, 0, 0.5);
+        }
+        
+        .countdown-display {
+            text-align: center;
+            padding: 40px;
+            background: rgba(0, 0, 0, 0.25);
+            border-radius: 20px;
+            margin-top: 20px;
+        }
+        
+        .countdown-number {
+            font-size: 10rem;
+            font-weight: 800;
+            margin: 20px 0;
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            color: #FFD700;
+        }
+        
+        .countdown-label {
+            font-size: 2.2rem;
+            margin-top: -10px;
+        }
+        
+        .date-info {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            color: #FFD700;
+            font-weight: 500;
+        }
+        
+        .calendar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        
+        .month {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            width: 250px;
+        }
+        
+        .month-title {
+            text-align: center;
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+        }
+        
+        .day {
+            text-align: center;
+            padding: 8px;
+            border-radius: 10px;
+        }
+        
+        .weekday {
+            font-weight: bold;
+            color: #FFD700;
+        }
+        
+        .today {
+            background-color: rgba(38, 208, 206, 0.7);
+            font-weight: bold;
+        }
+        
+        .end-date {
+            background-color: rgba(255, 102, 0, 0.7);
+            font-weight: bold;
+        }
+        
+        .instructions {
+            text-align: center;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            margin-top: 30px;
+        }
+        
+        .instructions h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #FFD700;
+        }
+        
+        .instructions p {
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+        
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            opacity: 0.8;
+            font-size: 1rem;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.8rem;
+            }
+            
+            .countdown-number {
+                font-size: 7rem;
+            }
+            
+            .date-info, .countdown-label {
+                font-size: 1.8rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .countdown-number {
+                font-size: 5rem;
+            }
+            
+            .card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-umbrella-beach"></i> 暑假倒计时</h1>
+            <p class="subtitle">自定义暑假结束日期，倒计时开始吧！</p>
+        </header>
+        
+        <div class="card">
+            <div class="settings-panel">
+                <div class="setting">
+                    <label for="end-date"><i class="fas fa-calendar-day"></i> 设置暑假结束日期</label>
+                    <input type="date" id="end-date">
+                    <button id="update-btn"><i class="fas fa-sync-alt"></i> 更新倒计时</button>
+                </div>
+                
+                <div class="setting">
+                    <label><i class="fas fa-info-circle"></i> 默认设置</label>
+                    <button id="default-btn"><i class="fas fa-calendar-check"></i> 使用默认日期 (8月31日)</button>
+                </div>
+            </div>
+            
+            <div class="countdown-display">
+                <div class="date-info">
+                    距离 <span id="end-date-display">2025年8月31日</span> 还有
+                </div>
+                <div class="countdown-number" id="countdown">63</div>
+                <div class="countdown-label">天</div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="calendar">
+                <div class="month">
+                    <div class="month-title">七月</div>
+                    <div class="days">
+                        <div class="day weekday">日</div>
+                        <div class="day weekday">一</div>
+                        <div class="day weekday">二</div>
+                        <div class="day weekday">三</div>
+                        <div class="day weekday">四</div>
+                        <div class="day weekday">五</div>
+                        <div class="day weekday">六</div>
+                        
+                        <div class="day"></div>
+                        <div class="day"></div>
+                        <div class="day">1</div>
+                        <div class="day">2</div>
+                        <div class="day">3</div>
+                        <div class="day">4</div>
+                        <div class="day">5</div>
+                        
+                        <div class="day">6</div>
+                        <div class="day">7</div>
+                        <div class="day">8</div>
+                        <div class="day">9</div>
+                        <div class="day">10</div>
+                        <div class="day">11</div>
+                        <div class="day">12</div>
+                        
+                        <div class="day">13</div>
+                        <div class="day">14</div>
+                        <div class="day">15</div>
+                        <div class="day">16</div>
+                        <div class="day">17</div>
+                        <div class="day">18</div>
+                        <div class="day">19</div>
+                        
+                        <div class="day">20</div>
+                        <div class="day">21</div>
+                        <div class="day">22</div>
+                        <div class="day">23</div>
+                        <div class="day">24</div>
+                        <div class="day">25</div>
+                        <div class="day">26</div>
+                        
+                        <div class="day">27</div>
+                        <div class="day today">28</div>
+                        <div class="day">29</div>
+                        <div class="day">30</div>
+                        <div class="day">31</div>
+                        <div class="day"></div>
+                        <div class="day"></div>
+                    </div>
+                </div>
+                
+                <div class="month">
+                    <div class="month-title">八月</div>
+                    <div class="days">
+                        <div class="day weekday">日</div>
+                        <div class="day weekday">一</div>
+                        <div class="day weekday">二</div>
+                        <div class="day weekday">三</div>
+                        <div class="day weekday">四</div>
+                        <div class="day weekday">五</div>
+                        <div class="day weekday">六</div>
+                        
+                        <div class="day"></div>
+                        <div class="day"></div>
+                        <div class="day"></div>
+                        <div class="day"></div>
+                        <div class="day">1</div>
+                        <div class="day">2</div>
+                        <div class="day">3</div>
+                        
+                        <div class="day">4</div>
+                        <div class="day">5</div>
+                        <div class="day">6</div>
+                        <div class="day">7</div>
+                        <div class="day">8</div>
+                        <div class="day">9</div>
+                        <div class="day">10</div>
+                        
+                        <div class="day">11</div>
+                        <div class="day">12</div>
+                        <div class="day">13</div>
+                        <div class="day">14</div>
+                        <div class="day">15</div>
+                        <div class="day">16</div>
+                        <div class="day">17</div>
+                        
+                        <div class="day">18</div>
+                        <div class="day">19</div>
+                        <div class="day">20</div>
+                        <div class="day">21</div>
+                        <div class="day">22</div>
+                        <div class="day">23</div>
+                        <div class="day">24</div>
+                        
+                        <div class="day">25</div>
+                        <div class="day">26</div>
+                        <div class="day">27</div>
+                        <div class="day">28</div>
+                        <div class="day">29</div>
+                        <div class="day">30</div>
+                        <div class="day end-date">31</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="instructions">
+            <h3><i class="fas fa-question-circle"></i> 使用说明</h3>
+            <p>1. 在日期选择器中选择您学校的暑假结束日期</p>
+            <p>2. 点击"更新倒计时"按钮应用设置</p>
+            <p>3. 使用"使用默认日期"按钮可快速设置为8月31日</p>
+            <p>4. 您的设置会自动保存，下次访问时无需重新设置</p>
+        </div>
+        
+        <div class="footer">
+            <p>© 2025 暑假倒计时 | 让您的假期规划更轻松</p>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 获取DOM元素
+            const dateInput = document.getElementById('end-date');
+            const updateBtn = document.getElementById('update-btn');
+            const defaultBtn = document.getElementById('default-btn');
+            const countdownEl = document.getElementById('countdown');
+            const endDateDisplay = document.getElementById('end-date-display');
+            
+            // 设置默认为今年8月31日
+            const now = new Date();
+            const currentYear = now.getFullYear();
+            let endDate = new Date(currentYear, 7, 31); // 月份从0开始，7表示8月
+            
+            // 检查本地存储中是否有保存的日期
+            const savedDate = localStorage.getItem('summerEndDate');
+            if (savedDate) {
+                endDate = new Date(savedDate);
+            }
+            
+            // 初始化日期输入框
+            const formattedDate = formatDateForInput(endDate);
+            dateInput.value = formattedDate;
+            
+            // 显示结束日期和倒计时
+            updateDisplay();
+            
+            // 更新倒计时按钮事件
+            updateBtn.addEventListener('click', function() {
+                const selectedDate = new Date(dateInput.value);
+                endDate = selectedDate;
+                localStorage.setItem('summerEndDate', endDate.toISOString());
+                updateDisplay();
+                
+                // 更新日历上的结束日期标记
+                updateCalendarMarkers();
+            });
+            
+            // 恢复默认日期按钮事件
+            defaultBtn.addEventListener('click', function() {
+                endDate = new Date(currentYear, 7, 31);
+                const formattedDate = formatDateForInput(endDate);
+                dateInput.value = formattedDate;
+                localStorage.setItem('summerEndDate', endDate.toISOString());
+                updateDisplay();
+                updateCalendarMarkers();
+            });
+            
+            // 更新显示的函数
+            function updateDisplay() {
+                // 更新显示的结束日期
+                const endDateFormatted = formatDateForDisplay(endDate);
+                endDateDisplay.textContent = endDateFormatted;
+                
+                // 计算并更新倒计时天数
+                const today = new Date();
+                today.setHours(0, 0, 0, 0); // 设置为当天开始时间
+                
+                // 计算剩余天数
+                const timeDiff = endDate.getTime() - today.getTime();
+                const daysRemaining = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+                
+                // 显示剩余天数（如果暑假已结束则显示0）
+                countdownEl.textContent = Math.max(0, daysRemaining);
+            }
+            
+            // 日期格式化函数（用于输入框）
+            function formatDateForInput(date) {
+                const year = date.getFullYear();
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const day = String(date.getDate()).padStart(2, '0');
+                return `${year}-${month}-${day}`;
+            }
+            
+            // 日期格式化函数（用于显示）
+            function formatDateForDisplay(date) {
+                const year = date.getFullYear();
+                const month = date.getMonth() + 1;
+                const day = date.getDate();
+                return `${year}年${month}月${day}日`;
+            }
+            
+            // 更新日历标记
+            function updateCalendarMarkers() {
+                // 清除之前的标记
+                document.querySelectorAll('.end-date').forEach(el => {
+                    el.classList.remove('end-date');
+                });
+                
+                // 标记今天的日期（在7月日历上）
+                document.querySelector('.today').classList.remove('today');
+                const today = new Date();
+                const julyDays = document.querySelector('.month:first-child .days').children;
+                if (today.getMonth() === 6 && today.getDate() <= 31) { // 7月是第6个月
+                    const todayIndex = today.getDate() - 1 + 7 + 2; // 前两格是空的
+                    if (todayIndex < julyDays.length) {
+                        julyDays[todayIndex].classList.add('today');
+                    }
+                }
+                
+                // 标记结束日期（在8月日历上）
+                const augustDays = document.querySelector('.month:last-child .days').children;
+                if (endDate.getMonth() === 7) { // 8月是第7个月
+                    const endIndex = endDate.getDate() - 1 + 4 + 7; // 前面有4个空格（8月1日是周四）
+                    if (endIndex < augustDays.length) {
+                        augustDays[endIndex].classList.add('end-date');
+                    }
+                }
+            }
+            
+            // 初始化日历标记
+            updateCalendarMarkers();
+            
+            // 每天更新一次倒计时
+            setInterval(updateDisplay, 24 * 60 * 60 * 1000);
+        });
+    </script>
+</body>
+</html>
