@@ -1,533 +1,592 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>爱数码PE发布页</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Seewo Freeze 控制器</title>
+    <link rel="stylesheet" href="mdl/material.indigo-pink.min.css">
+    <link rel="stylesheet" href="mdl/icon_material.css">
+    <script defer src="mdl/material.min.js"></script>
     <style>
-        * {
+        .mdl-layout__drawer {
+            width: 280px
+        }
+
+        .mdl-layout__drawer-button {
+            color: rgba(255, 255, 255, 0.9)
+        }
+
+        .mdl-layout__header {
+            background-color: #1976D2 !important
+        }
+
+        .drawer-header {
+            background: linear-gradient(135deg, #1976D2, #42A5F5);
+            color: white;
+            padding: 20px 16px;
+            margin-bottom: 20px
+        }
+
+        .drawer-header h4 {
             margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
-            color: #fff;
-            line-height: 1.6;
-            padding-bottom: 60px;
-            overflow-x: hidden;
-            position: relative;
-        }
-        
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            position: relative;
-            z-index: 100;
-        }
-        
-        header {
-            text-align: center;
-            padding: 40px 20px;
-            position: relative;
-        }
-        
-        h1 {
-            font-size: 3.5rem;
-            text-shadow: 0 0 15px rgba(0, 191, 255, 0.7);
-            margin-bottom: 20px;
-            letter-spacing: 3px;
-            background: linear-gradient(45deg, #1e90ff, #00ffcc);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: titleGlow 2s infinite alternate;
-        }
-        
-        @keyframes titleGlow {
-            from { text-shadow: 0 0 10px rgba(30, 144, 255, 0.6); }
-            to { text-shadow: 0 0 20px rgba(0, 255, 204, 0.8), 0 0 30px rgba(30, 144, 255, 0.9); }
-        }
-        
-        .divider {
-            height: 3px;
-            background: linear-gradient(to right, transparent, #00bfff, #0078ff, #00bfff, transparent);
-            width: 80%;
-            margin: 20px auto;
-        }
-        
-        .image-container {
             display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 30px;
-            margin: 30px 0;
+            align-items: center
         }
-        
-        .image-card {
-            flex: 1;
-            min-width: 300px;
-            max-width: 550px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-            border-radius: 10px;
-            overflow: hidden;
-            transition: transform 0.3s ease;
-            background: rgba(0, 0, 20, 0.3);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(64, 224, 208, 0.5);
-            position: relative;
+
+        .drawer-header .material-icons {
+            margin-right: 8px
         }
-        
-        .image-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+
+        .config-section {
+            padding: 0 16px 16px
         }
-        
-        .image-wrapper {
-            width: 100%;
-            height: 320px;
-            overflow: hidden;
-            position: relative;
+
+        .config-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 14px
         }
-        
-        .pe-image {
-            width: 100%;
-            height: 100%;
-            object-fit: contain; /* 确保图片完整显示 */
-            display: block;
-            transition: transform 0.5s ease;
+
+        .config-item:last-child {
+            border-bottom: none
         }
-        
-        .image-caption {
+
+        .config-label {
+            font-weight: 500;
+            color: #666
+        }
+
+        .config-value {
+            color: #333;
+            font-family: monospace;
+            font-size: 12px;
+            text-align: right;
+            max-width: 160px;
+            word-break: break-all
+        }
+
+        .api-toggle {
+            margin: 16px;
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background: #f5f5f5;
+            border-radius: 4px
+        }
+
+        .api-toggle label {
+            margin-left: 8px;
+            font-size: 14px;
+            color: #666
+        }
+
+        .main-content {
+            padding: 20px;
+            max-width: 1200px;
+            padding-bottom: 120px;
+            margin: auto;
+        }
+
+        .page-title {
+            margin: 0 0 30px 0;
+            color: #333;
+            display: flex;
+            align-items: center
+        }
+
+        .page-title .material-icons {
+            margin-right: 10px;
+            font-size: 18px
+        }
+
+        .disk-section {
+            margin-bottom: 30px
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center
+        }
+
+        .section-title .material-icons {
+            margin-right: 8px
+        }
+
+        .disk-management {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap
+        }
+
+        .disk-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px
+        }
+
+        .disk-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 16px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+            position: relative
+        }
+
+        .disk-card:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            transform: translateY(-2px)
+        }
+
+        .disk-card.selected {
+            border-color: #1976D2;
+            background: #f3f8ff
+        }
+
+        .disk-card.frozen {
+            border-left: 4px solid #f44336
+        }
+
+        .disk-card.unfrozen {
+            border-left: 4px solid #4caf50
+        }
+
+        .disk-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px
+        }
+
+        .disk-letter {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            display: flex;
+            align-items: center
+        }
+
+        .disk-letter .material-icons {
+            margin-right: 8px;
+            color: #666
+        }
+
+        .disk-status {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: bold
+        }
+
+        .status-frozen {
+            background: #ffebee;
+            color: #c62828
+        }
+
+        .status-unfrozen {
+            background: #e8f5e8;
+            color: #2e7d32
+        }
+
+        .disk-info {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.4
+        }
+
+        .disk-remove {
             position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #ff5722;
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px
+        }
+
+        .disk-card:hover .disk-remove {
+            display: flex
+        }
+
+        .control-panel {
+            position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
-            background: rgba(0, 0, 50, 0.8);
-            color: white;
-            text-align: center;
-            padding: 15px 0;
-            font-size: 1.5rem;
-            font-weight: bold;
-            letter-spacing: 2px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-        }
-        
-        .content-section {
-            background: rgba(15, 25, 60, 0.7);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 25px;
-            margin: 30px 0;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(0, 191, 255, 0.3);
-        }
-        
-        .pe-info {
-            text-align: center;
-            font-size: 1.2rem;
-            margin-bottom: 30px;
-            padding: 15px;
-            line-height: 1.8;
-            color: #e0f7ff;
-        }
-        
-        .pe-info strong {
-            color: #00ffff;
-        }
-        
-        .download-section {
-            margin: 40px 0;
-        }
-        
-        .download-header {
-            text-align: center;
-            font-size: 2rem;
-            margin-bottom: 30px;
-            color: #00ffea;
-            text-shadow: 0 0 10px rgba(0, 255, 234, 0.5);
-            letter-spacing: 1px;
-        }
-        
-        .download-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            justify-content: center;
-        }
-        
-        .download-group {
-            flex: 1;
-            min-width: 280px;
-            max-width: 600px;
-            background: rgba(20, 30, 70, 0.8);
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(0, 195, 255, 0.4);
-        }
-        
-        .group-title {
-            text-align: center;
-            font-size: 1.5rem;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #00bfff;
-            color: #00ffea;
-        }
-        
-        .download-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 15px;
-            margin-top: 15px;
-        }
-        
-        .download-item {
-            background: linear-gradient(135deg, #1e3c72, #2a5298);
-            padding: 15px;
-            border-radius: 10px;
-            text-align: center;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-        }
-        
-        .download-item:hover {
-            transform: translateY(-5px);
-            background: linear-gradient(135deg, #2a5298, #1e3c72);
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4);
-        }
-        
-        .download-item i {
-            font-size: 2rem;
-            margin-bottom: 10px;
-            color: #00ffff;
-        }
-        
-        .download-type {
-            font-size: 1.1rem;
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: #fff;
-        }
-        
-        .download-link {
-            display: inline-block;
-            margin-top: 10px;
-            padding: 8px 20px;
-            background: linear-gradient(90deg, #00c6ff, #0072ff);
-            color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 10px rgba(0, 114, 255, 0.3);
-        }
-        
-        .download-link:hover {
-            background: linear-gradient(90deg, #0072ff, #00c6ff);
-            box-shadow: 0 6px 15px rgba(0, 114, 255, 0.5);
-            transform: translateY(-2px);
-        }
-        
-        .bilibili-section {
-            text-align: center;
-            margin: 40px auto;
-            padding: 20px;
-            max-width: 600px;
-        }
-        
-        .bilibili-link {
-            font-size: 1.2rem;
-            color: #00eeff;
-            text-decoration: none;
-            display: inline-block;
-            margin-bottom: 20px;
-            transition: all 0.3s ease;
-        }
-        
-        .bilibili-link:hover {
-            color: #ff3860;
-            transform: scale(1.05);
-        }
-        
-        .jump-button {
-            background: linear-gradient(90deg, #ff3860, #ff2b56);
-            color: white;
-            font-size: 1.3rem;
-            padding: 15px 45px;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(255, 56, 96, 0.4);
-            font-weight: bold;
-            letter-spacing: 1px;
-        }
-        
-        .jump-button:hover {
-            background: linear-gradient(90deg, #ff2b56, #ff3860);
-            box-shadow: 0 8px 20px rgba(255, 56, 96, 0.6);
-            transform: translateY(-3px);
-        }
-        
-        .jump-button:active {
-            transform: translateY(1px);
-        }
-        
-        footer {
-            margin-top: 60px;
-            text-align: center;
-            padding: 20px;
-            font-size: 1rem;
-        }
-        
-        .copyright {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 30px;
-        }
-        
-        .copyright span:first-child {
-            margin-right: auto;
-        }
-        
-        .copyright span:last-child {
-            margin-left: auto;
-        }
-        
-        .rights-text {
-            flex: 1;
-            text-align: center;
-        }
-        
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2.5rem;
-            }
-            
-            .image-card {
-                min-width: 90%;
-            }
-            
-            .image-wrapper {
-                height: 250px;
-            }
-            
-            .download-group {
-                min-width: 90%;
-            }
-            
-            .copyright {
-                flex-direction: column;
-                gap: 10px;
-            }
-            
-            .copyright span:first-child, 
-            .copyright span:last-child {
-                margin: 0;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            h1 {
-                font-size: 2rem;
-            }
-            
-            .image-wrapper {
-                height: 200px;
-            }
-            
-            .download-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .jump-button {
-                width: 90%;
-                padding: 15px;
-            }
-        }
-        
-        /* 樱花花瓣样式 */
-        .sakura-petal {
-            position: fixed;
-            top: -100px;
-            width: 15px;
-            height: 15px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M416.5 149.9c-.9-43.2-27.3-79.9-64-92.4-28.6-9.7-59.3-2.7-83.4 16.2-6.7 5.2-17.3-1.4-15.8-9.5 3.9-20.2-12.8-36.2-32.3-36.2s-36.2 16-32.3 36.2c1.5 8.1-9.1 14.7-15.8 9.5-24.1-18.9-54.8-25.9-83.4-16.2-36.7 12.5-63.1 49.1-64 92.4-.1 5 .4 9.9 1.3 14.8-1 .1-1.9.3-2.9.4-41.4 7.3-72 44-72 86.8s30.6 79.5 72 86.8c34.8 6.1 66.1-12.7 79.2-42.1 1.2-2.6 4.5-3.7 7.1-2.5 4.3 2 8.9 3.1 13.5 3.1 18.9 0 35.8-12.4 41.7-30.2 1.6-4.9-3.1-9.4-8.1-7.5-33.3 12.5-70.9-3-84.1-36.1-1.4-3.2-4.9-5-8.3-4.3-20.1 4-40.9-6.7-49.3-25-4.1-8.9-6.1-18.7-5.9-28.6.1-5 4.2-9.1 9.2-9.1s8.9 4.1 8.9 9.1c.1 12.2 5.5 23.6 14.5 31.4 7.1 6.2 16.3 9.3 25.5 8.8 20.2-1.1 37.9-13.7 47.2-31.1 2.9-5.4 11.3-3.5 10.4 2.6-1.6 10.8-8.5 20.6-18.7 26 33.3 2.5 65.1-12 80.6-38.2 2.7-4.5-.9-10.4-6.2-9-3.3.8-6.8 1.3-10.3 1.3-18.9 0-35.8-12.4-41.7-30.2-1.6-4.9-8.6-4.9-10.2 0-5.9 17.8-22.8 30.2-41.7 30.2-3.5 0-7-.5-10.3-1.3-5.3-1.4-8.9 4.5-6.2 9C166 206 197.8 220.5 231.1 218c-10.2-5.4-17.1-15.3-18.7-26-.9-6.1 7.5-8 10.4-2.6 9.3 17.4 27 29.9 47.2 31.1 9.2.5 18.4-2.6 25.5-8.8 9-7.8 14.4-19.2 14.5-31.4 0-5 4-9.1 8.9-9.1s9.1 4.1 9.2 9.1c.2 9.8-1.8 19.7-5.9 28.6-8.4 18.3-29.2 29-49.3 25-3.5-.7-6.9 1.1-8.3 4.3-13.2 33.1-50.8 48.6-84.1 36.1-5-1.9-9.7 2.6-8.1 7.5 5.9 17.8 22.8 30.2 41.7 30.2 4.6 0 9.1-1.1 13.5-3.1 2.6-1.2 5.9.1 7.1 2.5 13.1 29.4 44.4 48.3 79.2 42.1 41.4-7.3 72-44 72-86.8s-30.6-79.5-72-86.8c-1-.1-1.9-.3-2.9-.4.9-4.9 1.4-9.8 1.3-14.8z" fill="%23ff8db3"/></svg>');
-            background-size: contain;
-            z-index: 1000;
-            pointer-events: none;
-            opacity: 0.9;
-            filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.7));
+            background: white;
+            border-top: 3px solid #1976D2;
+            box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+            padding: 16px;
+            z-index: 1000
         }
 
-        /* 樱花飘落动画 */
-        @keyframes petalFall {
-            0% {
-                transform: translate3d(var(--start-x), 0, 0) rotate(0deg);
-                opacity: 0.8;
+        .control-panel .section-title {
+            margin-bottom: 16px;
+            text-align: center
+        }
+
+        .selected-info {
+            background: #e3f2fd;
+            color: #1565c0;
+            padding: 12px 16px;
+            border-radius: 6px;
+            margin-bottom: 16px;
+            font-weight: 500;
+            display: none;
+            text-align: center
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center
+        }
+
+        .action-button {
+            min-width: 120px;
+            height: 36px;
+            font-size: 14px
+        }
+
+        .freeze-button {
+            background: #f44336 !important
+        }
+
+        .unfreeze-button {
+            background: #4caf50 !important
+        }
+
+        .message-area {
+            margin-top: 16px
+        }
+
+        .error-message {
+            background: #ffebee;
+            color: #c62828;
+            padding: 12px 16px;
+            border-radius: 4px;
+            border-left: 4px solid #f44336
+        }
+
+        .success-message {
+            background: #e8f5e8;
+            color: #2e7d32;
+            padding: 12px 16px;
+            border-radius: 4px;
+            border-left: 4px solid #4caf50
+        }
+
+        .info-message {
+            background: #e3f2fd;
+            color: #1565c0;
+            padding: 12px 16px;
+            border-radius: 4px;
+            border-left: 4px solid #2196f3
+        }
+
+        .no-config {
+            text-align: center;
+            color: #666;
+            padding: 20px 16px;
+            min-width: 200px
+        }
+
+        .no-config .material-icons {
+            font-size: 36px;
+            color: #ccc;
+            margin-bottom: 8px
+        }
+
+        .hidden {
+            display: none !important
+        }
+
+        .disk-count-info {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px
+        }
+
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 8px;
+            padding: 24px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto
+        }
+
+        .modal-content h4 {
+            margin: 0 0 16px 0;
+            color: #333;
+            display: flex;
+            align-items: center
+        }
+
+        .modal-content h4 .material-icons {
+            margin-right: 8px
+        }
+
+        .modal-content p {
+            margin: 8px 0;
+            color: #666;
+            line-height: 1.5
+        }
+
+        .modal-content code {
+            background: #f0f0f0;
+            padding: 5px;
+            display: block;
+            margin: 10px 0;
+            border-radius: 4px;
+            font-family: monospace
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-top: 20px
+        }
+
+        .drawer-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            z-index: 1;
+            display: none
+        }
+
+        .drawer-overlay.active {
+            display: block
+        }
+
+        @media (max-width:768px) {
+            .disk-grid {
+                grid-template-columns: 1fr
             }
-            100% {
-                transform: translate3d(var(--end-x), 100vh, 0) rotate(360deg);
-                opacity: 0.3;
+
+            .button-group {
+                justify-content: center
+            }
+
+            .disk-management {
+                justify-content: center
+            }
+
+            .main-content {
+                padding: 10px;
+                padding-bottom: 120px
+            }
+
+            .modal-content {
+                padding: 16px
+            }
+        }
+
+        @media (min-width:1025px) {
+            .mdl-layout__drawer {
+                transform: translateX(-280px) !important
+            }
+
+            .mdl-layout__drawer.is-visible {
+                transform: translateX(0) !important
             }
         }
     </style>
 </head>
-<body>
-    <div class="container">
-        <header>
-            <h1>爱数码PE发布页</h1>
-            <div class="divider"></div>
-        </header>
-        
-        <div class="image-container">
-            <div class="image-card">
-                <div class="image-wrapper">
-                    <img src="1.png" alt="维护PE V1.0" class="pe-image">
-                    <div class="image-caption">维护PE V1.0</div>
-                </div>
-            </div>
-            
-            <div class="image-card">
-                <div class="image-wrapper">
-                    <img src="2.png" alt="多功能PE V2.0" class="pe-image">
-                    <div class="image-caption">多功能PE V2.0</div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="content-section">
-            <div class="pe-info">
-                <p>本PE为分支版本，<strong>第一个版本</strong>几乎只能用于维护，也可以运行一些其他软件或者联网。</p>
-                <p><strong>第二个版本</strong>可以运行许多软件，还可以实现SYSTEM和ADMIN账户之间的互相切换。</p>
-            </div>
-            
-            <div class="divider"></div>
-            
-            <div class="download-section">
-                <h2 class="download-header">下载专区</h2>
-                
-                <div class="download-container">
-                    <div class="download-group">
-                        <h3 class="group-title">第一个维护PE</h3>
-                        <div class="download-grid">
-                            <div class="download-item">
-                                <i class="fas fa-download"></i>
-                                <div class="download-type">本地下载</div>
-                                <a href="https://59-47-225-41.pd1.cjjd19.com:30443/download-cdn.cjjd19.com/123-685/9ff2fcb8/1833191093-0/9ff2fcb895d52370c7387cbfd7b4cead/c-m87?v=1&t=1752581714&s=833d3e25bf798326adc8c88e26d3b3e0&bzc=1&bzs=1833191093&bzp=0&bi=2442319096&filename=ramos%2Bpe.iso&x-mf-biz-cid=b6416174-169b-4487-b8a9-6fe9ce5fed15-47df1e&ndcp=1&cache_type=1&xmfcid=3a004d4e-7d78-44f9-9ab2-44e0d68a8d4519eed82220" class="download-link">立即下载</a>
-                            </div>
-                            
-                            <div class="download-item">
-                                <i class="fas fa-cloud-download-alt"></i>
-                                <div class="download-type">云盘下载(123云盘)</div>
-                                <a href="https://www.123pan.com/s/flz3Td-K4t0A" class="download-link">前往下载</a>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="download-group">
-                        <h3 class="group-title">第二个PE/RAMOS</h3>
-                        <div class="download-grid">
-                            <div class="download-item">
-                                <i class="fas fa-download"></i>
-                                <div class="download-type">本地下载</div>
-                                <a href="https://59-47-237-131.pd1.cjjd19.com:30443/download-cdn.cjjd19.com/123-934/eb89a4c5/1833191093-0/eb89a4c5ecf4a963a6637838a10fd3a6/c-m85?v=1&t=1752581998&s=57e52b000f4c630411409047cd04851e&bzc=1&bzs=1833191093&bzp=0&bi=2442319096&filename=%E7%88%B1%E6%95%B0%E7%A0%81PE.iso&x-mf-biz-cid=f6e68842-d280-4d49-93aa-44251eccc420-47df1e&ndcp=1&cache_type=1&xmfcid=214ea954-c629-4b08-b0ef-992232cffa7619eed82220" class="download-link">立即下载</a>
-                            </div>
-                            
-                            <div class="download-item">
-                                <i class="fas fa-cloud-download-alt"></i>
-                                <div class="download-type">云盘下载(123云盘)</div>
-                                <a href="https://www.123pan.com/s/flz3Td-dut0A" class="download-link">前往下载</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="bilibili-section">
-            <a href="https://b23.tv/8VYR1YK" class="bilibili-link" target="_blank">
-                <i class="fab fa-bilibili"></i> 爱数码的小学生B站主页
-            </a>
-            <div style="height: 15px;"></div>
-            <button class="jump-button" onclick="window.open('https://b23.tv/8VYR1YK', '_blank')">立即跳转</button>
-        </div>
-        
-        <footer>
-            <div class="copyright">
-                <span></span>
-                <span class="rights-text">爱数码的小学生专有权利</span>
-                <span>2025</span>
-            </div>
-        </footer>
-    </div>
-    
-    <!-- 樱花容器 -->
-    <div id="sakura-container"></div>
 
-    <script>
-        // 樱花飘落效果
-        document.addEventListener('DOMContentLoaded', () => {
-            const sakuraContainer = document.getElementById('sakura-container');
-            
-            // 创建樱花花瓣
-            function createPetal() {
-                const petal = document.createElement('div');
-                petal.className = 'sakura-petal';
-                
-                // 随机位置和大小
-                const size = Math.random() * 15 + 8;
-                const startX = Math.random() * window.innerWidth;
-                const endX = Math.random() * 40 - 20; // -20px 到 20px 的偏移
-                
-                petal.style.width = `${size}px`;
-                petal.style.height = `${size}px`;
-                petal.style.left = `${startX}px`;
-                petal.style.setProperty('--start-x', `${endX}px`);
-                petal.style.setProperty('--end-x', `${Math.random() * 60 - 30}px`);
-                
-                // 随机的下落速度
-                const duration = Math.random() * 8 + 8; // 8-16秒
-                petal.style.animation = `petalFall ${duration}s linear infinite`;
-                petal.style.animationDelay = `${Math.random() * 5}s`;
-                
-                sakuraContainer.appendChild(petal);
-                
-                // 花瓣落地后移除
-                setTimeout(() => {
-                    if (petal.parentNode) {
-                        petal.remove();
-                    }
-                }, duration * 1000);
-            }
-            
-            // 初始创建花瓣
-            for (let i = 0; i < 20; i++) {
-                setTimeout(() => {
-                    createPetal();
-                }, Math.random() * 3000);
-            }
-            
-            // 每隔一段时间创建新花瓣
-            setInterval(() => {
-                createPetal();
-            }, 500);
-        });
-    </script>
+<body>
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+        <!-- Header -->
+        <header class="mdl-layout__header">
+            <div class="mdl-layout__header-row">
+                <button class="mdl-layout__drawer-button" id="menu-toggle">
+                    <i class="material-icons">menu</i>
+                </button>
+                <span class="mdl-layout-title">Seewo Freeze WebUI</span>
+                <div class="mdl-layout-spacer"></div>
+                <button class="mdl-button mdl-js-button mdl-button--icon" id="reload-config" title="重新加载配置">
+                    <i class="material-icons">refresh</i>
+                </button>
+            </div>
+        </header>
+
+        <!-- Drawer Overlay -->
+        <div class="drawer-overlay" id="drawer-overlay"></div>
+
+        <!-- Drawer/Sidebar -->
+        <div class="mdl-layout__drawer" id="drawer" style="width: auto; z-index: 1020;">
+            <div class="drawer-header">
+                <h4>
+                    <i class="material-icons" style="margin-right: 16px;">settings</i>
+                    配置信息
+                </h4>
+            </div>
+
+            <div id="config-display" class="hidden">
+                <div class="config-section">
+                    <div class="config-item">
+                        <span class="config-label">设备ID</span>
+                        <span class="config-value" id="device-id" style="margin-left: 40px;">-</span>
+                    </div>
+                    <div class="config-item">
+                        <span class="config-label">设备代码</span>
+                        <span class="config-value" id="device-code">-</span>
+                    </div>
+                    <div class="config-item">
+                        <span class="config-label">冻结功能</span>
+                        <span class="config-value" id="freeze-enabled">-</span>
+                    </div>
+                    <div class="config-item">
+                        <span class="config-label">冻结状态</span>
+                        <span class="config-value" id="freeze-status">-</span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="no-config" class="no-config">
+                <i class="material-icons">folder_open</i>
+                <p>请选择配置文件</p>
+            </div>
+
+            <div class="api-toggle">
+                <label class="mdl-switch mdl-js-switch mdl-switch--colored" for="api-v0-mode">
+                    <input type="checkbox" id="api-v0-mode" class="mdl-switch__input">
+                    <span class="mdl-switch__label">API v0 模式</span>
+                </label>
+            </div>
+            <span style="color: #666; bottom: 10px; position: absolute; text-align: center; width: 100%;">SWFreezeUI by Steve3184</span>
+        </div>
+
+        <!-- Main Content -->
+        <main class="mdl-layout__content">
+            <div class="main-content">
+                <!-- Disk Section -->
+                <div class="disk-section">
+                    <div class="section-title">
+                        <i class="material-icons">storage</i>
+                        磁盘列表
+                    </div>
+
+                    <div class="disk-management">
+                        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent"
+                            id="add-disk-btn">
+                            <i class="material-icons" style="margin-right: 5px;">add</i>
+                            添加磁盘
+                        </button>
+                        <span class="disk-count-info" id="disk-count-info">当前磁盘数: 3</span>
+                    </div>
+
+                    <div id="disk-list" class="disk-grid"></div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Fixed Control Panel -->
+        <div class="control-panel">
+
+            <div id="selected-info" class="selected-info">
+                已选择 <span id="selected-count">0</span> 个磁盘
+            </div>
+
+            <div class="button-group">
+                <button
+                    class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored freeze-button action-button"
+                    id="freeze-btn" disabled>
+                    <i class="material-icons" style="margin-right: 5px;">lock</i>
+                    冻结
+                </button>
+
+                <button
+                    class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored unfreeze-button action-button"
+                    id="unfreeze-btn" disabled>
+                    <i class="material-icons" style="margin-right: 5px;">lock_open</i>
+                    解冻
+                </button>
+
+                <button class="mdl-button mdl-js-button mdl-button--raised action-button" id="select-all-btn">
+                    <i class="material-icons" style="margin-right: 5px;">select_all</i>
+                    全选
+                </button>
+
+                <button class="mdl-button mdl-js-button mdl-button--raised action-button" id="clear-selection-btn">
+                    <i class="material-icons" style="margin-right: 5px;">clear</i>
+                    清除选择
+                </button>
+            </div>
+
+            <div id="message-area" class="message-area"></div>
+        </div>
+    </div>
+
+    <!-- File Guide Modal -->
+    <div id="file-guide-modal" class="modal">
+        <div class="modal-content">
+            <h4>
+                <i class="material-icons">folder_open</i>
+                配置文件选择指南
+            </h4>
+            <p>1. 如果文件选择器没有自动打开，请点击"打开文件选择器"</p>
+            <p>2. 在地址栏中输入以下路径(已复制到剪贴板):</p>
+            <code id="config-path">C:\ProgramData\SeewoFreezeKernelConfig\</code>
+            <p>3. 选择文件"VolumeInfo.config"并确认</p>
+            <div class="error-message" id="error-msg">请选择名为"VolumeInfo.config"的文件!</div>
+            <div class="modal-buttons">
+                <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" id="open-file-picker">
+                    <i class="material-icons" style="margin-right: 5px;">folder_open</i>
+                    打开文件选择器
+                </button>
+                <button class="mdl-button mdl-js-button" id="close-modal">
+                    关闭
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden file input -->
+    <input type="file" id="file-input" accept=".config" style="display: none;">
+
+    <script src="script.js"></script>
 </body>
+
 </html>
