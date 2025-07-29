@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seewo Freeze 控制器</title>
+    <link rel="stylesheet" href="mdl/material.indigo-pink.min.css">
+    <link rel="stylesheet" href="mdl/icon_material.css">
+    <script defer src="mdl/material.min.js"></script>
+    <style>
+        .mdl-layout__drawer {
+            width: 280px
+        }
+
+        .mdl-layout__drawer-button {
+            color: rgba(255, 255, 255, 0.9)
+        }
+
+        .mdl-layout__header {
+            background-color: #1976D2 !important
+        }
+
+        .drawer-header {
+            background: linear-gradient(135deg, #1976D2, #42A5F5);
+            color: white;
+            padding: 20px 16px;
+            margin-bottom: 20px
+        }
+
+        .drawer-header h4 {
+            margin: 0;
+            display: flex;
+            align-items: center
+        }
+
+        .drawer-header .material-icons {
+            margin-right: 8px
+        }
+
+        .config-section {
+            padding: 0 16px 16px
+        }
+
+        .config-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 14px
+        }
+
+        .config-item:last-child {
+            border-bottom: none
+        }
+
+        .config-label {
+            font-weight: 500;
+            color: #666
+        }
+
+        .config-value {
+            color: #333;
+            font-family: monospace;
+            font-size: 12px;
+            text-align: right;
+            max-width: 160px;
+            word-break: break-all
+        }
+
+        .api-toggle {
+            margin: 16px;
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background: #f5f5f5;
+            border-radius: 4px
+        }
+
+        .api-toggle label {
+            margin-left: 8px;
+            font-size: 14px;
+            color: #666
+        }
+
+        .main-content {
+            padding: 20px;
+            max-width: 1200px;
+            padding-bottom: 120px;
+            margin: auto;
+        }
+
+        .page-title {
+            margin: 0 0 30px 0;
+            color: #333;
+            display: flex;
+            align-items: center
+        }
+
+        .page-title .material-icons {
+            margin-right: 10px;
+            font-size: 18px
+        }
+
+        .disk-section {
+            margin-bottom: 30px
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center
+        }
+
+        .section-title .material-icons {
+            margin-right: 8px
+        }
+
+        .disk-management {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap
+        }
+
+        .disk-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px
+        }
+
+        .disk-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 16px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+            position: relative
+        }
+
+        .disk-card:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            transform: translateY(-2px)
+        }
+
+        .disk-card.selected {
+            border-color: #1976D2;
+            background: #f3f8ff
+        }
+
+        .disk-card.frozen {
+            border-left: 4px solid #f44336
+        }
+
+        .disk-card.unfrozen {
+            border-left: 4px solid #4caf50
+        }
+
+        .disk-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px
+        }
+
+        .disk-letter {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            display: flex;
+            align-items: center
+        }
+
+        .disk-letter .material-icons {
+            margin-right: 8px;
+            color: #666
+        }
+
+        .disk-status {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: bold
+        }
+
+        .status-frozen {
+            background: #ffebee;
+            color: #c62828
+        }
+
+        .status-unfrozen {
+            background: #e8f5e8;
+            color: #2e7d32
+        }
+
+        .disk-info {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.4
+        }
+
+        .disk-remove {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #ff5722;
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px
+        }
+
+        .disk-card:hover .disk-remove {
+            display: flex
+        }
+
+        .control-panel {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            border-top: 3px solid #1976D2;
+            box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+            padding: 16px;
+            z-index: 1000
+        }
+
+        .control-panel .section-title {
+            margin-bottom: 16px;
+            text-align: center
+        }
+
+        .selected-info {
+            background: #e3f2fd;
+            color: #1565c0;
+            padding: 12px 16px;
+            border-radius: 6px;
+            margin-bottom: 16px;
+            font-weight: 500;
+            display: none;
+            text-align: center
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center
+        }
+
+        .action-button {
+            min-width: 120px;
+            height: 36px;
+            font-size: 14px
+        }
+
+        .freeze-button {
+            background: #f44336 !important
+        }
+
+        .unfreeze-button {
+            background: #4caf50 !important
+        }
+
+        .message-area {
+            margin-top: 16px
+        }
+
+        .error-message {
+            background: #ffebee;
+            color: #c62828;
+            padding: 12px 16px;
+            border-radius: 4px;
+            border-left: 4px solid #f44336
+        }
+
+        .success-message {
+            background: #e8f5e8;
+            color: #2e7d32;
+            padding: 12px 16px;
+            border-radius: 4px;
+            border-left: 4px solid #4caf50
+        }
+
+        .info-message {
+            background: #e3f2fd;
+            color: #1565c0;
+            padding: 12px 16px;
+            border-radius: 4px;
+            border-left: 4px solid #2196f3
+        }
+
+        .no-config {
+            text-align: center;
+            color: #666;
+            padding: 20px 16px;
+            min-width: 200px
+        }
+
+        .no-config .material-icons {
+            font-size: 36px;
+            color: #ccc;
+            margin-bottom: 8px
+        }
+
+        .hidden {
+            display: none !important
+        }
+
+        .disk-count-info {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px
+        }
+
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 8px;
+            padding: 24px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto
+        }
+
+        .modal-content h4 {
+            margin: 0 0 16px 0;
+            color: #333;
+            display: flex;
+            align-items: center
+        }
+
+        .modal-content h4 .material-icons {
+            margin-right: 8px
+        }
+
+        .modal-content p {
+            margin: 8px 0;
+            color: #666;
+            line-height: 1.5
+        }
+
+        .modal-content code {
+            background: #f0f0f0;
+            padding: 5px;
+            display: block;
+            margin: 10px 0;
+            border-radius: 4px;
+            font-family: monospace
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-top: 20px
+        }
+
+        .drawer-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            z-index: 1;
+            display: none
+        }
+
+        .drawer-overlay.active {
+            display: block
+        }
+
+        @media (max-width:768px) {
+            .disk-grid {
+                grid-template-columns: 1fr
+            }
+
+            .button-group {
+                justify-content: center
+            }
+
+            .disk-management {
+                justify-content: center
+            }
+
+            .main-content {
+                padding: 10px;
+                padding-bottom: 120px
+            }
+
+            .modal-content {
+                padding: 16px
+            }
+        }
+
+        @media (min-width:1025px) {
+            .mdl-layout__drawer {
+                transform: translateX(-280px) !important
+            }
+
+            .mdl-layout__drawer.is-visible {
+                transform: translateX(0) !important
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+        <!-- Header -->
+        <header class="mdl-layout__header">
+            <div class="mdl-layout__header-row">
+                <button class="mdl-layout__drawer-button" id="menu-toggle">
+                    <i class="material-icons">menu</i>
+                </button>
+                <span class="mdl-layout-title">Seewo Freeze WebUI</span>
+                <div class="mdl-layout-spacer"></div>
+                <button class="mdl-button mdl-js-button mdl-button--icon" id="reload-config" title="重新加载配置">
+                    <i class="material-icons">refresh</i>
+                </button>
+            </div>
+        </header>
+
+        <!-- Drawer Overlay -->
+        <div class="drawer-overlay" id="drawer-overlay"></div>
+
+        <!-- Drawer/Sidebar -->
+        <div class="mdl-layout__drawer" id="drawer" style="width: auto; z-index: 1020;">
+            <div class="drawer-header">
+                <h4>
+                    <i class="material-icons" style="margin-right: 16px;">settings</i>
+                    配置信息
+                </h4>
+            </div>
+
+            <div id="config-display" class="hidden">
+                <div class="config-section">
+                    <div class="config-item">
+                        <span class="config-label">设备ID</span>
+                        <span class="config-value" id="device-id" style="margin-left: 40px;">-</span>
+                    </div>
+                    <div class="config-item">
+                        <span class="config-label">设备代码</span>
+                        <span class="config-value" id="device-code">-</span>
+                    </div>
+                    <div class="config-item">
+                        <span class="config-label">冻结功能</span>
+                        <span class="config-value" id="freeze-enabled">-</span>
+                    </div>
+                    <div class="config-item">
+                        <span class="config-label">冻结状态</span>
+                        <span class="config-value" id="freeze-status">-</span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="no-config" class="no-config">
+                <i class="material-icons">folder_open</i>
+                <p>请选择配置文件</p>
+            </div>
+
+            <div class="api-toggle">
+                <label class="mdl-switch mdl-js-switch mdl-switch--colored" for="api-v0-mode">
+                    <input type="checkbox" id="api-v0-mode" class="mdl-switch__input">
+                    <span class="mdl-switch__label">API v0 模式</span>
+                </label>
+            </div>
+            <span style="color: #666; bottom: 10px; position: absolute; text-align: center; width: 100%;">SWFreezeUI by Steve3184</span>
+        </div>
+
+        <!-- Main Content -->
+        <main class="mdl-layout__content">
+            <div class="main-content">
+                <!-- Disk Section -->
+                <div class="disk-section">
+                    <div class="section-title">
+                        <i class="material-icons">storage</i>
+                        磁盘列表
+                    </div>
+
+                    <div class="disk-management">
+                        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent"
+                            id="add-disk-btn">
+                            <i class="material-icons" style="margin-right: 5px;">add</i>
+                            添加磁盘
+                        </button>
+                        <span class="disk-count-info" id="disk-count-info">当前磁盘数: 3</span>
+                    </div>
+
+                    <div id="disk-list" class="disk-grid"></div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Fixed Control Panel -->
+        <div class="control-panel">
+
+            <div id="selected-info" class="selected-info">
+                已选择 <span id="selected-count">0</span> 个磁盘
+            </div>
+
+            <div class="button-group">
+                <button
+                    class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored freeze-button action-button"
+                    id="freeze-btn" disabled>
+                    <i class="material-icons" style="margin-right: 5px;">lock</i>
+                    冻结
+                </button>
+
+                <button
+                    class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored unfreeze-button action-button"
+                    id="unfreeze-btn" disabled>
+                    <i class="material-icons" style="margin-right: 5px;">lock_open</i>
+                    解冻
+                </button>
+
+                <button class="mdl-button mdl-js-button mdl-button--raised action-button" id="select-all-btn">
+                    <i class="material-icons" style="margin-right: 5px;">select_all</i>
+                    全选
+                </button>
+
+                <button class="mdl-button mdl-js-button mdl-button--raised action-button" id="clear-selection-btn">
+                    <i class="material-icons" style="margin-right: 5px;">clear</i>
+                    清除选择
+                </button>
+            </div>
+
+            <div id="message-area" class="message-area"></div>
+        </div>
+    </div>
+
+    <!-- File Guide Modal -->
+    <div id="file-guide-modal" class="modal">
+        <div class="modal-content">
+            <h4>
+                <i class="material-icons">folder_open</i>
+                配置文件选择指南
+            </h4>
+            <p>1. 如果文件选择器没有自动打开，请点击"打开文件选择器"</p>
+            <p>2. 在地址栏中输入以下路径(已复制到剪贴板):</p>
+            <code id="config-path">C:\ProgramData\SeewoFreezeKernelConfig\</code>
+            <p>3. 选择文件"VolumeInfo.config"并确认</p>
+            <div class="error-message" id="error-msg">请选择名为"VolumeInfo.config"的文件!</div>
+            <div class="modal-buttons">
+                <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" id="open-file-picker">
+                    <i class="material-icons" style="margin-right: 5px;">folder_open</i>
+                    打开文件选择器
+                </button>
+                <button class="mdl-button mdl-js-button" id="close-modal">
+                    关闭
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden file input -->
+    <input type="file" id="file-input" accept=".config" style="display: none;">
+
+    <script src="script.js"></script>
+</body>
+
+</html>
