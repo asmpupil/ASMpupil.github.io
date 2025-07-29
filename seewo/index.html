@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seewo Freeze WebUI</title>
+    <link rel="stylesheet" href="mdl/material.indigo-pink.min.css">
+    <link rel="stylesheet" href="mdl/icon_material.css">
+    <script defer src="mdl/material.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+        <header class="mdl-layout__header">
+            <div class="mdl-layout__header-row">
+                <button class="mdl-layout__drawer-button" id="menu-toggle">
+                    <i class="material-icons">menu</i>
+                </button>
+                <span class="mdl-layout-title">Seewo Freeze WebUI</span>
+                <div class="mdl-layout-spacer"></div>
+                <button class="mdl-button mdl-js-button mdl-button--icon" id="reload-config" title="重新加载配置">
+                    <i class="material-icons">refresh</i>
+                </button>
+            </div>
+        </header>
+
+        <div class="drawer-overlay" id="drawer-overlay"></div>
+
+        <div class="mdl-layout__drawer" id="drawer" style="width: auto; z-index: 1020;">
+            <div class="drawer-header">
+                <h4>
+                    <i class="material-icons" style="margin-right: 16px;">settings</i>
+                    配置信息
+                </h4>
+            </div>
+
+            <div id="config-display" class="hidden">
+                <div class="config-section">
+                    <div class="config-item">
+                        <span class="config-label">设备ID</span>
+                        <span class="config-value" id="device-id" style="margin-left: 40px;">-</span>
+                    </div>
+                    <div class="config-item">
+                        <span class="config-label">设备代码</span>
+                        <span class="config-value" id="device-code">-</span>
+                    </div>
+                    <div class="config-item">
+                        <span class="config-label">冻结功能</span>
+                        <span class="config-value" id="freeze-enabled">-</span>
+                    </div>
+                    <div class="config-item">
+                        <span class="config-label">冻结状态</span>
+                        <span class="config-value" id="freeze-status">-</span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="no-config" class="no-config">
+                <i class="material-icons">folder_open</i>
+                <p>请选择配置文件</p>
+            </div>
+
+            <div class="api-toggle">
+                <label class="mdl-switch mdl-js-switch mdl-switch--colored" for="api-v0-mode">
+                    <input type="checkbox" id="api-v0-mode" class="mdl-switch__input">
+                    <span class="mdl-switch__label">API v0 模式</span>
+                </label>
+            </div>
+            <a class="author-info" href="https://git.s3.fan/Steve3184/SWFreezeUI">SWFreezeUI by Steve3184</a>
+        </div>
+
+        <main class="mdl-layout__content">
+            <div class="main-content">
+                <div class="disk-section">
+                    <div class="section-title">
+                        <i class="material-icons">storage</i>
+                        磁盘列表
+                    </div>
+
+                    <div class="disk-management">
+                        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent"
+                            id="add-disk-btn">
+                            <i class="material-icons" style="margin-right: 5px;">add</i>
+                            添加未列出磁盘
+                        </button>
+                        <span class="disk-count-info" id="disk-count-info">当前磁盘数: 3</span>
+                    </div>
+
+                    <div id="disk-list" class="disk-grid"></div>
+                </div>
+            </div>
+        </main>
+
+        <div class="control-panel">
+
+            <div id="selected-info" class="selected-info">
+                已选择 <span id="selected-count">0</span> 个磁盘
+            </div>
+
+            <div class="button-group">
+                <button
+                    class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored freeze-button action-button"
+                    id="freeze-btn" disabled>
+                    <i class="material-icons" style="margin-right: 5px;">lock</i>
+                    冻结
+                </button>
+
+                <button
+                    class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored unfreeze-button action-button"
+                    id="unfreeze-btn" disabled>
+                    <i class="material-icons" style="margin-right: 5px;">lock_open</i>
+                    解冻
+                </button>
+
+                <button class="mdl-button mdl-js-button mdl-button--raised action-button" id="select-all-btn">
+                    <i class="material-icons" style="margin-right: 5px;">select_all</i>
+                    全选
+                </button>
+
+                <button class="mdl-button mdl-js-button mdl-button--raised action-button" id="clear-selection-btn">
+                    <i class="material-icons" style="margin-right: 5px;">clear</i>
+                    清除选择
+                </button>
+            </div>
+
+            <div id="message-area" class="message-area"></div>
+        </div>
+    </div>
+
+    <div id="file-guide-modal" class="modal">
+        <div class="modal-content">
+            <h4>
+                <i class="material-icons">folder_open</i>
+                配置文件选择指南
+            </h4>
+            <p>1. 如果文件选择器没有自动打开，请点击"打开文件选择器"</p>
+            <p>2. 在地址栏中输入以下路径(已复制到剪贴板):</p>
+            <code id="config-path">C:\ProgramData\SeewoFreezeKernelConfig\</code>
+            <p>3. 选择文件"VolumeInfo.config"并确认</p>
+            <p>(注: 该网页无法识别到所有磁盘，如有未列出磁盘，请手动点击按钮添加)</p>
+            <div class="modal-buttons">
+                <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" id="open-file-picker">
+                    <i class="material-icons" style="margin-right: 5px;">folder_open</i>
+                    打开文件选择器
+                </button>
+                <button class="mdl-button mdl-js-button" id="close-modal">
+                    关闭
+                </button>
+            </div>
+        </div>
+    </div>
+    <input type="file" id="file-input" accept=".config" style="display: none;">
+    <script src="script.js"></script>
+</body>
+
+</html>
