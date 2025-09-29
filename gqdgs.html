@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>国庆倒计时</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #de2910 0%, #ffde00 100%);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            color: #ffde00;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+        
+        .countdown-display {
+            font-size: 5rem;
+            font-weight: bold;
+            margin: 30px 0;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+            color: #ffde00;
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .unit-selector {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 30px 0;
+        }
+        
+        .unit-btn {
+            padding: 12px 25px;
+            font-size: 1.1rem;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            border-radius: 50px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .unit-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+        }
+        
+        .unit-btn.active {
+            background: #ffde00;
+            color: #de2910;
+            border-color: #ffde00;
+            font-weight: bold;
+        }
+        
+        .holiday-info {
+            background: rgba(222, 41, 16, 0.8);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 30px;
+            text-align: left;
+        }
+        
+        .holiday-info h2 {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .holiday-info p {
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+        
+        .flag {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        
+        .flag-stripe {
+            height: 8px;
+            width: 100%;
+        }
+        
+        .red {
+            background-color: #de2910;
+        }
+        
+        .yellow {
+            background-color: #ffde00;
+        }
+        
+        .footer {
+            margin-top: 30px;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .countdown-display {
+                font-size: 3.5rem;
+            }
+            
+            .unit-btn {
+                padding: 10px 20px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>国庆倒计时</h1>
+        <p class="subtitle">庆祝中华人民共和国成立76周年</p>
+        
+        <div class="flag">
+            <div class="flag-stripe red"></div>
+            <div class="flag-stripe yellow"></div>
+            <div class="flag-stripe red"></div>
+        </div>
+        
+        <div class="countdown-display" id="countdown">正在计算...</div>
+        
+        <div class="unit-selector">
+            <button class="unit-btn active" data-unit="days">天数</button>
+            <button class="unit-btn" data-unit="hours">小时</button>
+            <button class="unit-btn" data-unit="minutes">分钟</button>
+            <button class="unit-btn" data-unit="seconds">秒钟</button>
+        </div>
+        
+        <div class="holiday-info">
+            <h2>📅 2025年国庆假期安排</h2>
+            <p>根据国务院办公厅通知，2025年国庆节、中秋节放假安排如下：</p>
+            <p><strong>放假时间：</strong>10月1日（星期三）至10月8日（星期三）放假，共8天[citation:1]。</p>
+            <p><strong>调休安排：</strong>9月28日（星期日）、10月11日（星期六）上班[citation:2][citation:3]。</p>
+        </div>
+        
+        <div class="footer">
+            <p>祝大家国庆节快乐！</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const countdownElement = document.getElementById('countdown');
+            const unitButtons = document.querySelectorAll('.unit-btn');
+            let currentUnit = 'days';
+            
+            // 设置国庆节日期 - 10月1日
+            const nationalDay = new Date(new Date().getFullYear(), 9, 1); // 月份从0开始，9代表10月
+            
+            // 如果今年的国庆节已经过去，则计算下一年的国庆节
+            if (new Date() > nationalDay) {
+                nationalDay.setFullYear(nationalDay.getFullYear() + 1);
+            }
+            
+            // 添加单位按钮点击事件
+            unitButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // 移除所有按钮的active类
+                    unitButtons.forEach(btn => btn.classList.remove('active'));
+                    // 给当前点击的按钮添加active类
+                    this.classList.add('active');
+                    // 更新当前单位
+                    currentUnit = this.getAttribute('data-unit');
+                    // 立即更新一次显示
+                    updateCountdown();
+                });
+            });
+            
+            // 更新倒计时函数
+            function updateCountdown() {
+                const now = new Date();
+                const timeDiff = nationalDay - now;
+                
+                if (timeDiff <= 0) {
+                    countdownElement.textContent = "国庆节快乐！";
+                    return;
+                }
+                
+                let displayValue;
+                
+                switch(currentUnit) {
+                    case 'days':
+                        displayValue = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+                        break;
+                    case 'hours':
+                        displayValue = Math.floor(timeDiff / (1000 * 60 * 60));
+                        break;
+                    case 'minutes':
+                        displayValue = Math.floor(timeDiff / (1000 * 60));
+                        break;
+                    case 'seconds':
+                        displayValue = Math.floor(timeDiff / 1000);
+                        break;
+                    default:
+                        displayValue = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+                }
+                
+                // 添加千位分隔符
+                displayValue = displayValue.toLocaleString();
+                
+                // 更新显示
+                countdownElement.textContent = displayValue;
+            }
+            
+            // 初始更新
+            updateCountdown();
+            
+            // 每秒更新一次
+            setInterval(updateCountdown, 1000);
+        });
+    </script>
+</body>
+</html>
