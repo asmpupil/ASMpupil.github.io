@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>对教师不满意的发泄卡</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #ff4d4d, #cc0000);
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .page-title {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 40px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .teacher-section {
+            background-color: rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 40px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .teacher-title {
+            font-size: 32px;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+        
+        .teacher-box {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
+            padding: 20px;
+            min-height: 80px;
+            color: #333;
+            font-size: 20px;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 60px;
+            padding: 20px;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+            position: relative;
+            z-index: 10;
+        }
+        
+        /* 樱花样式 */
+        .sakura {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: radial-gradient(circle at 30% 30%, #ffebee, #f8bbd0);
+            border-radius: 50% 50% 50% 0;
+            transform: rotate(-45deg);
+            z-index: 1;
+            opacity: 0.8;
+            filter: blur(0.5px);
+        }
+        
+        /* 樱花动画 */
+        @keyframes fall {
+            0% {
+                transform: translateY(-10vh) rotate(0deg);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 樱花容器 -->
+    <div id="sakura-container"></div>
+    
+    <div class="container">
+        <h1 class="page-title">对教师不满意的发泄卡</h1>
+        
+        <!-- 语文老师部分 -->
+        <div class="teacher-section">
+            <!-- 在此h1元素处修改"语文老师"标题 -->
+            <h1 class="teacher-title">语文老师:</h1>
+            <!-- 在此div元素处填写语文老师信息 -->
+            <div class="teacher-box">
+                暂无不良行为，目前对学生状态较好，除了不会管理课堂导致学生上课吵吵闹闹。
+            </div>
+        </div>
+        
+        <!-- 数学老师部分 -->
+        <div class="teacher-section">
+            <!-- 在此h1元素处修改"数学老师"标题 -->
+            <h1 class="teacher-title">数学老师:</h1>
+            <!-- 在此div元素处填写数学老师信息 -->
+            <div class="teacher-box">
+                我个人感觉麻老师对我们实际上是很好的，每个周五还给我们发礼物，还将学习不好的学生留下来给他们开“补习班”，而且每天都是他最晚吃饭最晚回家，对于犯了错的学生，他悉心教导，从不强硬了事，对于学习，他认真备课用生动绘色的讲课让我们学懂许多知识解决我们的疑惑，我真心喜欢他对他没有任何的抱怨。
+            </div>
+        </div>
+        
+        <!-- 英语老师部分 -->
+        <div class="teacher-section">
+            <!-- 在此h1元素处修改"英语老师"标题 -->
+            <h1 class="teacher-title">英语老师:</h1>
+            <!-- 在此div元素处填写英语老师信息 -->
+            <div class="teacher-box">
+                这个Panda呀，我可得好好说说他了：1、上课动不动就嫌我们声音小速度慢，动不动就说课间没有！我真搞不明白了你觉得叫我们批改作业的时候数三声改完一二三十几秒钟的时间叫同桌之间互相把作业对完这就是快吗你觉得这种建立在集上的快合适吗课堂一共就40分钟这节课讲不完可以到下节课再讲呀，有必要上个课上的那么急吗晚一点上会死吗？你难道课堂的预备就那么不充分吗？还是德育处的呢，带头托管6点放学，你觉得很光荣吗？早点回家不行吗？动不动就慢那有本事你自己下来上英语课，我给你体验一下！2、你把那罚抄当逗号使呢啊？动不动就发动不动就发，看到一个人不乖一秒钟就发上课必须得认认真真的，那你告诉我你叫我们同桌之间互相练的时候你在干嘛？你在看手机吧，你觉得你在看手机是在认真吗？你上课的时候跟我们一副吊儿郎当的样子，坐在椅子上翘个二郎腿，觉得你认真了？好意思说我不负责任，你觉得你真的负了责任吗？！3、你这个师带徒模式你觉得这样是你的负责任吗学生你自己不教搞一个没有任何教书经验的学生来教而且教不好还罚那你有告诉我们怎么教吗我们已经尽到了我们自己的责任凭什么平白无故的劈头盖脸的一顿罚你有想过我以及同桌的感受吗？我叫你天天抄一直抄你看你喜不喜欢吗？4、动不动就知道抢课，你那么喜欢抢吗？那么喜欢抢还当老师啊，干脆当劫匪得了，不光是我们班的课，你也动不动就知道抢别人班的课你觉得这件事情有多么光荣吗我们现在还只是小学生小学生就抢课那么严重那等我们上初高中了学习压抑起来了我们该从哪里找乐子呢？我们现在本来就作业多，你还又要抢课来剥夺我们副科课的快乐生活！这老师我真的是一点也不想跟他待了！5、人家现在讲究的是趣味教学，你看你教学教了个什么东西？读书翻译语法，这就是你的核心理念了，你觉得这个样子学东西？学生能记得进去吗你讲语法可以没让你非得像█老师一样一点语法不讲，但你就不懂趣味教学吗在趣味当中让我们发现知识就不行吗？你这么搞的我都对英语课产生畏惧了一上你的课比上数学课费脑子！
+            </div>
+        </div>
+        
+        <div class="footer">
+            by--哔哩哔哩███████，请同学们积极发表自己对老师的不满意意见，这个网站就是大家的心灵树洞！发表方法：微信
+        </div>
+    </div>
+    
+    <script>
+        // 创建樱花飘落效果
+        function createSakura() {
+            const container = document.getElementById('sakura-container');
+            const sakuraCount = 30; // 樱花数量
+            
+            for (let i = 0; i < sakuraCount; i++) {
+                const sakura = document.createElement('div');
+                sakura.classList.add('sakura');
+                
+                // 随机位置
+                const left = Math.random() * 100;
+                sakura.style.left = `${left}vw`;
+                
+                // 随机大小
+                const size = 5 + Math.random() * 15;
+                sakura.style.width = `${size}px`;
+                sakura.style.height = `${size}px`;
+                
+                // 随机动画延迟和持续时间
+                const delay = Math.random() * 10;
+                const duration = 10 + Math.random() * 20;
+                
+                sakura.style.animation = `fall ${duration}s linear ${delay}s infinite`;
+                
+                container.appendChild(sakura);
+            }
+        }
+        
+        // 页面加载完成后创建樱花
+        window.addEventListener('DOMContentLoaded', createSakura);
+    </script>
+</body>
+</html>
