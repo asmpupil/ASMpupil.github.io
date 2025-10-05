@@ -26,7 +26,7 @@
         
         .container {
             text-align: center;
-            max-width: 1000px;
+            max-width: 800px;
             width: 100%;
             padding: 30px;
             background: rgba(255, 255, 255, 0.1);
@@ -42,50 +42,28 @@
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
         
-        .domains-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 30px;
+        .domain-container {
+            position: relative;
             margin: 40px 0;
         }
         
-        .domain-card {
-            flex: 1;
-            min-width: 300px;
-            max-width: 400px;
-            padding: 25px;
-            border-radius: 15px;
-            background: rgba(0, 0, 0, 0.2);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease;
-        }
-        
-        .domain-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-            background: rgba(0, 0, 0, 0.3);
-        }
-        
         .domain {
-            font-size: 1.8rem;
+            font-size: 3.5rem;
             font-weight: bold;
             color: #ffeb3b;
             text-shadow: 0 0 10px rgba(255, 235, 59, 0.7);
             letter-spacing: 1px;
             transition: all 0.3s ease;
-            padding: 15px;
-            border-radius: 10px;
+            padding: 20px;
+            border-radius: 15px;
             background: rgba(0, 0, 0, 0.2);
-            display: block;
+            display: inline-block;
             cursor: pointer;
-            margin-bottom: 20px;
-            word-break: break-all;
             animation: pulse 2s infinite;
         }
         
         .domain:hover {
-            transform: scale(1.03);
+            transform: scale(1.05);
             box-shadow: 0 0 20px rgba(255, 235, 59, 0.5);
         }
         
@@ -97,38 +75,29 @@
             background: rgba(0, 0, 0, 0.3);
             padding: 15px;
             border-radius: 10px;
-            max-width: 800px;
+            max-width: 600px;
             margin-left: auto;
             margin-right: auto;
         }
         
         .button {
             display: inline-block;
-            padding: 12px 25px;
+            margin-top: 30px;
+            padding: 12px 30px;
             background: #4CAF50;
             color: white;
             text-decoration: none;
             border-radius: 50px;
             font-weight: bold;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             transition: all 0.3s ease;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            margin-top: 10px;
         }
         
         .button:hover {
             background: #45a049;
             transform: translateY(-3px);
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-        }
-        
-        .confetti {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background-color: #f00;
-            border-radius: 50%;
-            animation: confetti-fall 5s linear infinite;
         }
         
         @keyframes fadeIn {
@@ -142,88 +111,46 @@
             100% { text-shadow: 0 0 10px rgba(255, 235, 59, 0.7); }
         }
         
-        @keyframes confetti-fall {
-            0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
-        }
-        
         @media (max-width: 768px) {
             h1 { font-size: 2rem; }
-            .domain { font-size: 1.5rem; }
-            .domains-container { gap: 20px; }
+            .domain { font-size: 2.5rem; }
         }
         
         @media (max-width: 480px) {
             h1 { font-size: 1.7rem; }
-            .domain { font-size: 1.3rem; padding: 12px; }
-            .domain-card { min-width: 100%; }
+            .domain { font-size: 1.8rem; padding: 15px; }
+            .button { padding: 10px 25px; font-size: 1rem; }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>🎉 欢迎访问我们的新官网 🎉</h1>
-        <p style="margin-bottom: 20px; font-size: 1.2rem;">我们提供了多个域名供您选择</p>
         
-        <div class="domains-container">
-            <div class="domain-card">
-                <div class="domain" id="domain1">http://asmpupil.xhyu.top/</div>
-                <a href="http://asmpupil.xhyu.top/" class="button" target="_blank">访问此域名</a>
-            </div>
-            
-            <div class="domain-card">
-                <div class="domain" id="domain2">http://asmpupil.33u.dpdns.org/</div>
-                <a href="http://asmpupil.gg4.icu/" class="button" target="_blank">访问此域名</a>
-            </div>
-            
-            <div class="domain-card">
-                <div class="domain" id="domain3">http://asmpupil.11n.dpdns.org/</div>
-                <a href="http://asmpupil.11n.dpdns.org/" class="button" target="_blank">访问此域名</a>
-            </div>
+        <div class="domain-container">
+            <div class="domain" id="domainLink">http://asmpupil.gg4.icu/</div>
         </div>
         
+        <a href="http://asmpupil.gg4.icu/" class="button" target="_blank">立即访问新网站</a>
+        
         <div class="note">
-            <p>这些域名可能会显示不安全，请忽视并且在浏览器打开</p>
+            <p>该域名可能会显示不安全，请忽视并且在浏览器打开</p>
             <p>这是由于新域名的安全证书尚未完全配置，不影响网站的正常使用</p>
-            <p style="margin-top: 10px;">您可以尝试任意一个域名，它们都指向相同的网站内容</p>
         </div>
     </div>
 
     <script>
-        // 创建五彩纸屑效果
-        function createConfetti() {
-            const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff'];
-            for (let i = 0; i < 50; i++) {
-                const confetti = document.createElement('div');
-                confetti.className = 'confetti';
-                confetti.style.left = Math.random() * 100 + 'vw';
-                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                confetti.style.animationDelay = Math.random() * 5 + 's';
-                document.body.appendChild(confetti);
-            }
-        }
-        
         // 点击域名复制到剪贴板
-        function setupDomainCopy(domainId) {
-            document.getElementById(domainId).addEventListener('click', function() {
-                const domain = this.textContent;
-                navigator.clipboard.writeText(domain).then(() => {
-                    const originalText = this.textContent;
-                    this.textContent = '已复制到剪贴板！';
-                    setTimeout(() => {
-                        this.textContent = originalText;
-                    }, 2000);
-                });
+        document.getElementById('domainLink').addEventListener('click', function() {
+            const domain = this.textContent;
+            navigator.clipboard.writeText(domain).then(() => {
+                const originalText = this.textContent;
+                this.textContent = '已复制到剪贴板！';
+                setTimeout(() => {
+                    this.textContent = originalText;
+                }, 2000);
             });
-        }
-        
-        // 为每个域名设置复制功能
-        setupDomainCopy('domain1');
-        setupDomainCopy('domain2');
-        setupDomainCopy('domain3');
-        
-        // 页面加载完成后创建纸屑效果
-        window.addEventListener('load', createConfetti);
+        });
     </script>
 </body>
 </html>
