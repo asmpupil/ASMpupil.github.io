@@ -42,24 +42,28 @@
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
         
-        .domain-container {
-            position: relative;
+        .domains-container {
             margin: 40px 0;
         }
         
+        .domain-item {
+            margin-bottom: 25px;
+        }
+        
         .domain {
-            font-size: 3.5rem;
+            font-size: 2.2rem;
             font-weight: bold;
             color: #ffeb3b;
             text-shadow: 0 0 10px rgba(255, 235, 59, 0.7);
             letter-spacing: 1px;
             transition: all 0.3s ease;
-            padding: 20px;
+            padding: 15px;
             border-radius: 15px;
             background: rgba(0, 0, 0, 0.2);
             display: inline-block;
             cursor: pointer;
             animation: pulse 2s infinite;
+            margin: 10px;
         }
         
         .domain:hover {
@@ -80,26 +84,6 @@
             margin-right: auto;
         }
         
-        .button {
-            display: inline-block;
-            margin-top: 30px;
-            padding: 12px 30px;
-            background: #4CAF50;
-            color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: bold;
-            font-size: 1.2rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-        
-        .button:hover {
-            background: #45a049;
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-        }
-        
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
@@ -113,13 +97,12 @@
         
         @media (max-width: 768px) {
             h1 { font-size: 2rem; }
-            .domain { font-size: 2.5rem; }
+            .domain { font-size: 1.8rem; }
         }
         
         @media (max-width: 480px) {
             h1 { font-size: 1.7rem; }
-            .domain { font-size: 1.8rem; padding: 15px; }
-            .button { padding: 10px 25px; font-size: 1rem; }
+            .domain { font-size: 1.5rem; padding: 12px; }
         }
     </style>
 </head>
@@ -127,11 +110,17 @@
     <div class="container">
         <h1>🎉 欢迎访问我们的新官网 🎉</h1>
         
-        <div class="domain-container">
-            <div class="domain" id="domainLink">http://asmpupil.gg4.icu/</div>
+        <div class="domains-container">
+            <div class="domain-item">
+                <div class="domain" id="domain1">http://asmpupil.11n.dpdns.org/</div>
+            </div>
+            <div class="domain-item">
+                <div class="domain" id="domain2">http://asmpupil.gg4.icu/</div>
+            </div>
+            <div class="domain-item">
+                <div class="domain" id="domain3">http://asmpupil.xhyu.top/</div>
+            </div>
         </div>
-        
-        <a href="http://asmpupil.gg4.icu/" class="button" target="_blank">立即访问新网站</a>
         
         <div class="note">
             <p>该域名可能会显示不安全，请忽视并且在浏览器打开</p>
@@ -141,16 +130,27 @@
 
     <script>
         // 点击域名复制到剪贴板
-        document.getElementById('domainLink').addEventListener('click', function() {
-            const domain = this.textContent;
-            navigator.clipboard.writeText(domain).then(() => {
-                const originalText = this.textContent;
-                this.textContent = '已复制到剪贴板！';
+        document.getElementById('domain1').addEventListener('click', function() {
+            copyToClipboard(this.textContent, this);
+        });
+        
+        document.getElementById('domain2').addEventListener('click', function() {
+            copyToClipboard(this.textContent, this);
+        });
+        
+        document.getElementById('domain3').addEventListener('click', function() {
+            copyToClipboard(this.textContent, this);
+        });
+        
+        function copyToClipboard(text, element) {
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = element.textContent;
+                element.textContent = '已复制到剪贴板！';
                 setTimeout(() => {
-                    this.textContent = originalText;
+                    element.textContent = originalText;
                 }, 2000);
             });
-        });
+        }
     </script>
 </body>
 </html>
