@@ -26,7 +26,7 @@
         
         .container {
             text-align: center;
-            max-width: 800px;
+            max-width: 900px;
             width: 100%;
             padding: 30px;
             background: rgba(255, 255, 255, 0.1);
@@ -44,31 +44,67 @@
         
         .domains-container {
             margin: 40px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
         }
         
         .domain-item {
-            margin-bottom: 25px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .domain-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-5px);
         }
         
         .domain {
-            font-size: 2.2rem;
+            font-size: 1.8rem;
             font-weight: bold;
             color: #ffeb3b;
             text-shadow: 0 0 10px rgba(255, 235, 59, 0.7);
             letter-spacing: 1px;
             transition: all 0.3s ease;
             padding: 15px;
-            border-radius: 15px;
+            border-radius: 10px;
             background: rgba(0, 0, 0, 0.2);
             display: inline-block;
             cursor: pointer;
             animation: pulse 2s infinite;
-            margin: 10px;
+            margin-bottom: 15px;
+            word-break: break-word;
+            max-width: 100%;
+            overflow-wrap: break-word;
+            line-height: 1.4;
         }
         
         .domain:hover {
-            transform: scale(1.05);
+            transform: scale(1.02);
             box-shadow: 0 0 20px rgba(255, 235, 59, 0.5);
+        }
+        
+        .visit-button {
+            display: inline-block;
+            padding: 10px 25px;
+            background: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            border: none;
+            cursor: pointer;
+        }
+        
+        .visit-button:hover {
+            background: #45a049;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
         }
         
         .note {
@@ -97,12 +133,13 @@
         
         @media (max-width: 768px) {
             h1 { font-size: 2rem; }
-            .domain { font-size: 1.8rem; }
+            .domain { font-size: 1.5rem; }
         }
         
         @media (max-width: 480px) {
             h1 { font-size: 1.7rem; }
-            .domain { font-size: 1.5rem; padding: 12px; }
+            .domain { font-size: 1.3rem; padding: 12px; }
+            .visit-button { padding: 8px 20px; font-size: 0.9rem; }
         }
     </style>
 </head>
@@ -113,12 +150,21 @@
         <div class="domains-container">
             <div class="domain-item">
                 <div class="domain" id="domain1">http://asmpupil.11n.dpdns.org/</div>
+                <div>
+                    <button class="visit-button" onclick="window.open('http://asmpupil.11n.dpdns.org/', '_blank')">立即访问此网站</button>
+                </div>
             </div>
             <div class="domain-item">
                 <div class="domain" id="domain2">http://asmpupil.gg4.icu/</div>
+                <div>
+                    <button class="visit-button" onclick="window.open('http://asmpupil.gg4.icu/', '_blank')">立即访问此网站</button>
+                </div>
             </div>
             <div class="domain-item">
                 <div class="domain" id="domain3">http://asmpupil.xhyu.top/</div>
+                <div>
+                    <button class="visit-button" onclick="window.open('http://asmpupil.xhyu.top/', '_blank')">立即访问此网站</button>
+                </div>
             </div>
         </div>
         
