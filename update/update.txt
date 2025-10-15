@@ -1,2 +1,2 @@
-xs:更新了更新程序的逻辑
-tg:update.php
+xs:测试更新，不会对服务器造成影响
+mk:test
