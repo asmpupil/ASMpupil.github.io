@@ -1,5 +1,4 @@
 xs:这只是一次测试更新，不会对网站造成影响！
-tg:test
-hj:php
+up:test
 mk:uploads
 dr:database.sql
