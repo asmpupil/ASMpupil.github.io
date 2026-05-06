@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>数的分类与倍数判断</title>
+    <style>
+        body {
+            font-family: "Microsoft YaHei", sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            color: #333;
+        }
+        h1, h2 {
+            color: #2c3e50;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        ul {
+            margin: 15px 0;
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        .math {
+            font-family: "Times New Roman", serif;
+            font-style: italic;
+        }
+        hr {
+            border: none;
+            border-top: 2px solid #eee;
+            margin: 30px 0;
+        }
+        .note {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-left: 4px solid #3498db;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>以下是对各类数的总结，以及2、3、5倍数的判断方法</h1>
+
+    <h2>各类数的含义及包含的数</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>类别</th>
+                <th>包含什么数</th>
+                <th>是什么样的数</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>自然数</td>
+                <td>0, 1, 2, 3, …</td>
+                <td>表示物体个数的数，通常指非负整数（部分定义不含0，但现行教材多包含0）。</td>
+            </tr>
+            <tr>
+                <td>整数</td>
+                <td>…, -3, -2, -1, 0, 1, 2, 3, …</td>
+                <td>正整数、0和负整数的统称，没有小数部分。</td>
+            </tr>
+            <tr>
+                <td>分数</td>
+                <td>形如 <span class="math">a/b</span>（b ≠ 0，a、b为整数）的数</td>
+                <td>可以表示整体的一部分，包括真分数、假分数、带分数。</td>
+            </tr>
+            <tr>
+                <td>小数</td>
+                <td>如0.1, 2.33, 3.1415…</td>
+                <td>十进制表示的另一种形式，分为有限小数、无限循环小数和无限不循环小数（后两者常见于无理数）。</td>
+            </tr>
+            <tr>
+                <td>百分数</td>
+                <td>形如 a%（a为任意实数）的数</td>
+                <td>分母固定为100的分数，用于表示比例或占有率。</td>
+            </tr>
+            <tr>
+                <td>质数</td>
+                <td>2, 3, 5, 7, 11, …</td>
+                <td>大于1的自然数，且只有1和本身两个因数。</td>
+            </tr>
+            <tr>
+                <td>合数</td>
+                <td>4, 6, 8, 9, 10, …</td>
+                <td>大于1的自然数，除了1和本身还有其他因数（注意：1既不是质数也不是合数）。</td>
+            </tr>
+            <tr>
+                <td>奇数</td>
+                <td>…, -5, -3, -1, 1, 3, 5, …</td>
+                <td>不能被2整除的整数，形式为 2k+1（k为整数）。</td>
+            </tr>
+            <tr>
+                <td>偶数</td>
+                <td>…, -4, -2, 0, 2, 4, …</td>
+                <td>能被2整除的整数，形式为 2k（k为整数）。</td>
+            </tr>
+            <tr>
+                <td>因数</td>
+                <td>如12的因数有1,2,3,4,6,12</td>
+                <td>整数a除以整数b（b ≠ 0）的商是整数，则b是a的因数（通常讨论正整数）。</td>
+            </tr>
+            <tr>
+                <td>倍数</td>
+                <td>如3的倍数有3,6,9,12,…</td>
+                <td>整数a能被整数b整除，则a是b的倍数（通常指非零整数倍）。</td>
+            </tr>
+            <tr>
+                <td>正数</td>
+                <td>所有大于0的数：1, 0.5, <span class="math">2/3</span>, 100%…</td>
+                <td>比0大的数，包括正整数、正分数、正小数、正无理数等。</td>
+            </tr>
+            <tr>
+                <td>负数</td>
+                <td>所有小于0的数：-1, -0.2, <span class="math">-4/5</span>…</td>
+                <td>比0小的数，在正数前加负号“-”表示。</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="note">
+        <strong>注意：</strong>质数、合数、奇数、偶数通常在自然数（或整数）范围内讨论；因数、倍数一般指非零整数；分数、小数、百分数本质都是实数的不同表示形式，正负数则覆盖所有非零实数。
+    </div>
+
+    <hr>
+
+    <h2>2、3、5的倍数判断方法</h2>
+    <ul>
+        <li>
+            <strong>2的倍数：</strong>个位数字是 0、2、4、6、8 的整数。<br>
+            例如：128（个位8）是2的倍数；129（个位9）不是。
+        </li>
+        <li>
+            <strong>3的倍数：</strong>各位数字之和能被 3 整除的整数。<br>
+            例如：123 → 1+2+3=6，6÷3=2，所以123是3的倍数；124 → 1+2+4=7，7不能被3整除，所以不是。
+        </li>
+        <li>
+            <strong>5的倍数：</strong>个位数字是 0 或 5 的整数。<br>
+            例如：145（个位5）是5的倍数；140（个位0）也是；142（个位2）不是。
+        </li>
+    </ul>
+
+    <p><em>这些方法适用于所有整数（包括负整数，只需看绝对值部分）。</em></p>
+</body>
+</html>
