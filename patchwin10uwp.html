@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Win10PE尝试使用完整UWP过程</title>
+<style>
+    :root {
+        --primary-color: #00a1d6;
+        --bg-color: #f4f5f7;
+        --card-bg: #ffffff;
+        --text-main: #212121;
+        --text-secondary: #666666;
+        --border-color: #e7e7e7;
+    }
+
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Microsoft YaHei", sans-serif;
+        background-color: var(--bg-color);
+        color: var(--text-main);
+        line-height: 1.8;
+        margin: 0;
+        padding: 0;
+        -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 30px 20px 60px;
+    }
+
+    h1 {
+        font-size: 26px;
+        font-weight: 600;
+        color: var(--text-main);
+        border-bottom: 2px solid var(--primary-color);
+        padding-bottom: 15px;
+        margin-bottom: 30px;
+    }
+
+    h2 {
+        font-size: 20px;
+        font-weight: 600;
+        margin-top: 40px;
+        margin-bottom: 15px;
+        padding-left: 12px;
+        border-left: 4px solid var(--primary-color);
+    }
+
+    p {
+        margin: 16px 0;
+        color: var(--text-main);
+    }
+
+    ul {
+        padding-left: 24px;
+        margin: 16px 0;
+    }
+
+    li {
+        margin: 8px 0;
+    }
+
+    code {
+        background: #f0f2f5;
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-family: Consolas, "SF Mono", monospace;
+        font-size: 14px;
+        color: #d56161;
+    }
+
+    pre {
+        background: #1e1e1e;
+        color: #d4d4d4;
+        padding: 16px;
+        border-radius: 8px;
+        overflow-x: auto;
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+    /* 表格响应式处理 */
+    .table-wrapper {
+        width: 100%;
+        overflow-x: auto;
+        margin: 20px 0;
+        border-radius: 8px;
+        border: 1px solid var(--border-color);
+    }
+
+    table {
+        width: 100%;
+        min-width: 600px; /* 防止表格过窄变形 */
+        border-collapse: collapse;
+        background: var(--card-bg);
+    }
+
+    th, td {
+        border-bottom: 1px solid var(--border-color);
+        padding: 12px 15px;
+        text-align: left;
+        white-space: nowrap; /* 保持单行，配合滚动 */
+    }
+
+    th {
+        background: #fafafa;
+        font-weight: 600;
+        color: var(--text-main);
+    }
+
+    tr:hover {
+        background: #fafafa;
+    }
+
+    blockquote {
+        margin: 20px 0;
+        padding: 12px 16px;
+        background: #f0f7ff;
+        border-left: 4px solid var(--primary-color);
+        color: var(--text-secondary);
+        font-style: italic;
+    }
+
+    .conclusion {
+        background: #f0f2f5;
+        padding: 20px;
+        border-radius: 8px;
+        margin-top: 40px;
+        font-size: 15px;
+    }
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<h1>Win10PE尝试使用完整UWP过程</h1>
+
+<h2>一、问题背景与初始尝试</h2>
+
+<p>目标是在 Win10 PE 环境下运行原生 UWP 开始菜单（StartMenuExperienceHost.exe）及相关组件（设置、搜索、操作中心）。</p>
+
+<p>现象表现为手动启动进程后 2-3 秒闪退，无任何界面；将 PE 的 WIM 释放到硬盘后正常启动，排除了文件缺失的可能性。</p>
+
+<p>早期无效尝试包括：</p>
+<ul>
+    <li>补全 UWP 相关服务（AppXSvc、ClipSVC、AppReadiness 等）</li>
+    <li>删除 MiniNT 注册表项</li>
+    <li>补充 AppResolver.dll、StartTileData.dll 等文件</li>
+</ul>
+
+<blockquote>
+结论：并非简单的环境缺失，而是微软在 XAML 框架层面对 PE 环境做了主动检测和限制。
+</blockquote>
+
+<h2>二、崩溃分析：锁定元凶</h2>
+
+<p>使用 WinDbg 分析崩溃转储，得到核心调用栈：</p>
+
+<pre>
+Windows_UI_Xaml!FailFastOnUnsupportedLaunch+0xa
+  -> wil::details::WilFailFast
+    -> KERNELBASE!RaiseFailFastException
+      -> ntdll!RtlRaiseNoncontinuableException
+</pre>
+
+<p>异常代码为 c0000409 (STATUS_STACK_BUFFER_OVERRUN)，Subcode 为 0x7 (FAST_FAIL_FATAL_APP_EXIT)。核心拦截函数为 FailFastOnUnsupportedLaunch 及 WilFailFast。</p>
+
+<h2>三、其他 UWP 组件的表现</h2>
+
+<p>通过分析不同进程的崩溃转储，将失败模式分为三类：</p>
+
+<div class="table-wrapper">
+<table>
+    <thead>
+        <tr>
+            <th>类型</th>
+            <th>代表进程</th>
+            <th>失败机制</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>A型</td>
+            <td>StartMenuExperienceHost.exe<br>ShellExperienceHost.exe</td>
+            <td>主动快速失败 (FailFast)</td>
+        </tr>
+        <tr>
+            <td>B型</td>
+            <td>SearchApp.exe</td>
+            <td>COM/WinRT 组件激活失败</td>
+        </tr>
+        <tr>
+            <td>C型</td>
+            <td>SystemSettings.exe</td>
+            <td>等待未就绪的服务/组件，界面卡死</td>
+        </tr>
+    </tbody>
+</table>
+</div>
+
+<p>A 型是最普遍、最核心的障碍。</p>
+
+<h2>四、逆向工程：挖掘检测逻辑</h2>
+
+<p>使用 Ghidra 对 Windows.UI.Xaml.dll 进行静态分析，定位到关键函数调用链：</p>
+
+<pre>
+FrameworkApplicationFactory::Start
+  -> FUN_1804bb19c
+    -> FUN_1804bc1b4
+      -> FUN_1804bbf58 (核心判断)
+</pre>
+
+<p>核心判断逻辑依赖于全局函数指针 DAT_180f60e58。在正常系统下该指针被初始化（非 0），而在 PE 下为 NULL，导致检查失败并触发 WilFailFast。</p>
+
+<h2>五、尝试的绕过方案与结果</h2>
+
+<ul>
+    <li><strong>DLL 注入劫持：</strong>尝试替换 g_pfnWilFailFast，受限于 UWP 沙盒对路径的访问控制，LoadLibrary 返回失败。</li>
+    <li><strong>AppInit_DLLs 全局注入：</strong>进程存活时间显著延长，证明补丁生效，但因全局注入严重影响系统性能且界面仍未出现，放弃该方案。</li>
+    <li><strong>直接修改 DLL 文件：</strong>修补指令为 RET 后仍崩溃，推测原因包括签名强制、存在多个快速失败出口或修补地址不完全正确。</li>
+    <li><strong>挂起进程 + 远程内存修补：</strong>进程存活时间延长，但 UI 仍未渲染，推测卡在后续初始化步骤。</li>
+</ul>
+
+<h2>六、当前状态与失败分析</h2>
+
+<p>已确认 FailFastOnUnsupportedLaunch 是核心检查点，全局指针 DAT_180f60e58 未初始化是直接原因。然而，即使绕过该检查，开始菜单仍无法完全启动，可能存在其他未发现的检测点或运行时依赖缺失。</p>
+
+<h2>七、未来可能的研究方向</h2>
+
+<ul>
+    <li>深入逆向 FailFastOnUnsupportedLaunch 的所有分支。</li>
+    <li>使用 WinDbg 进行双机内核调试，观察 XAML 初始化全过程。</li>
+    <li>彻底对照正常系统的 UWP 初始化日志，补全服务与注册表权限。</li>
+    <li>研究替换 XAML 框架的可行性（面临签名与兼容性难题）。</li>
+    <li>放弃 PE，转向精简系统或 PrimoCache 等替代方案。</li>
+</ul>
+
+<h2>八、技术经验总结</h2>
+
+<p>本次研究完整实践了 WinDbg 崩溃分析、Ghidra 静态逆向、x64dbg 动态调试、DLL 注入、API 钩子及内存修补等技术。虽然未能最终成功，但对 UWP 应用模型、AppContainer 沙盒及 Windows 底层机制有了深入理解。</p>
+
+<div class="conclusion">
+    <strong>总结：</strong>微软对 WinPE 的限制是系统性的，非单点突破可解。此次研究积累了完整的系统级调试流程经验，具有较高的参考价值。
+</div>
+
+</div>
+</body>
+</html>
