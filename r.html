@@ -14,7 +14,6 @@
         }
 
         body {
-            /* [WinUI映射] 此背景仅用于验证毛玻璃透明度，转译时删除，使用系统桌面背景 */
             min-height: 100vh;
             background: linear-gradient(135deg, #d7ecff 0%, #eaf6ff 100%);
             overflow: hidden;
@@ -48,6 +47,7 @@
             border-radius: 4px;
             transition: background 0.15s ease;
         }
+
         .start-btn:hover {
             background-color: rgba(0, 0, 0, 0.06);
         }
@@ -71,14 +71,18 @@
             visibility: hidden;
             transition: opacity 0.2s ease;
         }
+
         .start-menu.active {
             visibility: visible;
             opacity: 1;
         }
+
+        /* 小尺寸弹窗状态 */
         .start-menu.popup-small {
             height: 430px;
         }
 
+        /* ========== 全局毛玻璃包裹层 ========== */
         .menu-glass-wrap {
             position: absolute;
             inset: 0;
@@ -88,7 +92,7 @@
             overflow: hidden;
         }
 
-        /* 内容初始下移，造成“从上方滑入”的错觉 */
+        /* 内容初始整体下移，顶部留出浏览器式空白 */
         .menu-inner {
             position: absolute;
             inset: 0;
@@ -96,10 +100,13 @@
             opacity: 0;
             transition: transform 0.28s ease, opacity 0.28s ease;
         }
+
         .start-menu.content-visible .menu-inner {
             transform: translateY(0);
             opacity: 1;
         }
+
+        /* 关闭时内容向下淡出 */
         .start-menu.content-hiding .menu-inner {
             transform: translateY(36px);
             opacity: 0;
@@ -123,15 +130,18 @@
             z-index: 35;
             transition: width 0.22s ease, background 0.22s ease;
         }
+
         .sidebar:hover {
             width: 240px;
             background: rgba(228, 228, 228, 0.92);
         }
+
         .sidebar-top, .sidebar-bottom {
             display: flex;
             flex-direction: column;
             gap: 4px;
         }
+
         .sidebar-item {
             height: 40px;
             display: flex;
@@ -144,9 +154,11 @@
             border-radius: 4px;
             transition: background 0.15s ease;
         }
+
         .sidebar-item:hover {
             background-color: rgba(0, 0, 0, 0.08);
         }
+
         .sidebar-icon {
             width: 24px;
             height: 24px;
@@ -156,6 +168,7 @@
             justify-content: center;
             font-size: 18px;
         }
+
         .sidebar-text {
             margin-left: 12px;
             font-size: 14px;
@@ -163,6 +176,7 @@
             width: 0;
             transition: opacity 0.18s ease, width 0.18s ease;
         }
+
         .sidebar:hover .sidebar-text {
             opacity: 1;
             width: auto;
@@ -188,11 +202,13 @@
             transition: transform 0.28s ease, opacity 0.28s ease;
             transform-origin: center center;
         }
+
         .app-list-container.zoom-out {
             transform: scale(0.92);
             opacity: 0;
             pointer-events: none;
         }
+
         .app-list-container.zoom-in-from-bottom {
             transform: scale(0.92) translateY(40px);
             opacity: 0;
@@ -204,15 +220,18 @@
             width: 4px;
             transition: width 0s ease 0.4s;
         }
+
         .app-list-container:hover::-webkit-scrollbar,
         .tiles-section:hover::-webkit-scrollbar {
             width: 12px;
             transition: width 0s ease;
         }
+
         .app-list-container::-webkit-scrollbar-track,
         .tiles-section::-webkit-scrollbar-track {
             background: transparent;
         }
+
         .app-list-container::-webkit-scrollbar-thumb,
         .tiles-section::-webkit-scrollbar-thumb {
             background: rgba(150, 150, 150, 0.5);
@@ -222,6 +241,7 @@
         .app-group {
             margin-bottom: 8px;
         }
+
         .group-title {
             font-size: 14px;
             font-weight: 600;
@@ -233,6 +253,7 @@
             border-radius: 4px;
             transition: background 0.15s ease;
         }
+
         .group-title:hover {
             background-color: rgba(0, 0, 0, 0.08);
         }
@@ -247,6 +268,7 @@
             border-radius: 4px;
             transition: background 0.15s ease;
         }
+
         .folder-item {
             height: 36px;
             display: flex;
@@ -257,7 +279,11 @@
             border-radius: 4px;
             transition: background 0.15s ease;
         }
-        .app-item:active { cursor: grabbing; }
+
+        .app-item:active {
+            cursor: grabbing;
+        }
+
         .app-item:hover, .folder-item:hover {
             background-color: rgba(0, 0, 0, 0.08);
         }
@@ -271,23 +297,28 @@
             align-items: center;
             justify-content: center;
         }
+
         .folder-icon {
             color: #ffc107;
             font-size: 20px;
         }
+
         .app-name {
             font-size: 14px;
             flex: 1;
         }
+
         .folder-expand-icon {
             font-size: 12px;
             color: #666;
             transition: transform 0.18s ease;
         }
+
         .folder-item.expanded .folder-expand-icon {
             transform: rotate(180deg);
         }
 
+        /* ========== 文件夹展开区域 ========== */
         .folder-contents {
             overflow: hidden;
             height: 0;
@@ -295,17 +326,19 @@
             transform: translateY(-8px);
             transition: none;
         }
+
         .folder-item.expanded + .folder-contents {
             height: auto;
             opacity: 1;
             transform: translateY(0);
             transition: height 0.22s ease, opacity 0.22s ease, transform 0.22s ease;
         }
+
         .folder-contents .app-item {
             padding-left: 28px;
         }
 
-        /* ========== 字母索引 ========== */
+        /* ========== 字母索引页面 ========== */
         .alpha-index {
             position: absolute;
             inset: 0;
@@ -320,16 +353,19 @@
             opacity: 0;
             pointer-events: none;
         }
+
         .alpha-index.active {
             transform: scale(1);
             opacity: 1;
             pointer-events: auto;
         }
+
         .alpha-index.zoom-out {
             transform: scale(0.92);
             opacity: 0;
             pointer-events: none;
         }
+
         .alpha-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -337,6 +373,7 @@
             padding-top: 8px;
             padding-bottom: 20px;
         }
+
         .alpha-item {
             height: 50px;
             display: flex;
@@ -349,11 +386,13 @@
             border-radius: 6px;
             transition: border-color 0.15s ease, background-color 0.15s ease;
         }
+
         .alpha-item:hover:not(.disabled) {
             border-color: #ffffff;
             background-color: rgba(255, 255, 255, 0.35);
             color: #222;
         }
+
         .alpha-item.disabled {
             color: #aaa;
             cursor: default;
@@ -371,9 +410,11 @@
             overflow-y: auto;
             z-index: 28;
         }
+
         .tile-group {
             margin-bottom: 20px;
         }
+
         .tile-group-header {
             display: flex;
             align-items: center;
@@ -381,11 +422,13 @@
             margin-bottom: 8px;
             padding: 0 4px;
         }
+
         .group-name {
             font-size: 14px;
             font-weight: 500;
             cursor: default;
         }
+
         .group-edit-btn {
             opacity: 0;
             cursor: pointer;
@@ -394,12 +437,15 @@
             border-radius: 4px;
             transition: opacity 0.15s ease, background 0.15s ease;
         }
+
         .tile-group-header:hover .group-edit-btn {
             opacity: 1;
         }
+
         .group-edit-btn:hover {
             background-color: rgba(0, 0, 0, 0.08);
         }
+
         .group-name-input {
             font-size: 14px;
             font-weight: 500;
@@ -418,19 +464,13 @@
             grid-auto-rows: 80px;
             transition: background-color 0.2s;
         }
+
         .tiles-grid.drag-over {
             outline: 2px dashed rgba(0, 120, 212, 0.6);
             outline-offset: -4px;
             background-color: rgba(0, 120, 212, 0.05);
         }
 
-        /* 
-         * [WinUI映射] 尺寸对应 VariableSizedWrapGrid 的 ColumnSpan / RowSpan
-         * small  → ColumnSpan=1, RowSpan=1
-         * medium → ColumnSpan=2, RowSpan=2
-         * wide   → ColumnSpan=2, RowSpan=1
-         * large  → ColumnSpan=3, RowSpan=3
-         */
         .tile {
             background: rgba(255, 255, 255, 0.82);
             backdrop-filter: blur(10px);
@@ -447,19 +487,28 @@
             transition: border-color 0.15s, transform 0.1s ease;
             border-radius: 6px;
         }
+
         .tile:hover {
             border-color: rgba(255, 255, 255, 0.85);
             box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.25);
             filter: brightness(1.02);
             transform: translateY(-1px);
         }
+
         .tile.size-small { grid-column: span 1; grid-row: span 1; }
         .tile.size-medium { grid-column: span 2; grid-row: span 2; }
         .tile.size-wide { grid-column: span 2; grid-row: span 1; }
         .tile.size-large { grid-column: span 3; grid-row: span 3; }
 
-        .tile-icon { font-size: 28px; margin-bottom: 4px; }
-        .tile-label { font-size: 12px; text-align: center; }
+        .tile-icon {
+            font-size: 28px;
+            margin-bottom: 4px;
+        }
+
+        .tile-label {
+            font-size: 12px;
+            text-align: center;
+        }
 
         /* ========== 弹出菜单 ========== */
         .popup-menu {
@@ -480,12 +529,14 @@
             pointer-events: none;
             border-radius: 6px;
         }
+
         .popup-menu.show {
             visibility: visible;
             opacity: 1;
             transform: scaleY(1);
             pointer-events: auto;
         }
+
         .popup-item {
             padding: 8px 16px;
             display: flex;
@@ -497,24 +548,30 @@
             margin: 0 4px;
             transition: background 0.15s ease;
         }
+
         .popup-item:hover {
             background-color: rgba(0, 0, 0, 0.08);
         }
+
         .popup-icon {
             width: 20px;
             margin-right: 10px;
             font-size: 16px;
             text-align: center;
         }
+
         .popup-sub-arrow {
             margin-left: auto;
             font-size: 12px;
         }
+
         .popup-divider {
             height: 1px;
             background-color: rgba(208, 208, 208, 0.5);
             margin: 4px 8px;
         }
+
+        /* 子菜单 */
         .sub-menu {
             position: absolute;
             left: 100%;
@@ -535,6 +592,7 @@
             border-radius: 6px;
             margin-left: 2px;
         }
+
         .popup-item:hover .sub-menu {
             visibility: visible;
             opacity: 1;
@@ -542,6 +600,7 @@
             pointer-events: auto;
         }
 
+        /* 用户菜单专用 */
         .user-account-row {
             display: flex;
             align-items: center;
@@ -552,9 +611,11 @@
             margin: 0 4px;
             transition: background 0.15s ease;
         }
+
         .user-account-row:hover {
             background-color: rgba(0, 0, 0, 0.08);
         }
+
         .user-avatar {
             width: 32px;
             height: 32px;
@@ -566,17 +627,20 @@
             border-radius: 50%;
         }
 
+        /* 尺寸选择 */
         .size-option {
             display: flex;
             align-items: center;
             gap: 10px;
         }
+
         .size-preview {
             width: 24px;
             height: 24px;
             border: 1px solid #888;
             border-radius: 4px;
         }
+
         .size-option.selected .size-preview {
             background-color: #0078d4;
             border-color: #0078d4;
@@ -584,7 +648,6 @@
     </style>
 </head>
 <body>
-
     <!-- 任务栏 -->
     <div class="taskbar">
         <div class="start-btn" id="startBtn">⊞</div>
@@ -592,10 +655,12 @@
 
     <!-- 开始菜单 -->
     <div class="start-menu" id="startMenu">
+        <!-- 全局毛玻璃层 -->
         <div class="menu-glass-wrap">
+            <!-- 内部内容整体 -->
             <div class="menu-inner">
 
-                <!-- 左侧侧边栏（硬编码，保留不变） -->
+                <!-- 左侧侧边栏 -->
                 <div class="sidebar">
                     <div class="sidebar-top">
                         <div class="sidebar-item">
@@ -627,367 +692,658 @@
                     </div>
                 </div>
 
-                <!-- 共用视口 -->
+                <!-- 共用视口容器：应用列表 + 字母索引 -->
                 <div class="content-viewport">
-                    <!-- 应用列表容器（JS动态渲染） -->
-                    <div class="app-list-container" id="appList"></div>
-                    <!-- 字母索引容器（JS动态渲染） -->
+                    <!-- 中间应用列表 -->
+                    <div class="app-list-container" id="appList">
+                        <!-- 最常用 -->
+                        <div class="app-group">
+                            <div class="group-title">最常用</div>
+                            <div class="app-item" data-icon="🌐" data-name="Microsoft Edge">
+                                <div class="app-icon">🌐</div><span class="app-name">Microsoft Edge</span>
+                            </div>
+                            <div class="app-item" data-icon="🔲" data-name="VMware Workstation Pro">
+                                <div class="app-icon">🔲</div><span class="app-name">VMware Workstation Pro</span>
+                            </div>
+                            <div class="app-item" data-icon="📁" data-name="文件资源管理器">
+                                <div class="app-icon">📁</div><span class="app-name">文件资源管理器</span>
+                            </div>
+                            <div class="app-item" data-icon="📒" data-name="记事本">
+                                <div class="app-icon">📒</div><span class="app-name">记事本</span>
+                            </div>
+                            <div class="app-item" data-icon="🐧" data-name="QQ">
+                                <div class="app-icon">🐧</div><span class="app-name">QQ</span>
+                            </div>
+                            <div class="app-item" data-icon="✂️" data-name="截图工具">
+                                <div class="app-icon">✂️</div><span class="app-name">截图工具</span>
+                            </div>
+                        </div>
+
+                        <!-- # 分组 -->
+                        <div class="app-group">
+                            <div class="group-title" data-alpha="#">#</div>
+                            <div class="folder-item">
+                                <div class="folder-icon">📁</div>
+                                <span class="app-name">7-Zip</span>
+                                <span class="folder-expand-icon">∨</span>
+                            </div>
+                            <div class="folder-contents">
+                                <div class="app-item" data-icon="📦" data-name="7-Zip File Manager">
+                                    <div class="app-icon">📦</div><span class="app-name">7-Zip File Manager</span>
+                                </div>
+                            </div>
+
+                            <div class="folder-item">
+                                <div class="folder-icon">📁</div>
+                                <span class="app-name">123云盘</span>
+                                <span class="folder-expand-icon">∨</span>
+                            </div>
+                            <div class="folder-contents">
+                                <div class="app-item" data-icon="☁️" data-name="123云盘">
+                                    <div class="app-icon">☁️</div><span class="app-name">123云盘</span>
+                                </div>
+                                <div class="app-item" data-icon="🗑️" data-name="卸载123云盘">
+                                    <div class="app-icon">🗑️</div><span class="app-name">卸载123云盘</span>
+                                </div>
+                            </div>
+
+                            <div class="folder-item">
+                                <div class="folder-icon">📁</div>
+                                <span class="app-name">360ChromeX</span>
+                                <span class="folder-expand-icon">∨</span>
+                            </div>
+                            <div class="folder-contents">
+                                <div class="app-item" data-icon="🌐" data-name="360极速浏览器X">
+                                    <div class="app-icon">🌐</div><span class="app-name">360极速浏览器X</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- A 分组 -->
+                        <div class="app-group">
+                            <div class="group-title" data-alpha="A">A</div>
+                            <div class="app-item" data-icon="📄" data-name="ABC">
+                                <div class="app-icon">📄</div><span class="app-name">ABC</span>
+                            </div>
+
+                            <div class="folder-item">
+                                <div class="folder-icon">📁</div>
+                                <span class="app-name">AnyDesk</span>
+                                <span class="folder-expand-icon">∨</span>
+                            </div>
+                            <div class="folder-contents">
+                                <div class="app-item" data-icon="🖥️" data-name="AnyDesk">
+                                    <div class="app-icon">🖥️</div><span class="app-name">AnyDesk</span>
+                                </div>
+                            </div>
+
+                            <div class="folder-item">
+                                <div class="folder-icon">📁</div>
+                                <span class="app-name">AutoIt v3</span>
+                                <span class="folder-expand-icon">∨</span>
+                            </div>
+                            <div class="folder-contents">
+                                <div class="app-item" data-icon="📜" data-name="AutoIt Script Editor">
+                                    <div class="app-icon">📜</div><span class="app-name">AutoIt Script Editor</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- B 分组 -->
+                        <div class="app-group">
+                            <div class="group-title" data-alpha="B">B</div>
+                            <div class="folder-item">
+                                <div class="folder-icon">📁</div>
+                                <span class="app-name">Bandicam</span>
+                                <span class="folder-expand-icon">∨</span>
+                            </div>
+                            <div class="folder-contents">
+                                <div class="app-item" data-icon="🎬" data-name="Bandicam">
+                                    <div class="app-icon">🎬</div><span class="app-name">Bandicam</span>
+                                </div>
+                            </div>
+
+                            <div class="app-item" data-icon="⚙️" data-name="Bat To Exe Converter">
+                                <div class="app-icon">⚙️</div><span class="app-name">Bat To Exe Converter</span>
+                            </div>
+                            <div class="app-item" data-icon="🔄" data-name="Beyond Compare 5">
+                                <div class="app-icon">🔄</div><span class="app-name">Beyond Compare 5</span>
+                            </div>
+                            <div class="app-item" data-icon="🧩" data-name="Blend for Visual Studio">
+                                <div class="app-icon">🧩</div><span class="app-name">Blend for Visual Studio</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 字母索引页 -->
                     <div class="alpha-index" id="alphaIndex">
                         <div class="alpha-grid" id="alphaGrid"></div>
                     </div>
                 </div>
 
-                <!-- 右侧磁贴区（JS动态渲染） -->
-                <div class="tiles-section" id="tilesSection"></div>
+                <!-- 右侧磁贴区 -->
+                <div class="tiles-section">
+                    <div class="tile-group">
+                        <div class="tile-group-header">
+                            <span class="group-name">高效工作</span>
+                            <span class="group-edit-btn" data-edit-group>✏️</span>
+                        </div>
+                        <div class="tiles-grid">
+                            <div class="tile size-wide" data-size="wide">
+                                <div class="tile-icon">🎨</div>
+                                <div class="tile-label">Microsoft 365 Copilot</div>
+                            </div>
+                            <div class="tile size-small" data-size="small">
+                                <div class="tile-icon">🛒</div>
+                                <div class="tile-label">Microsoft Store</div>
+                            </div>
+                            <div class="tile size-medium" data-size="medium">
+                                <div class="tile-icon">📒</div>
+                                <div class="tile-label">记事本</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tile-group">
+                        <div class="tile-group-header">
+                            <span class="group-name">测试2</span>
+                            <span class="group-edit-btn" data-edit-group>✏️</span>
+                        </div>
+                        <div class="tiles-grid">
+                            <div class="tile size-large" data-size="large">
+                                <div class="tile-icon">✂️</div>
+                                <div class="tile-label">截图工具</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
             </div>
         </div>
     </div>
 
-    <!-- ===== 弹出菜单（硬编码，保持不变） ===== -->
     <!-- 用户菜单 -->
-    <div class="popup-menu" id="userMenu"> ... </div>
+    <div class="popup-menu" id="userMenu">
+        <div class="popup-item">
+            <span class="popup-icon">👤⚙️</span>
+            <span>更改帐户设置</span>
+        </div>
+        <div class="popup-item">
+            <span class="popup-icon">🔒</span>
+            <span>锁定</span>
+        </div>
+        <div class="popup-item">
+            <span class="popup-icon">↪</span>
+            <span>注销</span>
+        </div>
+        <div class="popup-divider"></div>
+        <div class="user-account-row">
+            <div class="user-avatar">👤</div>
+            <span>Administrator</span>
+        </div>
+        <div class="user-account-row">
+            <div class="user-avatar">👤</div>
+            <span>test</span>
+        </div>
+    </div>
+
     <!-- 电源菜单 -->
-    <div class="popup-menu" id="powerMenu"> ... </div>
+    <div class="popup-menu" id="powerMenu">
+        <div class="popup-item">
+            <span class="popup-icon">⏻</span>
+            <span>关机</span>
+        </div>
+        <div class="popup-item">
+            <span class="popup-icon">↻</span>
+            <span>重启</span>
+        </div>
+    </div>
+
     <!-- 应用右键菜单 -->
-    <div class="popup-menu" id="appContextMenu"> ... </div>
+    <div class="popup-menu" id="appContextMenu">
+        <div class="popup-item">
+            <span class="popup-icon">📌</span>
+            <span>固定到"开始"屏幕</span>
+        </div>
+        <div class="popup-item">
+            <span class="popup-icon">⋯</span>
+            <span>更多</span>
+            <span class="popup-sub-arrow">></span>
+            <div class="sub-menu">
+                <div class="popup-item"><span class="popup-icon">📌</span><span>固定到任务栏</span></div>
+                <div class="popup-item"><span class="popup-icon">🛡️</span><span>以管理员身份运行</span></div>
+                <div class="popup-item"><span class="popup-icon">📂</span><span>打开文件位置</span></div>
+            </div>
+        </div>
+        <div class="popup-divider"></div>
+        <div class="popup-item">
+            <span class="popup-icon">🗑️</span>
+            <span>卸载</span>
+        </div>
+    </div>
+
     <!-- 磁贴右键菜单 -->
-    <div class="popup-menu" id="tileContextMenu"> ... </div>
+    <div class="popup-menu" id="tileContextMenu">
+        <div class="popup-item">
+            <span class="popup-icon">📌</span>
+            <span>从"开始"屏幕取消固定</span>
+        </div>
+        <div class="popup-item">
+            <span class="popup-icon">📐</span>
+            <span>调整大小</span>
+            <span class="popup-sub-arrow">></span>
+            <div class="sub-menu">
+                <div class="popup-item size-option" data-size="small"><div class="size-preview"></div><span>小</span></div>
+                <div class="popup-item size-option" data-size="medium"><div class="size-preview"></div><span>中</span></div>
+                <div class="popup-item size-option" data-size="wide"><div class="size-preview"></div><span>宽</span></div>
+                <div class="popup-item size-option" data-size="large"><div class="size-preview"></div><span>大</span></div>
+            </div>
+        </div>
+        <div class="popup-item">
+            <span class="popup-icon">⋯</span>
+            <span>更多</span>
+            <span class="popup-sub-arrow">></span>
+            <div class="sub-menu">
+                <div class="popup-item"><span class="popup-icon">📌</span><span>固定到任务栏</span></div>
+                <div class="popup-item"><span class="popup-icon">🛡️</span><span>以管理员身份运行</span></div>
+                <div class="popup-item"><span class="popup-icon">📂</span><span>打开文件位置</span></div>
+            </div>
+        </div>
+        <div class="popup-divider"></div>
+        <div class="popup-item">
+            <span class="popup-icon">🗑️</span>
+            <span>卸载</span>
+        </div>
+    </div>
 
     <script>
-        // ============================================================
-        // ★★★ 数据层（集中定义，转译时直接映射到C#的ObservableCollection） ★★★
-        // ============================================================
-        const APP_DATA = {
-            // 应用列表（按分组）
-            groups: [
-                {
-                    name: "最常用",
-                    alpha: null,  // 无字母索引
-                    items: [
-                        { icon: "🌐", name: "Microsoft Edge" },
-                        { icon: "🔲", name: "VMware Workstation Pro" },
-                        { icon: "📁", name: "文件资源管理器" },
-                        { icon: "📒", name: "记事本" },
-                        { icon: "🐧", name: "QQ" },
-                        { icon: "✂️", name: "截图工具" }
-                    ],
-                    folders: []
-                },
-                {
-                    name: "#",
-                    alpha: "#",
-                    items: [],
-                    folders: [
-                        {
-                            name: "7-Zip",
-                            items: [
-                                { icon: "📦", name: "7-Zip File Manager" }
-                            ]
-                        },
-                        {
-                            name: "123云盘",
-                            items: [
-                                { icon: "☁️", name: "123云盘" },
-                                { icon: "🗑️", name: "卸载123云盘" }
-                            ]
-                        },
-                        {
-                            name: "360ChromeX",
-                            items: [
-                                { icon: "🌐", name: "360极速浏览器X" }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    name: "A",
-                    alpha: "A",
-                    items: [
-                        { icon: "📄", name: "ABC" }
-                    ],
-                    folders: [
-                        {
-                            name: "AnyDesk",
-                            items: [
-                                { icon: "🖥️", name: "AnyDesk" }
-                            ]
-                        },
-                        {
-                            name: "AutoIt v3",
-                            items: [
-                                { icon: "📜", name: "AutoIt Script Editor" }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    name: "B",
-                    alpha: "B",
-                    items: [
-                        { icon: "⚙️", name: "Bat To Exe Converter" },
-                        { icon: "🔄", name: "Beyond Compare 5" },
-                        { icon: "🧩", name: "Blend for Visual Studio" }
-                    ],
-                    folders: [
-                        {
-                            name: "Bandicam",
-                            items: [
-                                { icon: "🎬", name: "Bandicam" }
-                            ]
-                        }
-                    ]
-                }
-            ],
-            // 磁贴分组
-            tileGroups: [
-                {
-                    id: "work",
-                    name: "高效工作",
-                    tiles: [
-                        { icon: "🎨", label: "Microsoft 365 Copilot", size: "wide" },
-                        { icon: "🛒", label: "Microsoft Store", size: "small" },
-                        { icon: "📒", label: "记事本", size: "medium" }
-                    ]
-                },
-                {
-                    id: "test",
-                    name: "测试2",
-                    tiles: [
-                        { icon: "✂️", label: "截图工具", size: "large" }
-                    ]
-                }
-            ]
-        };
+        // ========== 元素获取 ==========
+        const startBtn = document.getElementById('startBtn');
+        const startMenu = document.getElementById('startMenu');
+        const userBtn = document.getElementById('userBtn');
+        const userMenu = document.getElementById('userMenu');
+        const powerBtn = document.getElementById('powerBtn');
+        const powerMenu = document.getElementById('powerMenu');
+        const appContextMenu = document.getElementById('appContextMenu');
+        const tileContextMenu = document.getElementById('tileContextMenu');
+        const alphaIndex = document.getElementById('alphaIndex');
+        const alphaGrid = document.getElementById('alphaGrid');
+        const appList = document.getElementById('appList');
 
-        // 收集所有有内容的字母（用于字母索引高亮）
-        const hasAlpha = new Set();
-        APP_DATA.groups.forEach(g => { if (g.alpha) hasAlpha.add(g.alpha); });
+        let currentTile = null;
+        const hasContent = new Set(['#', 'A', 'B']);
+        const DUR = 280;
 
-        // ============================================================
-        // ★★★ 渲染函数 ★★★
-        // ============================================================
-
-        // 渲染应用列表
-        function renderAppList() {
-            const container = document.getElementById('appList');
-            let html = '';
-            APP_DATA.groups.forEach(group => {
-                // 分组标题
-                const alphaAttr = group.alpha ? `data-alpha="${group.alpha}"` : '';
-                html += `<div class="app-group">`;
-                html += `<div class="group-title" ${alphaAttr}>${group.name}</div>`;
-
-                // 普通应用
-                group.items.forEach(item => {
-                    html += `
-                        <div class="app-item" draggable="true" data-icon="${item.icon}" data-name="${item.name}">
-                            <div class="app-icon">${item.icon}</div>
-                            <span class="app-name">${item.name}</span>
-                        </div>
-                    `;
-                });
-
-                // 文件夹
-                group.folders.forEach(folder => {
-                    html += `
-                        <div class="folder-item" data-folder="${folder.name}">
-                            <div class="folder-icon">📁</div>
-                            <span class="app-name">${folder.name}</span>
-                            <span class="folder-expand-icon">∨</span>
-                        </div>
-                        <div class="folder-contents">
-                    `;
-                    folder.items.forEach(sub => {
-                        html += `
-                            <div class="app-item" draggable="true" data-icon="${sub.icon}" data-name="${sub.name}">
-                                <div class="app-icon">${sub.icon}</div>
-                                <span class="app-name">${sub.name}</span>
-                            </div>
-                        `;
-                    });
-                    html += `</div>`;
-                });
-
-                html += `</div>`;
-            });
-            container.innerHTML = html;
+        // ========== 关闭所有弹出层 ==========
+        function closeAllPopups() {
+            userMenu.classList.remove('show');
+            powerMenu.classList.remove('show');
+            appContextMenu.classList.remove('show');
+            tileContextMenu.classList.remove('show');
+            currentTile = null;
         }
 
-        // 渲染磁贴区
-        function renderTiles() {
-            const section = document.getElementById('tilesSection');
-            let html = '';
-            APP_DATA.tileGroups.forEach(group => {
-                html += `
-                    <div class="tile-group" data-group-id="${group.id}">
-                        <div class="tile-group-header">
-                            <span class="group-name">${group.name}</span>
-                            <span class="group-edit-btn" data-edit-group>✏️</span>
-                        </div>
-                        <div class="tiles-grid">
-                `;
-                group.tiles.forEach(tile => {
-                    html += `
-                        <div class="tile size-${tile.size}" data-size="${tile.size}" draggable="false">
-                            <div class="tile-icon">${tile.icon}</div>
-                            <div class="tile-label">${tile.label}</div>
-                        </div>
-                    `;
-                });
-                html += `</div></div>`;
-            });
-            section.innerHTML = html;
+        // ========== 重置字母索引视图 ==========
+        function resetView(){
+            appList.classList.remove('zoom-out','zoom-in-from-bottom');
+            alphaIndex.classList.remove('active','zoom-out');
         }
 
-        // 渲染字母索引
-        function renderAlphaIndex() {
-            const grid = document.getElementById('alphaGrid');
-            const letters = ['#'];
-            for (let i = 0; i < 26; i++) letters.push(String.fromCharCode(65 + i));
-            let html = '';
-            letters.forEach(ch => {
-                const disabled = !hasAlpha.has(ch) ? ' disabled' : '';
-                html += `<div class="alpha-item${disabled}" data-alpha="${ch}">${ch}</div>`;
-            });
-            grid.innerHTML = html;
+        // 判断菜单当前是否打开
+        function isMenuOpen() {
+            return startMenu.classList.contains('active');
         }
 
-        // ============================================================
-        // ★★★ 事件绑定（由于DOM动态生成，需要委托或重新绑定） ★★★
-        // ============================================================
+        // ========== 打开开始菜单 ==========
+        async function openStartMenu() {
+            startMenu.classList.remove('popup-small', 'content-visible', 'content-hiding');
 
-        // 由于应用列表是动态生成的，使用事件委托绑定部分事件
-        document.addEventListener('click', function(e) {
-            // 文件夹展开/折叠
-            const folder = e.target.closest('.folder-item');
-            if (folder) {
-                e.stopPropagation();
-                const contents = folder.nextElementSibling;
-                if (!contents || !contents.classList.contains('folder-contents')) return;
-                const isExpanding = !folder.classList.contains('expanded');
-                folder.classList.toggle('expanded');
-                if (isExpanding) {
-                    // 展开后自动滚动到文件夹位置（修复滚动跳动）
-                    setTimeout(() => {
-                        folder.scrollIntoView({ behavior: 'auto', block: 'nearest' });
-                    }, 50);
-                } else {
-                    contents.style.height = '0px';
-                }
-                return;
+            // 初始：小窗口 + 顶部空白，内容整体在上方外
+            startMenu.classList.add('popup-small', 'active');
+            startMenu.getBoundingClientRect();
+
+            // 1. 先让小窗口出现，顶部有一段空白感
+            await sleep(40);
+
+            // 2. 内容从上方滑入，填补空白
+            startMenu.classList.add('content-visible');
+
+            // 3. 内容到位后，窗口再展开到正常高度
+            await sleep(260);
+            startMenu.classList.remove('popup-small');
+        }
+
+        // ========== 关闭开始菜单 ==========
+        async function closeStartMenu() {
+            // 1. 内容先向下淡出
+            startMenu.classList.add('content-hiding');
+            await sleep(180);
+
+            // 2. 窗口缩小
+            startMenu.classList.add('popup-small');
+            await sleep(160);
+
+            // 3. 整体透明消失
+            startMenu.classList.remove('active');
+            await sleep(180);
+
+            // 4. 重置状态
+            startMenu.classList.remove('popup-small', 'content-visible', 'content-hiding');
+            closeAllPopups();
+            resetView();
+        }
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        // ========== 进入字母索引 ==========
+        function showAlphaIndex() {
+            resetView();
+            appList.classList.add('zoom-out');
+            setTimeout(()=>{
+                alphaIndex.classList.add('active');
+            }, DUR/2);
+        }
+
+        // ========== 返回应用列表 ==========
+        function hideAlphaIndex(targetAlpha) {
+            alphaIndex.classList.add('zoom-out');
+            setTimeout(()=>{
+                resetView();
+                appList.classList.add('zoom-in-from-bottom');
+                setTimeout(()=>{
+                    appList.classList.remove('zoom-in-from-bottom');
+                    if(targetAlpha){
+                        const target = document.querySelector(`.group-title[data-alpha="${targetAlpha}"]`);
+                        if(target) target.scrollIntoView({ behavior: 'auto', block: 'start' });
+                    }
+                }, DUR);
+            }, DUR/2);
+        }
+
+        // ========== 初始化字母索引 ==========
+        function initAlphaIndex() {
+            const sp = document.createElement('div');
+            sp.className = 'alpha-item' + (hasContent.has('#') ? '' : ' disabled');
+            sp.textContent = '#';
+            sp.dataset.alpha = '#';
+            alphaGrid.appendChild(sp);
+
+            for (let i = 0; i < 26; i++) {
+                const letter = String.fromCharCode(65 + i);
+                const item = document.createElement('div');
+                item.className = 'alpha-item' + (hasContent.has(letter) ? '' : ' disabled');
+                item.textContent = letter;
+                item.dataset.alpha = letter;
+                alphaGrid.appendChild(item);
             }
 
-            // 字母索引入口（点击分组标题）
-            const title = e.target.closest('.group-title[data-alpha]');
-            if (title) {
-                e.stopPropagation();
-                showAlphaIndex();
-                return;
+            alphaGrid.querySelectorAll('.alpha-item:not(.disabled)').forEach(item => {
+                item.addEventListener('click', () => {
+                    hideAlphaIndex(item.dataset.alpha);
+                });
+            });
+        }
+
+        // ========== 开始菜单开关点击事件 ==========
+        startBtn.addEventListener('click', async (e) => {
+            e.stopPropagation();
+            if(isMenuOpen()){
+                await closeStartMenu();
+            }else{
+                await openStartMenu();
             }
         });
 
-        // 右键菜单（委托）
-        document.addEventListener('contextmenu', function(e) {
-            const appItem = e.target.closest('.app-item');
-            if (appItem) {
+        // ========== 用户菜单 ==========
+        userBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            closeAllPopups();
+            const rect = userBtn.getBoundingClientRect();
+            const menuHeight = userMenu.offsetHeight;
+            userMenu.style.left = rect.left + 'px';
+            userMenu.style.top = Math.max(rect.top - menuHeight - 2, 10) + 'px';
+            userMenu.classList.add('show');
+        });
+
+        // ========== 电源菜单 ==========
+        powerBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            closeAllPopups();
+            const rect = powerBtn.getBoundingClientRect();
+            const menuHeight = powerMenu.offsetHeight;
+            powerMenu.style.left = rect.left + 'px';
+            powerMenu.style.top = Math.max(rect.top - menuHeight - 2, 10) + 'px';
+            powerMenu.classList.add('show');
+        });
+
+        // ========== 文件夹展开 + 彻底禁用右键 ==========
+        document.querySelectorAll('.folder-item').forEach(folder => {
+            folder.addEventListener('click', (e) => {
+                e.stopPropagation();
+
+                const contents = folder.nextElementSibling;
+                if (!contents || !contents.classList.contains('folder-contents')) return;
+
+                const isExpanding = !folder.classList.contains('expanded');
+                folder.classList.toggle('expanded');
+
+                if (isExpanding) {
+                    const autoHeight = contents.scrollHeight;
+                    contents.style.height = autoHeight + 'px';
+                    requestAnimationFrame(() => {
+                        appList.scrollTop += autoHeight;
+                    });
+                } else {
+                    contents.style.height = '0px';
+                }
+            });
+
+            folder.addEventListener('contextmenu', e => {
+                e.preventDefault();
+                e.stopPropagation();
+            });
+        });
+
+        // ========== 字母索引入口 ==========
+        document.querySelectorAll('.group-title[data-alpha]').forEach(title => {
+            title.addEventListener('click', (e) => {
+                e.stopPropagation();
+                showAlphaIndex();
+            });
+        });
+
+        // ========== 通用右键菜单定位 ==========
+        function positionPopupMenu(menuEl, x, y) {
+            const menuRect = menuEl.getBoundingClientRect();
+            const menuW = menuRect.width;
+            const menuH = menuRect.height;
+
+            let finalX = x;
+            let finalY = y;
+
+            if (finalX + menuW > window.innerWidth) {
+                finalX = window.innerWidth - menuW - 4;
+            }
+            if (finalX < 0) finalX = 4;
+
+            if (finalY + menuH > window.innerHeight) {
+                finalY = Math.max(y - menuH, 4);
+            }
+            if (finalY < 0) finalY = 4;
+
+            menuEl.style.left = finalX + 'px';
+            menuEl.style.top = finalY + 'px';
+        }
+
+        // ========== 应用右键菜单 ==========
+        document.querySelectorAll('.app-item').forEach(app => {
+            app.addEventListener('contextmenu', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
                 closeAllPopups();
-                const menu = document.getElementById('appContextMenu');
-                menu.classList.add('show');
-                positionPopupMenu(menu, e.clientX, e.clientY);
-                return;
-            }
-            const tile = e.target.closest('.tile');
-            if (tile) {
+
+                appContextMenu.classList.add('show');
+                positionPopupMenu(appContextMenu, e.clientX, e.clientY);
+            });
+        });
+
+        // ========== 磁贴右键菜单 ==========
+        function bindTileEvents(tile) {
+            tile.addEventListener('contextmenu', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
                 closeAllPopups();
                 currentTile = tile;
-                const menu = document.getElementById('tileContextMenu');
-                menu.classList.add('show');
-                positionPopupMenu(menu, e.clientX, e.clientY);
+
+                tileContextMenu.classList.add('show');
+                positionPopupMenu(tileContextMenu, e.clientX, e.clientY);
+
                 const currentSize = tile.dataset.size;
-                menu.querySelectorAll('.size-option').forEach(opt => {
+                tileContextMenu.querySelectorAll('.size-option').forEach(opt => {
                     opt.classList.toggle('selected', opt.dataset.size === currentSize);
                 });
-                return;
-            }
+            });
+        }
+
+        document.querySelectorAll('.tile').forEach(tile => bindTileEvents(tile));
+
+        // 磁贴尺寸调整
+        document.querySelectorAll('#tileContextMenu .size-option').forEach(option => {
+            option.addEventListener('click', () => {
+                if (!currentTile) return;
+                const size = option.dataset.size;
+                currentTile.classList.remove('size-small', 'size-medium', 'size-wide', 'size-large');
+                currentTile.classList.add('size-' + size);
+                currentTile.dataset.size = size;
+                closeAllPopups();
+            });
         });
 
-        // 拖拽（委托）
-        document.addEventListener('dragstart', function(e) {
-            const app = e.target.closest('.app-item');
-            if (app) {
+        // ========== 磁贴分组重命名 ==========
+        document.querySelectorAll('[data-edit-group]').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const header = btn.closest('.tile-group-header');
+                const nameSpan = header.querySelector('.group-name');
+                const oldName = nameSpan.textContent.trim();
+
+                const input = document.createElement('input');
+                input.className = 'group-name-input';
+                input.value = oldName;
+                nameSpan.replaceWith(input);
+                input.focus();
+                input.select();
+
+                function finish(save) {
+                    const newName = save ? (input.value.trim() || oldName) : oldName;
+                    const span = document.createElement('span');
+                    span.className = 'group-name';
+                    span.textContent = newName;
+                    input.replaceWith(span);
+                }
+
+                input.addEventListener('blur', () => finish(true));
+                input.addEventListener('keydown', (ev) => {
+                    if (ev.key === 'Enter') finish(true);
+                    if (ev.key === 'Escape') finish(false);
+                });
+            });
+        });
+
+        // ========== 拖动固定 ==========
+        document.querySelectorAll('.app-item').forEach(app => {
+            app.setAttribute('draggable', 'true');
+            app.addEventListener('dragstart', (e) => {
                 const data = {
                     icon: app.dataset.icon,
                     name: app.dataset.name
                 };
                 e.dataTransfer.setData('text/plain', JSON.stringify(data));
-            }
+            });
         });
 
-        document.addEventListener('dragover', function(e) {
-            const grid = e.target.closest('.tiles-grid');
-            if (grid) {
+        document.querySelectorAll('.tiles-grid').forEach(grid => {
+            grid.addEventListener('dragover', (e) => {
                 e.preventDefault();
                 e.dataTransfer.dropEffect = 'copy';
                 grid.classList.add('drag-over');
+            });
+
+            grid.addEventListener('dragleave', (e) => {
+                if (!grid.contains(e.relatedTarget)) {
+                    grid.classList.remove('drag-over');
+                }
+            });
+
+            document.querySelectorAll('.tiles-grid').forEach(grid => {
+                grid.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    grid.classList.remove('drag-over');
+                    try {
+                        const data = JSON.parse(e.dataTransfer.getData('text/plain'));
+                        const newTile = document.createElement('div');
+                        newTile.className = 'tile size-medium';
+                        newTile.dataset.size = 'medium';
+                        newTile.innerHTML = `
+                            <div class="tile-icon">${data.icon}</div>
+                            <div class="tile-label">${data.name}</div>
+                        `;
+                        bindTileEvents(newTile);
+                        grid.appendChild(newTile);
+                    } catch (err) {
+                        console.error('拖动数据解析失败', err);
+                    }
+                });
+            });
+        });
+
+        // ========== 全局点击关闭 ==========
+        document.addEventListener('click', (e) => {
+            const clickInPopup =
+                userMenu.contains(e.target) ||
+                powerMenu.contains(e.target) ||
+                appContextMenu.contains(e.target) ||
+                tileContextMenu.contains(e.target);
+
+            if (!startMenu.contains(e.target) && e.target !== startBtn && !clickInPopup) {
+                if (isMenuOpen()) {
+                    closeStartMenu();
+                }
+            }
+
+            if (!userMenu.contains(e.target) && e.target !== userBtn) {
+                userMenu.classList.remove('show');
+            }
+            if (!powerMenu.contains(e.target) && e.target !== powerBtn) {
+                powerMenu.classList.remove('show');
+            }
+            if (!appContextMenu.contains(e.target)) {
+                appContextMenu.classList.remove('show');
+            }
+            if (!tileContextMenu.contains(e.target)) {
+                tileContextMenu.classList.remove('show');
             }
         });
 
-        document.addEventListener('dragleave', function(e) {
-            const grid = e.target.closest('.tiles-grid');
-            if (grid && !grid.contains(e.relatedTarget)) {
-                grid.classList.remove('drag-over');
-            }
+        [userMenu, powerMenu, appContextMenu, tileContextMenu].forEach(menu => {
+            menu.addEventListener('click', e => e.stopPropagation());
         });
 
-        document.addEventListener('drop', function(e) {
-            const grid = e.target.closest('.tiles-grid');
-            if (grid) {
-                e.preventDefault();
-                grid.classList.remove('drag-over');
-                try {
-                    const data = JSON.parse(e.dataTransfer.getData('text/plain'));
-                    // 创建新磁贴
-                    const newTile = document.createElement('div');
-                    newTile.className = 'tile size-medium';
-                    newTile.dataset.size = 'medium';
-                    newTile.draggable = false;
-                    newTile.innerHTML = `
-                        <div class="tile-icon">${data.icon}</div>
-                        <div class="tile-label">${data.name}</div>
-                    `;
-                    grid.appendChild(newTile);
-                } catch (err) {
-                    console.warn('拖拽数据解析失败', err);
+        // ========== ESC按键 ==========
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                if (alphaIndex.classList.contains('active')) {
+                    hideAlphaIndex(null);
+                } else if (isMenuOpen()) {
+                    closeStartMenu();
                 }
             }
         });
 
-        // ============================================================
-        // ★★★ 其他原有功能（菜单开关、弹出定位、关闭逻辑等） ★★★
-        // ============================================================
-
-        // 这些函数与之前相同，但注意变量作用域
-        // 为了简洁，我只列出关键函数，其他代码保持不变（但需要把原来的DOM操作替换为动态生成的）
-
-        // 由于篇幅，此处省略已有功能（用户菜单、电源菜单、关闭逻辑等）的重复代码，
-        // 你直接把之前完整的JS复制过来，但要将所有硬编码的app-item/tile操作替换为动态委托。
-        // 但为了让你直接使用，我将在下方提供完整替换后的JS（在最终回答中）。
-
-        // ============================================================
-        // ★★★ 初始化 ★★★
-        // ============================================================
-        renderAppList();
-        renderTiles();
-        renderAlphaIndex();
-        // 然后绑定所有交互（用户菜单、电源菜单、关闭、ESC等）—— 这些沿用原代码即可
-        // 注意：原代码中的 querySelectorAll('.folder-item') 等需要重新绑定，但我们已经用委托处理了文件夹展开和右键菜单，所以可以删除原来的直接绑定。
-        // 原有字母索引点击、分组重命名等逻辑需要保留，但需改为委托或重新绑定。
-        // 由于时间，我将在最终回答中提供完整的可运行HTML（所有功能完整），这里只展示核心改动。
+        // ========== 初始化 ==========
+        initAlphaIndex();
     </script>
 </body>
 </html>
