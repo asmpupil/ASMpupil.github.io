@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>仿Windows 10开始菜单 (完整交互版)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", "Microsoft YaHei", sans-serif;
+            user-select: none;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #0078d4;
+            overflow: hidden;
+        }
+
+        /* ========== 任务栏 ========== */
+        .taskbar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 48px;
+            background: rgba(245, 245, 245, 0.95);
+            border-top: 1px solid rgba(0, 0, 0, 0.08);
+            display: flex;
+            align-items: center;
+            padding: 0 8px;
+            z-index: 100;
+        }
+
+        .start-btn {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 20px;
+            border-radius: 4px;
+            transition: transform 0.08s cubic-bezier(0.2, 1.5, 0.4, 1), 
+                        background 0.15s ease, 
+                        box-shadow 0.08s ease;
+        }
+        .start-btn:hover { background-color: rgba(0, 0, 0, 0.08); }
+        .start-btn:active {
+            transform: scale(0.88) translateY(2px);
+            background-color: rgba(0, 0, 0, 0.15);
+            box-shadow: inset 0 2px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        /* ========== 开始菜单 ========== */
+        .start-menu {
+            position: fixed;
+            bottom: 48px;
+            left: 0;
+            width: 640px;
+            height: 520px;
+            background: #E4E4E4;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+            z-index: 200;
+            overflow: hidden;
+            
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.1s ease, visibility 0s 0.1s;
+        }
+
+        @keyframes outerStretch {
+            0%   { height: 470px; opacity: 0.75; }
+            40%  { height: 495px; opacity: 0.9; }
+            70%  { height: 510px; opacity: 0.95; }
+            100% { height: 520px; opacity: 1; }
+        }
+
+        .start-menu.active {
+            opacity: 1;
+            visibility: visible;
+            animation: outerStretch 0.45s linear forwards;
+            transition: none;
+        }
+
+        /* ========== 内部内容 ========== */
+        .content-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            
+            transform: translateY(45px);
+            opacity: 0.5;
+        }
+
+        @keyframes innerBounce {
+            0%   { transform: translateY(45px); opacity: 0.5; }
+            60%  { transform: translateY(0px);  opacity: 1; }
+            85%  { transform: translateY(-10px); opacity: 1; }
+            100% { transform: translateY(0px);  opacity: 1; }
+        }
+
+        .start-menu.active .content-wrapper {
+            animation: innerBounce 0.45s cubic-bezier(0.1, 0.9, 0.3, 1.1) forwards;
+        }
+
+        /* ========== 左侧侧边栏 ========== */
+        .sidebar {
+            position: absolute; left: 0; top: 0; width: 48px; height: 100%;
+            background: #E4E4E4;
+            border-right: 1px solid rgba(0, 0, 0, 0.06);
+            display: flex; flex-direction: column; justify-content: space-between;
+            padding: 8px 0; z-index: 35;
+            transition: width 0.22s ease, background 0.22s ease;
+        }
+        .sidebar:hover { width: 240px; background: #E4E4E4; }
+        .sidebar-top, .sidebar-bottom { display: flex; flex-direction: column; gap: 4px; }
+        .sidebar-item {
+            height: 40px; display: flex; align-items: center;
+            padding: 0 12px; cursor: pointer; margin: 0 4px;
+            white-space: nowrap; overflow: hidden; border-radius: 4px;
+            transition: background 0.15s ease;
+        }
+        .sidebar-item:hover { background-color: rgba(0, 0, 0, 0.08); }
+        .sidebar-icon { width: 24px; height: 24px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+        .sidebar-text { margin-left: 12px; font-size: 14px; opacity: 0; width: 0; transition: opacity 0.18s ease, width 0.18s ease; }
+        .sidebar:hover .sidebar-text { opacity: 1; width: auto; }
+
+        /* ========== 共用内容视口 ========== */
+        .content-viewport {
+            position: absolute; left: 48px; top: 0; bottom: 0;
+            width: calc(100% - 348px); overflow: hidden;
+        }
+
+        .app-list-container {
+            position: absolute; inset: 0; overflow-y: auto; overflow-x: hidden;
+            padding: 8px 12px; transition: transform 0.28s ease, opacity 0.28s ease;
+        }
+        .app-list-container.zoom-out { transform: scale(0.92); opacity: 0; pointer-events: none; }
+        .app-list-container.zoom-in-from-bottom { transform: scale(0.92) translateY(40px); opacity: 0; pointer-events: none; }
+        .app-list-container::-webkit-scrollbar, .tiles-section::-webkit-scrollbar { width: 4px; transition: width 0s ease 0.4s; }
+        .app-list-container:hover::-webkit-scrollbar, .tiles-section:hover::-webkit-scrollbar { width: 10px; transition: width 0s ease; }
+        .app-list-container::-webkit-scrollbar-track, .tiles-section::-webkit-scrollbar-track { background: transparent; }
+        .app-list-container::-webkit-scrollbar-thumb, .tiles-section::-webkit-scrollbar-thumb { background: rgba(150, 150, 150, 0.5); border-radius: 0; }
+
+        .app-group { margin-bottom: 8px; }
+        .group-title { font-size: 14px; font-weight: 600; padding: 4px 8px; color: #333; cursor: pointer; display: inline-block; margin-bottom: 4px; border-radius: 4px; transition: background 0.15s ease; }
+        .group-title:hover { background-color: rgba(0, 0, 0, 0.08); }
+        .app-item { height: 36px; display: flex; align-items: center; padding: 0 8px; cursor: grab; margin-bottom: 2px; border-radius: 4px; transition: background 0.15s ease; }
+        .folder-item { height: 36px; display: flex; align-items: center; padding: 0 8px; margin-bottom: 2px; cursor: pointer; border-radius: 4px; transition: background 0.15s ease; }
+        .app-item:active { cursor: grabbing; }
+        .app-item:hover, .folder-item:hover { background-color: rgba(0, 0, 0, 0.08); }
+        .app-icon, .folder-icon { width: 24px; height: 24px; margin-right: 10px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+        .folder-icon { color: #ffc107; font-size: 20px; }
+        .app-name { font-size: 14px; flex: 1; }
+        .folder-expand-icon { font-size: 12px; color: #666; transition: transform 0.18s ease; }
+        .folder-item.expanded .folder-expand-icon { transform: rotate(180deg); }
+
+        /* ========== 文件夹展开区 ========== */
+        .folder-contents {
+            overflow: hidden;
+            height: 0;
+        }
+        .folder-contents .app-item {
+            padding-left: 28px;
+        }
+
+        @keyframes dropIn {
+            0%   { transform: translateY(-12px); opacity: 0.8; }
+            100% { transform: translateY(0px); opacity: 1; }
+        }
+
+        /* ========== 字母索引页 ========== */
+        .alpha-index { position: absolute; inset: 0; background: #E4E4E4; overflow-y: auto; padding: 20px; transition: transform 0.28s ease, opacity 0.28s ease; transform: scale(0.92); opacity: 0; pointer-events: none; }
+        .alpha-index.active { transform: scale(1); opacity: 1; pointer-events: auto; }
+        .alpha-index.zoom-out { transform: scale(0.92); opacity: 0; pointer-events: none; }
+        .alpha-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; padding-top: 8px; padding-bottom: 20px; }
+        .alpha-item { height: 50px; display: flex; align-items: center; justify-content: center; font-size: 20px; cursor: pointer; border: 2px solid transparent; color: #666; border-radius: 6px; transition: border-color 0.15s ease, background-color 0.15s ease; }
+        .alpha-item:hover:not(.disabled) { border-color: #ffffff; background-color: rgba(0, 0, 0, 0.05); color: #222; }
+        .alpha-item.disabled { color: #aaa; cursor: default; }
+
+        /* ========== 右侧磁贴区 ========== */
+        .tiles-section {
+            position: absolute; right: 0; top: 0; bottom: 0; width: 300px;
+            border-left: 1px solid rgba(0, 0, 0, 0.06); padding: 12px; overflow-y: auto; z-index: 28;
+        }
+        .tile-group { margin-bottom: 20px; }
+        .tile-group-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; padding: 0 4px; }
+        .group-name { font-size: 14px; font-weight: 500; cursor: default; }
+        .group-edit-btn { opacity: 0; cursor: pointer; padding: 2px 6px; font-size: 12px; border-radius: 4px; transition: opacity 0.15s ease, background 0.15s ease; }
+        .tile-group-header:hover .group-edit-btn { opacity: 1; }
+        .group-edit-btn:hover { background-color: rgba(0, 0, 0, 0.08); }
+        .group-name-input { font-size: 14px; font-weight: 500; border: 1px solid #0078d4; outline: none; padding: 2px 4px; background: #fff; width: 100%; }
+
+        .tiles-grid { display: grid; grid-template-columns: repeat(3, 80px); gap: 4px; grid-auto-flow: dense; grid-auto-rows: 80px; transition: background-color 0.2s; }
+        .tiles-grid.drag-over { outline: 2px dashed rgba(0, 120, 212, 0.6); outline-offset: -4px; background-color: rgba(0, 120, 212, 0.05); }
+
+        .tile {
+            background: rgba(255, 255, 255, 0.9);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            cursor: pointer; border: 2px solid transparent; overflow: hidden;
+            width: 100%; height: 100%;
+            transition: border-color 0.15s, transform 0.1s ease;
+            border-radius: 0 !important;
+        }
+        .tile:hover { border-color: rgba(255, 255, 255, 0.85); box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.25); filter: brightness(1.02); transform: translateY(-1px); }
+        .tile.size-small { grid-column: span 1; grid-row: span 1; }
+        .tile.size-medium { grid-column: span 2; grid-row: span 2; }
+        .tile.size-wide { grid-column: span 2; grid-row: span 1; }
+        .tile.size-large { grid-column: span 3; grid-row: span 3; }
+        .tile-icon { font-size: 28px; margin-bottom: 4px; }
+        .tile-label { font-size: 12px; text-align: center; }
+
+        /* ========== 弹出菜单 ========== */
+        .popup-menu {
+            position: fixed; background: #E4E4E4;
+            border: 1px solid rgba(0, 0, 0, 0.1); box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+            min-width: 200px; padding: 4px 0; z-index: 500;
+            visibility: hidden; opacity: 0;
+            transform: scaleY(0) translateY(-5px); transform-origin: top left;
+            transition: transform 0.12s ease-out, opacity 0.08s ease-out;
+            pointer-events: none; border-radius: 0;
+        }
+        .popup-menu.show { visibility: visible; opacity: 1; transform: scaleY(1) translateY(0); pointer-events: auto; }
+        .popup-item { padding: 8px 16px; display: flex; align-items: center; cursor: pointer; font-size: 14px; position: relative; border-radius: 4px; margin: 0 4px; transition: background 0.15s ease; }
+        .popup-item:hover { background-color: rgba(0, 0, 0, 0.08); }
+        .popup-icon { width: 20px; margin-right: 10px; font-size: 16px; text-align: center; }
+        .popup-sub-arrow { margin-left: auto; font-size: 12px; }
+        .popup-divider { height: 1px; background-color: rgba(0, 0, 0, 0.08); margin: 4px 8px; }
+        .sub-menu { position: absolute; left: 100%; top: 0; background: #E4E4E4; border: 1px solid rgba(0, 0, 0, 0.1); box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15); min-width: 180px; padding: 4px 0; visibility: hidden; opacity: 0; transform: scaleY(0); transform-origin: top left; transition: transform 0.12s ease-out, opacity 0.08s ease-out; pointer-events: none; border-radius: 0; margin-left: 2px; }
+        .popup-item:hover .sub-menu { visibility: visible; opacity: 1; transform: scaleY(1); pointer-events: auto; }
+
+        .user-account-row { display: flex; align-items: center; padding: 8px 16px; gap: 12px; cursor: pointer; border-radius: 4px; margin: 0 4px; transition: background 0.15s ease; }
+        .user-account-row:hover { background-color: rgba(0, 0, 0, 0.08); }
+        .user-avatar { width: 32px; height: 32px; background: #ccc; display: flex; align-items: center; justify-content: center; font-size: 14px; border-radius: 50%; }
+        
+        .size-option { display: flex; align-items: center; gap: 10px; }
+        .size-preview { width: 24px; height: 24px; border: 1px solid #888; border-radius: 0; }
+        .size-option.selected .size-preview { background-color: #0078d4; border-color: #0078d4; }
+    </style>
+</head>
+<body>
+    <div class="taskbar">
+        <div class="start-btn" id="startBtn">⊞</div>
+    </div>
+
+    <div class="start-menu" id="startMenu">
+        <div class="content-wrapper">
+            <div class="sidebar">
+                <div class="sidebar-top">
+                    <div class="sidebar-item">
+                        <div class="sidebar-icon">☰</div>
+                        <span class="sidebar-text">开始</span>
+                    </div>
+                </div>
+                <div class="sidebar-bottom">
+                    <div class="sidebar-item" id="userBtn">
+                        <div class="sidebar-icon">👤</div>
+                        <span class="sidebar-text">yanqing lv</span>
+                    </div>
+                    <div class="sidebar-item">
+                        <div class="sidebar-icon">📄</div>
+                        <span class="sidebar-text">文档</span>
+                    </div>
+                    <div class="sidebar-item">
+                        <div class="sidebar-icon">🖼️</div>
+                        <span class="sidebar-text">图片</span>
+                    </div>
+                    <div class="sidebar-item">
+                        <div class="sidebar-icon">⚙️</div>
+                        <span class="sidebar-text">设置</span>
+                    </div>
+                    <div class="sidebar-item" id="powerBtn">
+                        <div class="sidebar-icon">⏻</div>
+                        <span class="sidebar-text">电源</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-viewport">
+                <div class="app-list-container" id="appList">
+                    <div class="app-group">
+                        <div class="group-title">最常用</div>
+                        <div class="app-item" data-icon="🌐" data-name="Microsoft Edge"><div class="app-icon">🌐</div><span class="app-name">Microsoft Edge</span></div>
+                        <div class="app-item" data-icon="🔲" data-name="VMware Workstation Pro"><div class="app-icon">🔲</div><span class="app-name">VMware Workstation Pro</span></div>
+                        <div class="app-item" data-icon="📁" data-name="文件资源管理器"><div class="app-icon">📁</div><span class="app-name">文件资源管理器</span></div>
+                        <div class="app-item" data-icon="📒" data-name="记事本"><div class="app-icon">📒</div><span class="app-name">记事本</span></div>
+                        <div class="app-item" data-icon="🐧" data-name="QQ"><div class="app-icon">🐧</div><span class="app-name">QQ</span></div>
+                        <div class="app-item" data-icon="✂️" data-name="截图工具"><div class="app-icon">✂️</div><span class="app-name">截图工具</span></div>
+                    </div>
+
+                    <div class="app-group">
+                        <div class="group-title" data-alpha="#">#</div>
+                        <div class="folder-item"><div class="folder-icon">📁</div><span class="app-name">7-Zip</span><span class="folder-expand-icon">∨</span></div>
+                        <div class="folder-contents"><div class="app-item" data-icon="📦" data-name="7-Zip File Manager"><div class="app-icon">📦</div><span class="app-name">7-Zip File Manager</span></div></div>
+                        
+                        <div class="folder-item"><div class="folder-icon">📁</div><span class="app-name">123云盘</span><span class="folder-expand-icon">∨</span></div>
+                        <div class="folder-contents">
+                            <div class="app-item" data-icon="☁️" data-name="123云盘"><div class="app-icon">☁️</div><span class="app-name">123云盘</span></div>
+                            <div class="app-item" data-icon="🗑️" data-name="卸载123云盘"><div class="app-icon">🗑️</div><span class="app-name">卸载123云盘</span></div>
+                        </div>
+                        
+                        <div class="folder-item"><div class="folder-icon">📁</div><span class="app-name">360ChromeX</span><span class="folder-expand-icon">∨</span></div>
+                        <div class="folder-contents"><div class="app-item" data-icon="🌐" data-name="360极速浏览器X"><div class="app-icon">🌐</div><span class="app-name">360极速浏览器X</span></div></div>
+                    </div>
+
+                    <div class="app-group">
+                        <div class="group-title" data-alpha="A">A</div>
+                        <div class="app-item" data-icon="📄" data-name="ABC"><div class="app-icon">📄</div><span class="app-name">ABC</span></div>
+                        <div class="folder-item"><div class="folder-icon">📁</div><span class="app-name">AnyDesk</span><span class="folder-expand-icon">∨</span></div>
+                        <div class="folder-contents"><div class="app-item" data-icon="🖥️" data-name="AnyDesk"><div class="app-icon">🖥️</div><span class="app-name">AnyDesk</span></div></div>
+                        
+                        <div class="folder-item"><div class="folder-icon">📁</div><span class="app-name">AutoIt v3</span><span class="folder-expand-icon">∨</span></div>
+                        <div class="folder-contents"><div class="app-item" data-icon="📜" data-name="AutoIt Script Editor"><div class="app-icon">📜</div><span class="app-name">AutoIt Script Editor</span></div></div>
+                    </div>
+
+                    <div class="app-group">
+                        <div class="group-title" data-alpha="B">B</div>
+                        <div class="folder-item"><div class="folder-icon">📁</div><span class="app-name">Bandicam</span><span class="folder-expand-icon">∨</span></div>
+                        <div class="folder-contents"><div class="app-item" data-icon="🎬" data-name="Bandicam"><div class="app-icon">🎬</div><span class="app-name">Bandicam</span></div></div>
+                        <div class="app-item" data-icon="⚙️" data-name="Bat To Exe Converter"><div class="app-icon">⚙️</div><span class="app-name">Bat To Exe Converter</span></div>
+                        <div class="app-item" data-icon="🔄" data-name="Beyond Compare 5"><div class="app-icon">🔄</div><span class="app-name">Beyond Compare 5</span></div>
+                        <div class="app-item" data-icon="🧩" data-name="Blend for Visual Studio"><div class="app-icon">🧩</div><span class="app-name">Blend for Visual Studio</span></div>
+                    </div>
+                </div>
+
+                <div class="alpha-index" id="alphaIndex">
+                    <div class="alpha-grid" id="alphaGrid"></div>
+                </div>
+            </div>
+
+            <div class="tiles-section">
+                <div class="tile-group">
+                    <div class="tile-group-header"><span class="group-name">高效工作</span><span class="group-edit-btn" data-edit-group>✏️</span></div>
+                    <div class="tiles-grid">
+                        <div class="tile size-wide" data-size="wide"><div class="tile-icon">🎨</div><div class="tile-label">Microsoft 365 Copilot</div></div>
+                        <div class="tile size-small" data-size="small"><div class="tile-icon">🛒</div><div class="tile-label">Microsoft Store</div></div>
+                        <div class="tile size-medium" data-size="medium"><div class="tile-icon">📒</div><div class="tile-label">记事本</div></div>
+                    </div>
+                </div>
+                <div class="tile-group">
+                    <div class="tile-group-header"><span class="group-name">测试2</span><span class="group-edit-btn" data-edit-group>✏️</span></div>
+                    <div class="tiles-grid"><div class="tile size-large" data-size="large"><div class="tile-icon">✂️</div><div class="tile-label">截图工具</div></div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="popup-menu" id="userMenu">
+        <div class="popup-item"><span class="popup-icon">👤⚙️</span><span>更改帐户设置</span></div>
+        <div class="popup-item"><span class="popup-icon">🔒</span><span>锁定</span></div>
+        <div class="popup-item"><span class="popup-icon">↪</span><span>注销</span></div>
+        <div class="popup-divider"></div>
+        <div class="user-account-row"><div class="user-avatar">👤</div><span>Administrator</span></div>
+        <div class="user-account-row"><div class="user-avatar">👤</div><span>test</span></div>
+    </div>
+
+    <div class="popup-menu" id="powerMenu">
+        <div class="popup-item"><span class="popup-icon">⏻</span><span>关机</span></div>
+        <div class="popup-item"><span class="popup-icon">↻</span><span>重启</span></div>
+    </div>
+
+    <div class="popup-menu" id="appContextMenu">
+        <div class="popup-item"><span class="popup-icon">📌</span><span>固定到"开始"屏幕</span></div>
+        <div class="popup-item"><span class="popup-icon">⋯</span><span>更多</span><span class="popup-sub-arrow">></span>
+            <div class="sub-menu">
+                <div class="popup-item"><span class="popup-icon">📌</span><span>固定到任务栏</span></div>
+                <div class="popup-item"><span class="popup-icon">🛡️</span><span>以管理员身份运行</span></div>
+                <div class="popup-item"><span class="popup-icon">📂</span><span>打开文件位置</span></div>
+            </div>
+        </div>
+        <div class="popup-divider"></div>
+        <div class="popup-item"><span class="popup-icon">🗑️</span><span>卸载</span></div>
+    </div>
+
+    <div class="popup-menu" id="tileContextMenu">
+        <div class="popup-item"><span class="popup-icon">📌</span><span>从"开始"屏幕取消固定</span></div>
+        <div class="popup-item"><span class="popup-icon">📐</span><span>调整大小</span><span class="popup-sub-arrow">></span>
+            <div class="sub-menu">
+                <div class="popup-item size-option" data-size="small"><div class="size-preview"></div><span>小</span></div>
+                <div class="popup-item size-option" data-size="medium"><div class="size-preview"></div><span>中</span></div>
+                <div class="popup-item size-option" data-size="wide"><div class="size-preview"></div><span>宽</span></div>
+                <div class="popup-item size-option" data-size="large"><div class="size-preview"></div><span>大</span></div>
+            </div>
+        </div>
+        <div class="popup-item"><span class="popup-icon">⋯</span><span>更多</span><span class="popup-sub-arrow">></span>
+            <div class="sub-menu">
+                <div class="popup-item"><span class="popup-icon">📌</span><span>固定到任务栏</span></div>
+                <div class="popup-item"><span class="popup-icon">🛡️</span><span>以管理员身份运行</span></div>
+                <div class="popup-item"><span class="popup-icon">📂</span><span>打开文件位置</span></div>
+            </div>
+        </div>
+        <div class="popup-divider"></div>
+        <div class="popup-item"><span class="popup-icon">🗑️</span><span>卸载</span></div>
+    </div>
+
+    <script>
+        const startBtn = document.getElementById('startBtn');
+        const startMenu = document.getElementById('startMenu');
+        const userBtn = document.getElementById('userBtn');
+        const userMenu = document.getElementById('userMenu');
+        const powerBtn = document.getElementById('powerBtn');
+        const powerMenu = document.getElementById('powerMenu');
+        const appContextMenu = document.getElementById('appContextMenu');
+        const tileContextMenu = document.getElementById('tileContextMenu');
+        const alphaIndex = document.getElementById('alphaIndex');
+        const alphaGrid = document.getElementById('alphaGrid');
+        const appList = document.getElementById('appList');
+
+        let currentTile = null;
+        const hasContent = new Set(['#', 'A', 'B']);
+        const DUR = 280;
+
+        function closeAllPopups() {
+            userMenu.classList.remove('show'); powerMenu.classList.remove('show');
+            appContextMenu.classList.remove('show'); tileContextMenu.classList.remove('show');
+            currentTile = null;
+        }
+
+        function resetView(){
+            appList.classList.remove('zoom-out','zoom-in-from-bottom');
+            alphaIndex.classList.remove('active','zoom-out');
+        }
+
+        function isMenuOpen() { return startMenu.classList.contains('active'); }
+
+        function openStartMenu() {
+            closeAllPopups(); resetView();
+            startMenu.classList.add('active');
+        }
+
+        function closeStartMenu() {
+            startMenu.classList.remove('active');
+            setTimeout(() => { closeAllPopups(); }, 100);
+        }
+
+        startBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if(isMenuOpen()){ closeStartMenu(); } else { openStartMenu(); }
+        });
+
+        userBtn.addEventListener('click', (e) => {
+            e.stopPropagation(); closeAllPopups();
+            const rect = userBtn.getBoundingClientRect();
+            const menuHeight = userMenu.offsetHeight;
+            userMenu.style.left = rect.left + 'px';
+            userMenu.style.top = Math.max(rect.top - menuHeight - 2, 10) + 'px';
+            userMenu.classList.add('show');
+        });
+
+        powerBtn.addEventListener('click', (e) => {
+            e.stopPropagation(); closeAllPopups();
+            const rect = powerBtn.getBoundingClientRect();
+            const menuHeight = powerMenu.offsetHeight;
+            powerMenu.style.left = rect.left + 'px';
+            powerMenu.style.top = Math.max(rect.top - menuHeight - 2, 10) + 'px';
+            powerMenu.classList.add('show');
+        });
+
+        // ========== 文件夹展开 ==========
+        document.querySelectorAll('.folder-item').forEach(folder => {
+            folder.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const contents = folder.nextElementSibling;
+                if (!contents || !contents.classList.contains('folder-contents')) return;
+
+                const isExpanding = !folder.classList.contains('expanded');
+                folder.classList.toggle('expanded');
+                const appItems = contents.querySelectorAll('.app-item');
+
+                if (isExpanding) {
+                    // 1. 强制清除残留状态
+                    appItems.forEach(el => {
+                        el.style.animation = 'none';
+                        el.style.transform = 'translateY(-12px)';
+                        el.style.opacity = '0.8';
+                        el.style.animationDelay = '0s';
+                    });
+                    contents.offsetHeight;
+
+                    // 2. 展开高度
+                    const autoHeight = contents.scrollHeight;
+                    contents.style.height = autoHeight + 'px';
+
+                    // 3. 判断逻辑
+                    const total = appItems.length;
+                    let dropIndices = [];
+                    if (total === 1) dropIndices = [0];
+                    else if (total === 2) dropIndices = [1];
+                    else dropIndices = [total - 2, total - 1];
+
+                    // 4. 下一帧触发动画
+                    requestAnimationFrame(() => {
+                        appItems.forEach((el, idx) => {
+                            if (dropIndices.includes(idx)) {
+                                el.style.transform = 'translateY(-12px)';
+                                el.style.opacity = '0.8';
+                                /* 【修改点】将展开速度从 0.2s 调整为 0.3s */
+                                el.style.animation = 'dropIn 0.3s cubic-bezier(0.1, 0.9, 0.2, 1.1) forwards';
+                                el.style.animationDelay = `${idx * 0.02}s`;
+                            } else {
+                                el.style.transform = 'translateY(0)';
+                                el.style.opacity = '1';
+                                el.style.animation = 'none';
+                            }
+                        });
+                    });
+
+                } else {
+                    // 收起：瞬间闭合
+                    contents.style.height = '0px';
+                    appItems.forEach(el => {
+                        el.style.animation = 'none';
+                        el.style.transform = '';
+                        el.style.opacity = '';
+                        el.style.animationDelay = '';
+                    });
+                }
+            });
+
+            folder.addEventListener('contextmenu', e => { e.preventDefault(); e.stopPropagation(); });
+        });
+
+        // ========== 字母索引 ==========
+        document.querySelectorAll('.group-title[data-alpha]').forEach(title => {
+            title.addEventListener('click', (e) => {
+                e.stopPropagation(); resetView();
+                appList.classList.add('zoom-out');
+                setTimeout(()=>{ alphaIndex.classList.add('active'); }, DUR/2);
+            });
+        });
+        function hideAlphaIndex(targetAlpha) {
+            alphaIndex.classList.add('zoom-out');
+            setTimeout(()=>{
+                resetView();
+                appList.classList.add('zoom-in-from-bottom');
+                setTimeout(()=>{
+                    appList.classList.remove('zoom-in-from-bottom');
+                    if(targetAlpha){
+                        const target = document.querySelector(`.group-title[data-alpha="${targetAlpha}"]`);
+                        if(target) target.scrollIntoView({ behavior: 'auto', block: 'start' });
+                    }
+                }, DUR);
+            }, DUR/2);
+        }
+
+        function initAlphaIndex() {
+            const sp = document.createElement('div');
+            sp.className = 'alpha-item' + (hasContent.has('#') ? '' : ' disabled');
+            sp.textContent = '#'; sp.dataset.alpha = '#'; alphaGrid.appendChild(sp);
+            for (let i = 0; i < 26; i++) {
+                const letter = String.fromCharCode(65 + i);
+                const item = document.createElement('div');
+                item.className = 'alpha-item' + (hasContent.has(letter) ? '' : ' disabled');
+                item.textContent = letter; item.dataset.alpha = letter; alphaGrid.appendChild(item);
+            }
+            alphaGrid.querySelectorAll('.alpha-item:not(.disabled)').forEach(item => {
+                item.addEventListener('click', () => { hideAlphaIndex(item.dataset.alpha); });
+            });
+        }
+
+        function positionPopupMenu(menuEl, x, y) {
+            const menuRect = menuEl.getBoundingClientRect();
+            const menuW = menuRect.width; const menuH = menuRect.height;
+            let finalX = x, finalY = y;
+            if (finalX + menuW > window.innerWidth) finalX = window.innerWidth - menuW - 4;
+            if (finalX < 0) finalX = 4;
+            if (finalY + menuH > window.innerHeight) finalY = Math.max(y - menuH, 4);
+            if (finalY < 0) finalY = 4;
+            menuEl.style.left = finalX + 'px'; menuEl.style.top = finalY + 'px';
+        }
+
+        document.querySelectorAll('.app-item').forEach(app => {
+            app.addEventListener('contextmenu', (e) => {
+                e.preventDefault(); e.stopPropagation(); closeAllPopups();
+                appContextMenu.classList.add('show');
+                positionPopupMenu(appContextMenu, e.clientX, e.clientY);
+            });
+        });
+        function bindTileEvents(tile) {
+            tile.addEventListener('contextmenu', (e) => {
+                e.preventDefault(); e.stopPropagation(); closeAllPopups(); currentTile = tile;
+                tileContextMenu.classList.add('show');
+                positionPopupMenu(tileContextMenu, e.clientX, e.clientY);
+                const currentSize = tile.dataset.size;
+                tileContextMenu.querySelectorAll('.size-option').forEach(opt => {
+                    opt.classList.toggle('selected', opt.dataset.size === currentSize);
+                });
+            });
+        }
+        document.querySelectorAll('.tile').forEach(tile => bindTileEvents(tile));
+        document.querySelectorAll('#tileContextMenu .size-option').forEach(option => {
+            option.addEventListener('click', () => {
+                if (!currentTile) return;
+                const size = option.dataset.size;
+                currentTile.classList.remove('size-small', 'size-medium', 'size-wide', 'size-large');
+                currentTile.classList.add('size-' + size); currentTile.dataset.size = size; closeAllPopups();
+            });
+        });
+
+        document.querySelectorAll('[data-edit-group]').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const header = btn.closest('.tile-group-header');
+                const nameSpan = header.querySelector('.group-name');
+                const oldName = nameSpan.textContent.trim();
+                const input = document.createElement('input');
+                input.className = 'group-name-input'; input.value = oldName;
+                nameSpan.replaceWith(input); input.focus(); input.select();
+                function finish(save) {
+                    const newName = save ? (input.value.trim() || oldName) : oldName;
+                    const span = document.createElement('span');
+                    span.className = 'group-name'; span.textContent = newName; input.replaceWith(span);
+                }
+                input.addEventListener('blur', () => finish(true));
+                input.addEventListener('keydown', (ev) => {
+                    if (ev.key === 'Enter') finish(true); if (ev.key === 'Escape') finish(false);
+                });
+            });
+        });
+
+        document.querySelectorAll('.app-item').forEach(app => {
+            app.setAttribute('draggable', 'true');
+            app.addEventListener('dragstart', (e) => {
+                const data = { icon: app.dataset.icon, name: app.dataset.name };
+                e.dataTransfer.setData('text/plain', JSON.stringify(data));
+            });
+        });
+        document.querySelectorAll('.tiles-grid').forEach(grid => {
+            grid.addEventListener('dragover', (e) => { e.preventDefault(); e.dataTransfer.dropEffect = 'copy'; grid.classList.add('drag-over'); });
+            grid.addEventListener('dragleave', (e) => { if (!grid.contains(e.relatedTarget)) grid.classList.remove('drag-over'); });
+            grid.addEventListener('drop', (e) => {
+                e.preventDefault(); grid.classList.remove('drag-over');
+                try {
+                    const data = JSON.parse(e.dataTransfer.getData('text/plain'));
+                    const newTile = document.createElement('div');
+                    newTile.className = 'tile size-medium'; newTile.dataset.size = 'medium';
+                    newTile.innerHTML = `<div class="tile-icon">${data.icon}</div><div class="tile-label">${data.name}</div>`;
+                    bindTileEvents(newTile); grid.appendChild(newTile);
+                } catch (err) { console.error('拖动数据解析失败', err); }
+            });
+        });
+
+        document.addEventListener('click', (e) => {
+            const clickInPopup = userMenu.contains(e.target) || powerMenu.contains(e.target) || appContextMenu.contains(e.target) || tileContextMenu.contains(e.target);
+            if (!startMenu.contains(e.target) && e.target !== startBtn && !clickInPopup) {
+                if (isMenuOpen()) { closeStartMenu(); }
+            }
+            if (!userMenu.contains(e.target) && e.target !== userBtn) userMenu.classList.remove('show');
+            if (!powerMenu.contains(e.target) && e.target !== powerBtn) powerMenu.classList.remove('show');
+            if (!appContextMenu.contains(e.target)) appContextMenu.classList.remove('show');
+            if (!tileContextMenu.contains(e.target)) tileContextMenu.classList.remove('show');
+        });
+        [userMenu, powerMenu, appContextMenu, tileContextMenu].forEach(menu => {
+            menu.addEventListener('click', e => e.stopPropagation());
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                if (alphaIndex.classList.contains('active')) { hideAlphaIndex(null); } 
+                else if (isMenuOpen()) { closeStartMenu(); }
+            }
+        });
+
+        initAlphaIndex();
+    </script>
+</body>
+</html>
