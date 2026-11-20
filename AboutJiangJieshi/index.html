@@ -1,0 +1,1820 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>蒋介石 1887—1975 · 民国人物志</title>
+<meta name="description" content="蒋介石（1887—1975）生平年表、史料影像与相关背景的复古风格专题页。">
+<link rel="icon" href="data:,">
+<style>
+/* =========================================================
+   民国人物志 · 蒋介石 1887—1975
+   复古纸本风格样式表
+   ========================================================= */
+
+:root{
+  --paper:#ece1c9;
+  --paper-2:#e4d7ba;
+  --paper-3:#dccba8;
+  --ink:#241b13;
+  --ink-soft:#4d3d2d;
+  --ink-mute:#6d5b47;
+  --red:#8c2b1f;
+  --red-2:#a8371f;
+  --gold:#b08d57;
+  --gold-soft:#c9ad78;
+  --line:rgba(60,40,20,.22);
+  --shadow:0 18px 40px -20px rgba(40,26,12,.55);
+  --serif:"Songti SC","STSong","SimSun","Noto Serif SC","Source Han Serif SC","Times New Roman",serif;
+  --kai:"KaiTi","STKaiti","Kaiti SC","楷体","Songti SC",serif;
+  --maxw:1180px;
+  --ease:cubic-bezier(.22,.68,.18,1);
+}
+
+*{box-sizing:border-box;}
+
+html{scroll-behavior:smooth;}
+
+body{
+  margin:0;
+  font-family:var(--serif);
+  color:var(--ink);
+  background-color:var(--paper);
+  background-image:
+    radial-gradient(900px 600px at 12% -6%, rgba(255,250,235,.85), transparent 62%),
+    radial-gradient(760px 520px at 96% 12%, rgba(214,192,152,.55), transparent 60%),
+    radial-gradient(1000px 800px at 50% 108%, rgba(203,180,140,.45), transparent 62%),
+    linear-gradient(150deg, #f0e6d1 0%, #e8dcc3 45%, #e0d1b2 100%);
+  background-attachment:fixed;
+  line-height:1.85;
+  letter-spacing:.02em;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+
+img{display:block;max-width:100%;}
+
+/* ---------- 滚动条（复古配色） ---------- */
+::-webkit-scrollbar{width:11px;height:11px;}
+::-webkit-scrollbar-track{background:rgba(60,40,20,.07);}
+::-webkit-scrollbar-thumb{
+  border:3px solid transparent;border-radius:8px;
+  background:linear-gradient(180deg,rgba(140,43,31,.62),rgba(176,141,87,.62)) border-box;
+  background-clip:padding-box;
+}
+::-webkit-scrollbar-thumb:hover{
+  background:linear-gradient(180deg,rgba(140,43,31,.85),rgba(176,141,87,.85)) border-box;
+  background-clip:padding-box;
+}
+::-webkit-scrollbar-corner{background:transparent;}
+
+a{color:inherit;text-decoration:none;}
+
+code{
+  font-family:"Consolas","Courier New",monospace;
+  font-size:.86em;
+  background:rgba(140,43,31,.1);
+  padding:.1em .4em;
+  border-radius:3px;
+}
+
+/* ---------- 纸张颗粒 & 进度 ---------- */
+.grain{
+  position:fixed;inset:-20%;
+  pointer-events:none;
+  z-index:80;
+  opacity:.055;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation:grainShift 6s steps(6) infinite;
+  will-change:transform;
+}
+@keyframes grainShift{
+  0%{transform:translate(0,0)}
+  20%{transform:translate(-2%,1.5%)}
+  40%{transform:translate(1.5%,-1%)}
+  60%{transform:translate(-1%,-2%)}
+  80%{transform:translate(2%,1%)}
+  100%{transform:translate(0,0)}
+}
+
+.progress{
+  position:fixed;top:0;left:0;right:0;height:3px;
+  z-index:90;background:rgba(36,27,19,.08);
+}
+.progress span{
+  display:block;height:100%;width:0%;
+  background:linear-gradient(90deg,var(--red),var(--red-2),var(--gold));
+  transition:width .12s linear;
+}
+
+/* ---------- 报头导航 ---------- */
+.masthead{
+  position:fixed;top:3px;left:0;right:0;z-index:70;
+  transition:background .45s var(--ease),box-shadow .45s var(--ease),border-color .45s;
+  border-bottom:1px solid transparent;
+}
+.masthead.solid{
+  background:rgba(240,231,211,.92);
+  backdrop-filter:blur(10px) saturate(1.1);
+  -webkit-backdrop-filter:blur(10px) saturate(1.1);
+  border-bottom-color:var(--line);
+  box-shadow:0 10px 30px -22px rgba(40,26,12,.8);
+}
+.masthead-inner{
+  max-width:var(--maxw);
+  margin:0 auto;
+  padding:14px 26px;
+  display:flex;align-items:center;justify-content:space-between;gap:18px;
+}
+.brand{display:flex;flex-direction:column;line-height:1.15;}
+.brand-cn{
+  font-size:1.12rem;font-weight:700;letter-spacing:.35em;
+  color:var(--ink);
+  transition:color .4s;
+}
+.brand-en{
+  font-size:.6rem;letter-spacing:.28em;color:var(--ink-mute);
+  text-transform:uppercase;
+  transition:color .4s;
+}
+/* 未滚动的深色首屏上，报头改用浅色 */
+.masthead:not(.solid) .brand-cn{color:rgba(246,236,214,.92);}
+.masthead:not(.solid) .brand-en{color:rgba(246,236,214,.5);}
+.masthead:not(.solid) .nav a{color:rgba(246,236,214,.72);}
+.masthead:not(.solid) .nav a:hover{color:#f6ecd6;}
+.nav{display:flex;gap:6px;}
+.nav a{
+  position:relative;
+  font-size:.92rem;
+  letter-spacing:.16em;
+  color:var(--ink-soft);
+  padding:6px 12px;
+  transition:color .3s;
+}
+.nav a::after{
+  content:"";position:absolute;left:12px;right:12px;bottom:2px;height:1px;
+  background:var(--red);transform:scaleX(0);transform-origin:left;
+  transition:transform .35s var(--ease);
+}
+.nav a:hover{color:var(--red);}
+.nav a:hover::after{transform:scaleX(1);}
+
+/* ---------- 通用版心 ---------- */
+.wrap{
+  width:min(var(--maxw),92vw);
+  margin:0 auto;
+}
+.section{position:relative;padding:120px 0;}
+.section + .section{padding-top:40px;}
+
+.section-head{
+  display:flex;align-items:baseline;gap:18px;
+  padding-bottom:16px;margin-bottom:54px;
+  border-bottom:3px double var(--line);
+  position:relative;
+}
+.section-head::after{
+  content:"";position:absolute;left:0;right:0;bottom:-9px;height:1px;
+  background:var(--line);opacity:.6;
+}
+.section-no{
+  font-size:.78rem;letter-spacing:.3em;color:var(--red);
+  border:1px solid rgba(140,43,31,.45);
+  padding:2px 9px;border-radius:2px;
+  background:rgba(140,43,31,.06);
+}
+.section-head h2{
+  margin:0;font-size:clamp(1.6rem,3.2vw,2.35rem);
+  letter-spacing:.34em;font-weight:700;
+}
+.section-en{
+  margin-left:auto;font-size:.68rem;letter-spacing:.34em;
+  color:var(--ink-mute);text-transform:uppercase;
+}
+.section-head.light h2,.section-head.light .section-en{color:#f1e6cf;}
+.section-head.light{border-bottom-color:rgba(241,230,207,.35);}
+.section-head.light::after{background:rgba(241,230,207,.3);}
+.section-head.light .section-no{color:var(--gold-soft);border-color:rgba(201,173,120,.5);background:rgba(201,173,120,.08);}
+
+/* ---------- 首屏 ---------- */
+.hero{
+  position:relative;
+  min-height:100svh;
+  display:flex;flex-direction:column;
+  justify-content:center;align-items:center;
+  padding:96px 24px 44px;
+  overflow:hidden;
+  isolation:isolate;
+  background:#0b0704;
+}
+.hero-bg{position:absolute;inset:-6% 0;z-index:-1;overflow:hidden;background:#0b0704;}
+.hero-photo{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  object-fit:contain;
+  object-position:center 46%;
+  filter:sepia(.4) contrast(1.04) brightness(.58) blur(.8px);
+  -webkit-mask-image:radial-gradient(ellipse 62% 70% at 50% 46%,#000 34%,rgba(0,0,0,.5) 60%,transparent 82%);
+  mask-image:radial-gradient(ellipse 62% 70% at 50% 46%,#000 34%,rgba(0,0,0,.5) 60%,transparent 82%);
+  will-change:transform;
+}
+.hero-veil{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(115% 85% at 50% 34%, rgba(18,12,8,.15) 0%, rgba(14,9,6,.72) 58%, rgba(10,7,5,.95) 100%),
+    linear-gradient(180deg, rgba(10,7,5,.85) 0%, rgba(10,7,5,.25) 32%, rgba(10,7,5,.55) 72%, rgba(10,7,5,.96) 100%);
+}
+.hero::after{
+  content:"";position:absolute;inset:26px;
+  border:1px solid rgba(241,230,207,.22);
+  pointer-events:none;
+  z-index:2;
+}
+
+.hero-content{
+  position:relative;z-index:3;
+  text-align:center;
+  padding:0 24px;
+  color:#f4ead4;
+}
+.hero-kicker{
+  margin:0 0 22px;
+  font-size:.76rem;letter-spacing:.5em;text-indent:.5em;
+  color:var(--gold-soft);
+}
+.hero-title{
+  margin:0;
+  display:flex;align-items:center;justify-content:center;gap:22px;
+  flex-wrap:wrap;
+}
+.hero-name{
+  font-size:clamp(3.4rem,11vw,7.4rem);
+  letter-spacing:.16em;
+  text-indent:.16em;
+  font-weight:700;
+  line-height:1.06;
+  text-shadow:0 12px 44px rgba(0,0,0,.55),0 2px 0 rgba(0,0,0,.3);
+}
+.seal{
+  display:inline-grid;place-items:center;
+  width:clamp(52px,7.4vw,76px);height:clamp(52px,7.4vw,76px);
+  background:linear-gradient(160deg,#a6331f,#7d2418);
+  color:#f7ecd6;
+  font-family:var(--kai);
+  font-size:clamp(1.7rem,3.6vw,2.5rem);
+  border-radius:7px;
+  box-shadow:0 8px 22px -8px rgba(0,0,0,.7),inset 0 0 0 3px rgba(247,236,214,.55);
+  transform:rotate(-6deg);
+  animation:sealFloat 7s ease-in-out infinite;
+}
+@keyframes sealFloat{
+  0%,100%{transform:rotate(-6deg) translateY(0)}
+  50%{transform:rotate(-3deg) translateY(-7px)}
+}
+.hero-years{
+  margin:26px 0 0;
+  font-size:clamp(.95rem,2.1vw,1.25rem);
+  letter-spacing:.62em;text-indent:.62em;
+  color:rgba(244,234,212,.9);
+}
+.hero-sub{
+  margin:10px 0 0;
+  font-size:clamp(.85rem,1.7vw,1.02rem);
+  letter-spacing:.28em;text-indent:.28em;
+  color:rgba(244,234,212,.72);
+}
+.hero-quote{
+  margin:38px auto 0;
+  max-width:30em;
+  font-family:var(--kai);
+  font-size:clamp(.95rem,1.9vw,1.12rem);
+  letter-spacing:.12em;
+  color:rgba(241,230,207,.62);
+}
+.hero-quote::before,
+.hero-quote::after{content:"—";margin:0 .8em;opacity:.5;}
+
+.scroll-hint{
+  position:relative;left:auto;bottom:auto;
+  transform:none;
+  margin-top:clamp(26px,5.2vh,52px);
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+  color:rgba(244,234,212,.6);
+  font-size:.72rem;letter-spacing:.34em;
+}
+.scroll-hint i{
+  width:1px;height:52px;
+  background:linear-gradient(180deg,rgba(244,234,212,.7),transparent);
+  position:relative;overflow:hidden;
+}
+.scroll-hint i::after{
+  content:"";position:absolute;top:-52px;left:0;width:1px;height:52px;
+  background:linear-gradient(180deg,transparent,var(--gold-soft));
+  animation:scrollLine 2.2s ease-in-out infinite;
+}
+@keyframes scrollLine{
+  0%{transform:translateY(0)}
+  100%{transform:translateY(104px)}
+}
+
+/* ---------- 导言 ---------- */
+.intro-body{
+  max-width:62em;
+  font-size:clamp(1rem,1.55vw,1.13rem);
+  color:var(--ink-soft);
+}
+.intro-body p{margin:0 0 1.5em;}
+.drop-cap::first-letter{
+  float:left;
+  font-size:4.2em;line-height:.86;
+  padding:.06em .16em 0 0;
+  color:var(--red);
+  font-family:var(--kai);
+  font-weight:700;
+}
+.fact-strip{
+  margin-top:56px;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:0;
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+}
+.fact{
+  padding:26px 18px;
+  text-align:center;
+  border-left:1px dashed var(--line);
+}
+.fact:first-child{border-left:0;}
+.fact b{
+  display:block;font-size:clamp(1.5rem,3vw,2.1rem);
+  color:var(--red);letter-spacing:.06em;line-height:1.2;
+  font-variant-numeric:tabular-nums;
+}
+.fact span{
+  display:block;margin-top:8px;
+  font-size:.8rem;letter-spacing:.14em;color:var(--ink-mute);
+}
+
+/* ---------- 年表 ---------- */
+.chronology{
+  background:
+    linear-gradient(180deg,rgba(255,252,242,.5),rgba(255,252,242,0) 30%),
+    rgba(228,215,186,.42);
+  border-top:1px solid rgba(60,40,20,.12);
+  border-bottom:1px solid rgba(60,40,20,.12);
+}
+.timeline{
+  list-style:none;margin:0;padding:0;
+  position:relative;
+}
+.timeline::before{
+  content:"";position:absolute;top:6px;bottom:6px;left:118px;width:1px;
+  background:linear-gradient(180deg,transparent,rgba(140,43,31,.35) 6%,rgba(140,43,31,.35) 94%,transparent);
+}
+.tl-item{
+  display:grid;
+  grid-template-columns:100px 1fr;
+  gap:0 52px;
+  position:relative;
+  padding:16px 0;
+}
+.tl-item::before{
+  content:"";position:absolute;left:113px;top:32px;
+  width:11px;height:11px;border-radius:50%;
+  background:var(--paper);
+  border:2px solid var(--red);
+  box-shadow:0 0 0 4px rgba(236,225,201,.9);
+  transition:background .4s,transform .4s var(--ease);
+}
+.tl-item.in::before{background:var(--red);transform:scale(1.08);}
+.tl-year{
+  font-size:1.28rem;
+  letter-spacing:.06em;
+  color:var(--red);
+  font-variant-numeric:tabular-nums;
+  text-align:right;
+  padding-right:0;
+  padding-top:14px;
+  line-height:1.2;
+}
+.tl-body{padding:10px 0 10px 8px;}
+.tl-body h3{
+  margin:0 0 6px;font-size:1.06rem;letter-spacing:.14em;font-weight:700;
+}
+.tl-body p{
+  margin:0;color:var(--ink-soft);font-size:.96rem;
+  max-width:46em;
+}
+
+/* ---------- 生平章节 ---------- */
+.chapter{
+  display:grid;
+  grid-template-columns:1.02fr 1fr;
+  gap:clamp(30px,5vw,72px);
+  align-items:center;
+  padding:64px 0;
+  border-bottom:1px solid rgba(60,40,20,.12);
+}
+.chapter:last-child{border-bottom:0;}
+.chapter.reverse{grid-template-columns:1fr 1.02fr;}
+.chapter.reverse .photo-frame{order:2;}
+.chapter.reverse .chapter-text{order:1;}
+
+.chapter-text .chapter-no{
+  margin:0 0 10px;
+  font-size:.72rem;letter-spacing:.42em;color:var(--red);
+}
+.chapter-text h3{
+  margin:0 0 18px;
+  font-size:clamp(1.35rem,2.6vw,1.85rem);
+  letter-spacing:.16em;font-weight:700;
+  position:relative;
+  padding-bottom:14px;
+}
+.chapter-text h3::after{
+  content:"";position:absolute;left:0;bottom:0;width:56px;height:2px;
+  background:var(--red);opacity:.7;
+}
+.chapter-text p{
+  margin:0 0 1.1em;
+  color:var(--ink-soft);
+  font-size:clamp(.96rem,1.35vw,1.06rem);
+}
+
+/* 老照片相框 */
+.photo-frame{
+  position:relative;
+  margin:0;
+  padding:14px 14px 46px;
+  background:linear-gradient(160deg,#f7f1e2,#efe4cc);
+  border:1px solid rgba(90,66,38,.35);
+  box-shadow:var(--shadow),inset 0 0 0 1px rgba(255,255,255,.6);
+  transition:transform .7s var(--ease),box-shadow .7s var(--ease);
+}
+.photo-frame::before,
+.photo-frame::after{
+  content:"";position:absolute;width:74px;height:20px;
+  background:linear-gradient(180deg,rgba(214,196,158,.85),rgba(198,178,136,.7));
+  box-shadow:0 1px 3px rgba(60,40,20,.25);
+  opacity:.9;
+}
+.photo-frame::before{top:-9px;left:22px;transform:rotate(-4deg);}
+.photo-frame::after{top:-9px;right:22px;transform:rotate(3.5deg);}
+.photo-frame img{
+  width:100%;
+  max-height:min(540px,64vh);
+  object-fit:cover;
+  object-position:center 20%;
+  filter:sepia(.18) contrast(1.03) saturate(.9);
+  transition:filter .8s var(--ease),transform .9s var(--ease);
+  background:#cfc0a0;
+}
+/* 报纸剪报：完整呈现，不裁切 */
+.photo-frame.clipping img{
+  object-fit:contain;
+  object-position:center top;
+  background:#f0e8d4;
+  max-height:min(620px,72vh);
+}
+.photo-frame:hover img{filter:sepia(0) contrast(1.06) saturate(1.05);}
+.photo-frame figcaption{
+  position:absolute;left:14px;right:14px;bottom:12px;
+  text-align:center;
+  font-size:.76rem;letter-spacing:.1em;color:var(--ink-mute);
+  font-family:var(--kai);
+  line-height:1.4;
+}
+.tilt-l{transform:rotate(-1.4deg);}
+.tilt-r{transform:rotate(1.3deg);}
+.tilt-l:hover{transform:rotate(0deg) translateY(-6px);}
+.tilt-r:hover{transform:rotate(0deg) translateY(-6px);}
+
+.photo-frame.stacked{padding-bottom:14px;}
+.photo-frame.stacked img{max-height:420px;object-fit:cover;}
+.photo-frame.stacked img.second{
+  margin-top:10px;max-height:250px;
+  filter:sepia(.35) contrast(1.02) saturate(.75);
+}
+.photo-frame.stacked figcaption{
+  position:static;margin-top:10px;bottom:auto;
+}
+
+/* ---------- 影像档案 ---------- */
+.archive{
+  background:
+    radial-gradient(900px 500px at 50% 0%,rgba(87,62,38,.55),transparent 65%),
+    linear-gradient(180deg,#241a12 0%,#2e2218 46%,#1d150f 100%);
+  color:#efe3cb;
+  padding:120px 0;
+}
+.player{
+  position:relative;
+  max-width:1000px;margin:0 auto;
+  padding:16px;
+  background:linear-gradient(160deg,#3b2c1f,#241a12 60%);
+  border:1px solid rgba(201,173,120,.28);
+  border-radius:4px;
+  box-shadow:0 40px 80px -40px #000,inset 0 0 0 1px rgba(255,255,255,.05);
+  outline:none;
+}
+.player:focus-visible{box-shadow:0 0 0 3px rgba(201,173,120,.6),0 40px 80px -40px #000;}
+.player-screen{
+  position:relative;
+  aspect-ratio:16/9;
+  overflow:hidden;
+  background:#0b0806;
+  border:1px solid rgba(201,173,120,.18);
+}
+.slides{position:absolute;inset:0;}
+.slide{
+  position:absolute;inset:0;margin:0;
+  opacity:0;
+  transition:opacity 1.4s ease;
+}
+.slide.is-active{opacity:1;z-index:2;}
+.slide img{
+  width:100%;height:100%;object-fit:contain;
+  background:#0b0806;
+  filter:sepia(.3) contrast(1.06) brightness(.9) saturate(.85);
+  transform:scale(1);
+}
+.slide.is-active img{
+  animation:kenburns 8.5s linear forwards;
+}
+@keyframes kenburns{
+  from{transform:scale(1) translate3d(0,0,0);}
+  to{transform:scale(1.06) translate3d(-.8%,-.9%,0);}
+}
+.player-grain{
+  position:absolute;inset:0;z-index:3;pointer-events:none;
+  opacity:.14;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation:grainShift 1.1s steps(4) infinite;
+}
+.player-vignette{
+  position:absolute;inset:0;z-index:3;pointer-events:none;
+  background:radial-gradient(115% 95% at 50% 50%,transparent 42%,rgba(8,5,3,.82) 100%);
+}
+.player-screen::after{
+  content:"";position:absolute;inset:0;z-index:4;pointer-events:none;
+  background:repeating-linear-gradient(180deg,rgba(0,0,0,.18) 0 1px,transparent 1px 4px);
+  opacity:.35;
+  animation:flicker 3.4s ease-in-out infinite;
+}
+@keyframes flicker{
+  0%,100%{opacity:.28}
+  42%{opacity:.4}
+  47%{opacity:.22}
+  62%{opacity:.36}
+}
+.player-caption{
+  position:absolute;left:0;right:0;bottom:0;z-index:5;
+  padding:16px 20px 18px;
+  font-size:.88rem;letter-spacing:.12em;
+  color:#f3e8d0;
+  font-family:var(--kai);
+  background:linear-gradient(180deg,transparent,rgba(8,5,3,.85));
+  transition:opacity .5s;
+}
+.player-controls{
+  display:flex;align-items:center;gap:10px;
+  padding:16px 4px 4px;
+}
+.pbtn{
+  width:44px;height:44px;
+  display:grid;place-items:center;
+  border-radius:50%;
+  border:1px solid rgba(201,173,120,.55);
+  background:rgba(201,173,120,.1);
+  color:#f0e4c9;
+  cursor:pointer;
+  font-size:1.1rem;
+  transition:background .3s,transform .3s var(--ease),border-color .3s;
+  font-family:var(--serif);
+}
+.pbtn:hover{background:rgba(201,173,120,.24);transform:translateY(-2px);}
+.pbtn:active{transform:translateY(0) scale(.96);}
+.pbtn.ghost{width:36px;height:36px;font-size:1.25rem;border-color:rgba(201,173,120,.3);}
+.icon-pause,.icon-play{
+  display:block;width:14px;height:14px;position:relative;
+}
+.icon-pause::before,.icon-pause::after{
+  content:"";position:absolute;top:0;width:4px;height:14px;
+  background:currentColor;border-radius:1px;
+}
+.icon-pause::before{left:0;}
+.icon-pause::after{right:0;}
+.icon-play::before{
+  content:"";position:absolute;left:2px;top:0;
+  border-left:12px solid currentColor;
+  border-top:7px solid transparent;
+  border-bottom:7px solid transparent;
+}
+.dots{display:flex;gap:8px;margin-left:auto;align-items:center;}
+.dot{
+  width:8px;height:8px;border-radius:50%;
+  border:1px solid rgba(201,173,120,.6);
+  background:transparent;cursor:pointer;padding:0;
+  transition:background .3s,transform .3s;
+}
+.dot.is-active{background:var(--gold-soft);transform:scale(1.25);}
+.archive-note{
+  text-align:center;margin:26px 0 0;
+  font-size:.78rem;letter-spacing:.16em;
+  color:rgba(239,227,203,.5);
+}
+
+/* ---------- 纪念图集 ---------- */
+.gallery{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:22px;
+}
+.gal-item{
+  position:relative;margin:0;overflow:hidden;
+  border:1px solid rgba(90,66,38,.3);
+  background:#d9c9a8;
+  box-shadow:var(--shadow);
+  cursor:default;
+}
+.gal-item.wide{grid-column:span 2;}
+.gal-item img{
+  width:100%;height:100%;
+  aspect-ratio:4/3;
+  object-fit:cover;
+  filter:sepia(.22) contrast(1.02) saturate(.92);
+  transition:transform 1s var(--ease),filter .8s var(--ease);
+}
+.gal-item.wide img{aspect-ratio:16/7;}
+.gal-item:hover img{transform:scale(1.05);filter:sepia(0) saturate(1.05);}
+.gal-item figcaption{
+  position:absolute;left:0;right:0;bottom:0;
+  padding:34px 18px 16px;
+  background:linear-gradient(180deg,transparent,rgba(12,8,5,.82));
+  color:#f2e7cf;
+  display:flex;flex-direction:column;gap:2px;
+}
+.gal-item figcaption b{font-size:1rem;letter-spacing:.18em;}
+.gal-item figcaption span{font-size:.76rem;letter-spacing:.1em;opacity:.75;font-family:var(--kai);}
+
+/* ---------- 资料 ---------- */
+.credits{padding-bottom:60px;}
+.credits-grid{
+  display:grid;grid-template-columns:1.15fr .85fr;gap:26px;
+}
+.credit-card{
+  padding:32px 30px;
+  background:linear-gradient(160deg,rgba(255,252,244,.75),rgba(246,238,220,.55));
+  border:1px solid var(--line);
+  box-shadow:0 20px 40px -34px rgba(50,32,14,.9);
+  position:relative;
+}
+.credit-card::before{
+  content:"";position:absolute;left:0;top:0;bottom:0;width:3px;
+  background:linear-gradient(180deg,var(--red),var(--gold));
+  opacity:.75;
+}
+.credit-card h3{
+  margin:0 0 14px;font-size:1.05rem;letter-spacing:.24em;
+}
+.credit-card p{margin:0 0 1em;font-size:.94rem;color:var(--ink-soft);}
+.credit-list{
+  margin:0;padding-left:1.1em;
+  font-size:.88rem;color:var(--ink-soft);line-height:2;
+}
+.credit-list li::marker{color:var(--red);}
+.sign{
+  text-align:right;font-family:var(--kai);letter-spacing:.2em;
+  color:var(--ink-mute);margin-top:26px !important;
+}
+.footer{
+  margin-top:56px;padding-top:30px;
+  border-top:3px double var(--line);
+  text-align:center;color:var(--ink-mute);font-size:.86rem;
+}
+.footer p{margin:0 0 8px;}
+.copy{font-size:.76rem;letter-spacing:.14em;opacity:.75;}
+
+/* ---------- 音乐悬浮球 ---------- */
+.music-ball{
+  position:fixed;right:26px;bottom:26px;z-index:75;
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  user-select:none;
+}
+.disc-btn{
+  position:relative;
+  width:78px;height:78px;
+  border-radius:50%;
+  border:1px solid rgba(201,173,120,.5);
+  background:radial-gradient(circle at 32% 28%,#4a3826,#1e1610 62%);
+  cursor:pointer;
+  padding:0;
+  box-shadow:0 16px 32px -14px rgba(0,0,0,.65),0 0 0 6px rgba(236,225,201,.55);
+  transition:transform .4s var(--ease),box-shadow .4s var(--ease);
+  display:grid;place-items:center;
+}
+.disc-btn:hover{transform:translateY(-3px) scale(1.03);}
+.disc-btn:active{transform:scale(.97);}
+.disc-btn:focus{outline:none;}
+.disc-btn:focus-visible{outline:2px solid var(--gold-soft);outline-offset:5px;}
+.disc{
+  position:absolute;inset:7px;border-radius:50%;
+  background:
+    repeating-radial-gradient(circle at 50% 50%,rgba(255,255,255,.05) 0 1px,transparent 1px 4px),
+    radial-gradient(circle at 50% 50%,#7a5f3c 0 26%,#2a1e15 27% 100%);
+  box-shadow:inset 0 0 12px rgba(0,0,0,.8);
+}
+.disc-hole{
+  position:absolute;left:50%;top:50%;
+  width:12px;height:12px;margin:-6px 0 0 -6px;
+  border-radius:50%;
+  background:radial-gradient(circle,#e8dcc3 0 40%,#8c2b1f 41% 100%);
+  box-shadow:0 0 0 3px rgba(0,0,0,.5);
+}
+.disc-btn.playing .disc{animation:spin 6s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+.eq{
+  position:relative;z-index:2;
+  display:flex;align-items:flex-end;gap:3px;
+  height:20px;
+  opacity:0;transition:opacity .3s;
+}
+.disc-btn.playing .eq{opacity:1;}
+.eq i{
+  display:block;width:3px;height:6px;border-radius:2px;
+  background:linear-gradient(180deg,var(--gold-soft),var(--red-2));
+  animation:eqBounce 1s ease-in-out infinite;
+}
+.eq i:nth-child(2){animation-delay:.15s;}
+.eq i:nth-child(3){animation-delay:.32s;}
+.eq i:nth-child(4){animation-delay:.46s;}
+@keyframes eqBounce{
+  0%,100%{height:5px;opacity:.7}
+  50%{height:18px;opacity:1}
+}
+.music-label{
+  font-size:.72rem;letter-spacing:.2em;
+  color:var(--ink-soft);
+  background:rgba(236,225,201,.86);
+  padding:2px 10px;border-radius:2px;
+  border:1px solid var(--line);
+  transition:color .3s,background .3s;
+}
+.music-ball.playing .music-label{color:var(--red);}
+/* 自动播放被拦截时的提示状态 */
+.music-ball.needs-start .disc-btn{animation:needPulse 1.9s ease-in-out infinite;}
+@keyframes needPulse{
+  0%,100%{box-shadow:0 16px 32px -14px rgba(0,0,0,.65),0 0 0 6px rgba(236,225,201,.55);}
+  50%{box-shadow:0 16px 32px -14px rgba(0,0,0,.65),0 0 0 16px rgba(140,43,31,.18);}
+}
+.music-ball.needs-start .music-label{
+  color:#f7ecd6;background:var(--red);border-color:rgba(140,43,31,.6);
+  animation:needBlink 1.9s ease-in-out infinite;
+}
+@keyframes needBlink{0%,100%{opacity:1;}50%{opacity:.62;}}
+.music-title{
+  position:absolute;right:calc(100% + 14px);top:26px;
+  white-space:nowrap;
+  font-size:.74rem;letter-spacing:.18em;
+  color:var(--ink-mute);
+  background:rgba(236,225,201,.9);
+  border:1px solid var(--line);
+  padding:5px 12px;border-radius:2px;
+  opacity:0;transform:translateX(8px);pointer-events:none;
+  transition:opacity .35s var(--ease),transform .35s var(--ease);
+}
+.music-ball:hover .music-title{opacity:1;transform:translateX(0);}
+.music-ball.playing .disc-btn{box-shadow:0 16px 32px -14px rgba(0,0,0,.65),0 0 0 6px rgba(236,225,201,.55),0 0 0 10px rgba(140,43,31,.12);}
+
+/* ---------- 提示条 ---------- */
+.toast{
+  position:fixed;left:50%;bottom:34px;z-index:95;
+  transform:translate(-50%,20px);
+  padding:11px 22px;
+  border-radius:3px;
+  background:rgba(36,27,19,.92);
+  color:#f2e7cf;
+  font-size:.84rem;letter-spacing:.12em;
+  border:1px solid rgba(201,173,120,.35);
+  box-shadow:0 16px 30px -18px #000;
+  opacity:0;pointer-events:none;
+  transition:opacity .4s var(--ease),transform .4s var(--ease);
+  max-width:86vw;text-align:center;
+}
+.toast.show{opacity:1;transform:translate(-50%,0);}
+/* 无文本时不绘制底板，避免残留占位块 */
+.toast:empty{background:transparent;border-color:transparent;box-shadow:none;}
+
+/* ---------- 滚动揭示 ---------- */
+.reveal{
+  opacity:0;
+  transform:translateY(30px);
+  transition:opacity .9s var(--ease),transform .9s var(--ease);
+  transition-delay:var(--d,0s);
+}
+.reveal.in{opacity:1;transform:none;}
+
+/* 首屏元素错峰入场 */
+.hero .reveal{transform:translateY(26px);transition-duration:1.1s;}
+.hero .reveal:nth-child(1){--d:.6s;}
+.hero .reveal:nth-child(2){--d:.78s;}
+.hero .reveal:nth-child(3){--d:.92s;}
+.hero .reveal:nth-child(4){--d:1.04s;}
+.hero .reveal:nth-child(5){--d:1.16s;}
+
+/* ---------- 响应式 ---------- */
+@media (max-width:1000px){
+  .chapter,.chapter.reverse{grid-template-columns:1fr;gap:34px;}
+  .chapter.reverse .photo-frame{order:0;}
+  .chapter.reverse .chapter-text{order:1;}
+  .photo-frame.stacked{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding-bottom:14px;}
+  .photo-frame.stacked img{max-height:300px;}
+  .photo-frame.stacked img.second{margin-top:0;max-height:300px;}
+  .photo-frame.stacked figcaption{grid-column:span 2;position:static;}
+  .credits-grid{grid-template-columns:1fr;}
+}
+
+@media (max-width:760px){
+  .masthead-inner{padding:10px 14px;gap:10px;}
+  .brand-cn{font-size:.98rem;letter-spacing:.12em;white-space:nowrap;}
+  .brand-en{display:none;}
+  .nav{gap:0;}
+  .nav a{padding:6px 6px;font-size:.78rem;letter-spacing:.04em;white-space:nowrap;}
+  .hero-sub{letter-spacing:.1em;text-indent:.1em;font-size:.82rem;}
+  .hero-photo{filter:sepia(.4) contrast(1.03) brightness(.66) blur(.5px);}
+  .section{padding:78px 0;}
+  .section + .section{padding-top:20px;}
+  .section-head{flex-wrap:wrap;gap:8px 14px;margin-bottom:38px;}
+  .section-en{display:none;}
+  .fact-strip{grid-template-columns:1fr 1fr;}
+  .fact{border-left:0;border-top:1px dashed var(--line);}
+  .fact:nth-child(-n+2){border-top:0;}
+  .fact:nth-child(even){border-left:1px dashed var(--line);}
+  .timeline::before{left:74px;}
+  .tl-item{grid-template-columns:58px 1fr;gap:0 34px;}
+  .tl-item::before{left:69px;}
+  .tl-year{font-size:.98rem;letter-spacing:0;padding-top:15px;}
+  .gallery{grid-template-columns:1fr;}
+  .gal-item.wide{grid-column:span 1;}
+  .gal-item.wide img{aspect-ratio:4/3;}
+  .player{padding:10px;}
+  .player-caption{padding:12px 14px 14px;font-size:.78rem;}
+  .music-ball{right:16px;bottom:16px;}
+  .disc-btn{width:64px;height:64px;}
+  .music-title{display:none;}
+  .hero::after{inset:14px;}
+  .scroll-hint{margin-top:30px;}
+}
+
+@media (max-width:430px){
+  .hero-name{letter-spacing:.08em;text-indent:.08em;}
+  .hero-years{letter-spacing:.36em;text-indent:.36em;}
+  .hero-quote{display:none;}
+  .pbtn{width:40px;height:40px;}
+  .pbtn.ghost{width:32px;height:32px;}
+}
+
+/* ---------- 无障碍：减少动态 ---------- */
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto;}
+  *,*::before,*::after{
+    animation-duration:.001ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.001ms !important;
+  }
+  .reveal{opacity:1;transform:none;}
+  .hero-photo{transform:none;}
+}
+
+</style>
+<noscript><style>.reveal{opacity:1 !important;transform:none !important;}</style></noscript>
+</head>
+
+<body>
+
+<!-- 纸张颗粒 -->
+<div class="grain" aria-hidden="true"></div>
+<!-- 阅读进度 -->
+<div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
+
+<!-- 顶部报头导航 -->
+<header class="masthead" id="masthead">
+  <div class="masthead-inner">
+    <a class="brand" href="#top">
+      <span class="brand-cn">民国人物志</span>
+      <span class="brand-en">CHIANG KAI-SHEK</span>
+    </a>
+    <nav class="nav" aria-label="页面导航">
+      <a href="#intro">导言</a>
+      <a href="#chronology">年表</a>
+      <a href="#life">生平</a>
+      <a href="#archive">影像</a>
+      <a href="#credits">资料</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ============ 首屏 ============ -->
+  <section class="hero" id="hero">
+    <div class="hero-bg" aria-hidden="true">
+      <img src="assets/img/portrait-1955.png" alt="" class="hero-photo" id="heroPhoto">
+      <div class="hero-veil"></div>
+    </div>
+
+    <div class="hero-content">
+      <p class="hero-kicker reveal">第一辑 · 近代人物</p>
+      <h1 class="hero-title">
+        <span class="hero-name reveal">蒋介石</span>
+        <span class="seal reveal" aria-hidden="true">介</span>
+      </h1>
+      <p class="hero-years reveal">1887 &mdash; 1975</p>
+      <p class="hero-sub reveal">名中正 · 字介石 · 浙江奉化溪口人</p>
+      <p class="hero-quote reveal">“以国家兴亡为己任，置个人死生于度外。”</p>
+    </div>
+
+    <a class="scroll-hint" href="#intro" aria-label="向下浏览">
+      <span>向下浏览</span>
+      <i aria-hidden="true"></i>
+    </a>
+  </section>
+
+  <!-- ============ 导言 ============ -->
+  <section class="section intro" id="intro">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="section-no">壹</span>
+        <h2>导 言</h2>
+        <span class="section-en">PROLOGUE</span>
+      </div>
+
+      <div class="intro-body">
+        <p class="drop-cap reveal">
+          蒋介石（1887—1975），名中正，字介石，浙江奉化溪口人，二十世纪中国重要的军事与政治人物之一。
+          他自黄埔建军起进入政治舞台的中心，历经北伐、抗日战争与国共内战；1949 年后退守台湾，在那里度过晚年。
+        </p>
+        <p class="reveal">
+          关于他的功过是非，史学界与两岸社会至今仍有不同的评价与叙述。本页不试图给出定论，
+          而是按时序梳理其生平脉络，辅以公开的历史照片与文献线索，供读者自行体察。
+        </p>
+        <p class="reveal">
+          页面所用图像多来自公有领域及开放授权档案（详见文末「资料与说明」）。
+        </p>
+      </div>
+
+      <div class="fact-strip reveal">
+        <div class="fact"><b>1887</b><span>清光绪十三年 生于溪口</span></div>
+        <div class="fact"><b>1924</b><span>出任黄埔军校校长</span></div>
+        <div class="fact"><b>1943</b><span>出席开罗会议</span></div>
+        <div class="fact"><b>1975</b><span>病逝于台北</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 年表 ============ -->
+  <section class="section chronology" id="chronology">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="section-no">贰</span>
+        <h2>生平年表</h2>
+        <span class="section-en">CHRONOLOGY</span>
+      </div>
+
+      <ol class="timeline">
+        <li class="tl-item reveal">
+          <span class="tl-year">1887</span>
+          <div class="tl-body">
+            <h3>溪口出生</h3>
+            <p>10 月 31 日生于浙江奉化溪口镇，乳名瑞元，学名志清，后改名中正，字介石。</p>
+          </div>
+        </li>
+        <li class="tl-item reveal">
+          <span class="tl-year">1906</span>
+          <div class="tl-body">
+            <h3>东渡求学</h3>
+            <p>赴日本学习军事，后入振武学校，并在日本陆军部队中实习。</p>
+          </div>
+        </li>
+        <li class="tl-item reveal">
+          <span class="tl-year">1911</span>
+          <div class="tl-body">
+            <h3>投身革命</h3>
+            <p>辛亥革命爆发后返国，参与光复上海、杭州等地的行动。</p>
+          </div>
+        </li>
+        <li class="tl-item reveal">
+          <span class="tl-year">1924</span>
+          <div class="tl-body">
+            <h3>黄埔建军</h3>
+            <p>受孙中山委任，出任黄埔军校（陆军军官学校）校长，主持国民革命军的干部养成。</p>
+          </div>
+        </li>
+        <li class="tl-item reveal">
+          <span class="tl-year">1926</span>
+          <div class="tl-body">
+            <h3>誓师北伐</h3>
+            <p>就任国民革命军总司令，率军北伐，以期结束北洋军阀割据的局面。</p>
+          </div>
+        </li>
+        <li class="tl-item reveal">
+          <span class="tl-year">1927</span>
+          <div class="tl-body">
+            <h3>定都南京 · 成婚</h3>
+            <p>南京国民政府成立；同年 12 月 1 日与宋美龄在上海结婚。</p>
+          </div>
+        </li>
+        <li class="tl-item reveal">
+          <span class="tl-year">1928</span>
+          <div class="tl-body">
+            <h3>北伐告成</h3>
+            <p>北伐完成，全国在形式上归于统一，出任国民政府主席。</p>
+          </div>
+        </li>
+        <li class="tl-item reveal">
+          <span class="tl-year">1936</span>
+          <div class="tl-body">
+            <h3>西安事变</h3>
+            <p>12 月于西安被张学良、杨虎城扣留，事变最终以和平方式解决。</p>
+          </div>
+        </li>
+        <li class="tl-item reveal">
+          <span class="tl-year">1937</span>
+          <div class="tl-body">
+            <h3>全面抗战</h3>
+            <p>七七事变后全面抗战爆发，任军事委员会委员长，国民政府迁驻重庆。</p>
+          </div>
+        </li>
+        <li class="tl-item reveal">
+          <span class="tl-year">1943</span>
+          <div class="tl-body">
+            <h3>开罗会议</h3>
+            <p>与美国总统罗斯福、英国首相丘吉尔会晤，共商战后远东的安排。</p>
+          </div>
+        </li>
+        <li class="tl-item reveal">
+          <span class="tl-year">1945</span>
+          <div class="tl-body">
+            <h3>抗战胜利</h3>
+            <p>8 月日本投降，中国取得抗日战争的胜利；其后内战再起。</p>
+          </div>
+        </li>
+        <li class="tl-item reveal">
+          <span class="tl-year">1948</span>
+          <div class="tl-body">
+            <h3>当选总统</h3>
+            <p>行宪后当选中华民国第一任总统，翌年局势逆转。</p>
+          </div>
+        </li>
+        <li class="tl-item reveal">
+          <span class="tl-year">1949</span>
+          <div class="tl-body">
+            <h3>迁往台北</h3>
+            <p>国民政府迁往台北，次年复行视事，此后在台湾主持政务与建设。</p>
+          </div>
+        </li>
+        <li class="tl-item reveal">
+          <span class="tl-year">1975</span>
+          <div class="tl-body">
+            <h3>台北逝世</h3>
+            <p>4 月 5 日病逝于台北士林官邸，享年 89 岁；灵柩暂厝桃园慈湖。</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ 生平专题 ============ -->
+  <section class="section life" id="life">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="section-no">叁</span>
+        <h2>生平纪事</h2>
+        <span class="section-en">A LIFE IN SIX CHAPTERS</span>
+      </div>
+
+      <!-- 1 -->
+      <article class="chapter reveal">
+        <figure class="photo-frame clipping tilt-l">
+          <img src="assets/img/portrait-1928.jpg" alt="1928 年报纸刊登的蒋介石军装照" loading="lazy">
+          <figcaption>1928 年报纸刊登的蒋介石军装照（美联社）</figcaption>
+        </figure>
+        <div class="chapter-text">
+          <p class="chapter-no">第一章</p>
+          <h3>溪口少年 · 求学与从军</h3>
+          <p>
+            溪口位于浙江奉化的山间，剡溪自此流过。蒋介石幼年入私塾读经史，青年时先后就读于保定军校与日本振武学校，
+            接受近代军事训练。辛亥之年他返国投身革命，此后十余年间在粤军与革命党人中辗转历练。
+          </p>
+          <p>
+            1923 年，他曾作为「孙逸仙博士代表团」成员赴苏联考察军事与党务，这段经历对其后的建军思路影响深远。
+          </p>
+        </div>
+      </article>
+
+      <!-- 2 -->
+      <article class="chapter reverse reveal">
+        <figure class="photo-frame tilt-r">
+          <img src="assets/img/whampoa-1924.jpg" alt="1924 年黄埔军校开学典礼上的孙中山与军官" loading="lazy">
+          <figcaption>1924 年黄埔军校开学典礼（孙中山居中）</figcaption>
+        </figure>
+        <div class="chapter-text">
+          <p class="chapter-no">第二章</p>
+          <h3>黄埔建军 · 国民革命</h3>
+          <p>
+            1924 年，黄埔军校在广州长洲岛创立，孙中山任总理，蒋介石任校长。军校以「亲爱精诚」为校训，
+            培养出一批批军事与政治干部，成为国民革命军的骨干。
+          </p>
+          <p>
+            建校之初，军校在苏联顾问的协助下建立制度、编练部队；国共合作亦以此为重要舞台，
+            校内政治教育与军事训练并行。
+          </p>
+        </div>
+      </article>
+
+      <!-- 3 -->
+      <article class="chapter reveal">
+        <figure class="photo-frame tilt-l">
+          <img src="assets/img/canton-1926.jpg" alt="1926 年广州，蒋介石与汪精卫、鲍罗廷等人合影" loading="lazy">
+          <figcaption>1926 年 1 月，广州，蒋介石与汪精卫、鲍罗廷等人合影</figcaption>
+        </figure>
+        <div class="chapter-text">
+          <p class="chapter-no">第三章</p>
+          <h3>北伐与南京十年</h3>
+          <p>
+            1926 年 7 月，国民革命军在广州誓师北伐。两年之间，北伐军由南而北，击破吴佩孚、孙传芳等部；
+            1928 年，东北易帜，全国在形式上归于统一。
+          </p>
+          <p>
+            此后十年，南京国民政府推进关税自主、币制改革与基础设施建设，被部分史家称为「黄金十年」；
+            与此同时，内部纷争与「剿共」战事亦未曾停歇。1936 年的西安事变，成为其政治生涯的重要转折。
+          </p>
+        </div>
+      </article>
+
+      <!-- 4 -->
+      <article class="chapter reverse reveal">
+        <figure class="photo-frame tilt-r stacked">
+          <img src="assets/img/wedding-1927.jpg" alt="1927 年蒋介石与宋美龄的结婚照" loading="lazy">
+          <img src="assets/img/couple-1941.png" alt="1941 年蒋介石与宋美龄合影" loading="lazy" class="second">
+          <figcaption>上：1927 年结婚照　下：1941 年合影</figcaption>
+        </figure>
+        <div class="chapter-text">
+          <p class="chapter-no">第四章</p>
+          <h3>家与婚姻</h3>
+          <p>
+            1927 年 12 月 1 日，蒋介石与宋美龄在上海结婚。此后近半个世纪，宋美龄以其出色的外语与社交能力，
+            在抗战外交、妇女工作与国际宣传等方面扮演重要角色。
+          </p>
+          <p>
+            1943 年的开罗会议上，宋美龄以蒋介石的翻译与顾问身份随行，成为当时国际舆论关注的焦点之一。
+          </p>
+        </div>
+      </article>
+
+      <!-- 5 -->
+      <article class="chapter reveal">
+        <figure class="photo-frame tilt-l wide">
+          <img src="assets/img/cairo-1943.jpg" alt="1943 年开罗会议：蒋介石、罗斯福与丘吉尔" loading="lazy">
+          <figcaption>1943 年 11 月，开罗会议：蒋介石（左）、罗斯福（中）、丘吉尔（右）</figcaption>
+        </figure>
+        <div class="chapter-text">
+          <p class="chapter-no">第五章</p>
+          <h3>抗战八年</h3>
+          <p>
+            1937 年七七事变后，全面抗战爆发。国民政府迁都重庆，以西南为根据地坚持抵抗；
+            蒋介石以军事委员会委员长身份统筹战局，中国战场成为世界反法西斯战争的重要一环。
+          </p>
+          <p>
+            1943 年 11 月，他与罗斯福、丘吉尔在开罗会晤，会后发表的《开罗宣言》明确日本须归还所窃取的中国领土。
+            1945 年 8 月，日本宣布无条件投降。
+          </p>
+        </div>
+      </article>
+
+      <!-- 6 -->
+      <article class="chapter reverse reveal">
+        <figure class="photo-frame tilt-r">
+          <img src="assets/img/taiwan-1946.jpg" alt="1946 年蒋介石与宋美龄在台湾，身后为民航 C-47 运输机" loading="lazy">
+          <figcaption>1946 年 10 月，蒋介石与宋美龄抵台，身后为 C-47 运输机</figcaption>
+        </figure>
+        <div class="chapter-text">
+          <p class="chapter-no">第六章</p>
+          <h3>内战与台湾岁月</h3>
+          <p>
+            抗战胜利后，国共内战全面爆发。1949 年，国民政府迁往台北，蒋介石于次年复行视事，
+            此后在台湾主持政务，推动土地改革、经济与教育事业的发展。
+          </p>
+          <p>
+            晚年他深居简出，1975 年 4 月 5 日病逝于台北士林官邸。其灵柩依遗愿暂厝桃园慈湖，
+            至今未正式下葬。
+          </p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============ 影像档案（动态幻灯片） ============ -->
+  <section class="section archive" id="archive">
+    <div class="wrap">
+      <div class="section-head light reveal">
+        <span class="section-no">肆</span>
+        <h2>影像档案</h2>
+        <span class="section-en">VISUAL ARCHIVE</span>
+      </div>
+
+      <div class="player reveal" id="player" tabindex="0" aria-label="历史影像幻灯片">
+        <div class="player-screen">
+          <div class="slides" id="slides">
+            <figure class="slide is-active">
+              <img src="assets/img/portrait-1928.jpg" alt="1928 年报纸刊登的蒋介石军装照" loading="lazy">
+            </figure>
+            <figure class="slide">
+              <img src="assets/img/whampoa-1924.jpg" alt="黄埔军校开学典礼" loading="lazy">
+            </figure>
+            <figure class="slide">
+              <img src="assets/img/wedding-1927.jpg" alt="1927 年蒋介石与宋美龄结婚照" loading="lazy">
+            </figure>
+            <figure class="slide">
+              <img src="assets/img/cairo-1943.jpg" alt="1943 年开罗会议合影" loading="lazy">
+            </figure>
+            <figure class="slide">
+              <img src="assets/img/taiwan-1946.jpg" alt="1946 年蒋介石与宋美龄在台湾" loading="lazy">
+            </figure>
+            <figure class="slide">
+              <img src="assets/img/sun-tomb-1928.jpg" alt="1928 年蒋介石于孙中山陵前致祭" loading="lazy">
+            </figure>
+            <figure class="slide">
+              <img src="assets/img/memorial-hall.jpg" alt="中正纪念堂园区黄昏" loading="lazy">
+            </figure>
+          </div>
+          <div class="player-grain" aria-hidden="true"></div>
+          <div class="player-vignette" aria-hidden="true"></div>
+
+          <div class="player-caption" id="playerCaption">1928 年报纸刊登的蒋介石军装照（美联社）</div>
+
+          <div class="player-controls">
+            <button class="pbtn" id="playBtn" type="button" aria-label="播放或暂停幻灯片">
+              <span class="icon-pause" aria-hidden="true"></span>
+            </button>
+            <button class="pbtn ghost" id="prevBtn" type="button" aria-label="上一张">‹</button>
+            <button class="pbtn ghost" id="nextBtn" type="button" aria-label="下一张">›</button>
+            <div class="dots" id="dots" role="tablist" aria-label="影像切换"></div>
+          </div>
+        </div>
+      </div>
+
+      <p class="archive-note reveal">
+        以上为历史照片的缓动放映，非动态录像。放映机效果仅为视觉设计。
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ 身后与纪念 ============ -->
+  <section class="section memorial" id="memorial">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="section-no">伍</span>
+        <h2>身后与纪念</h2>
+        <span class="section-en">MEMORY</span>
+      </div>
+
+      <div class="gallery">
+        <figure class="gal-item reveal">
+          <img src="assets/img/memorial-gate.jpg" alt="台北自由广场牌楼" loading="lazy">
+          <figcaption><b>自由广场</b><span>台北 · 中正纪念堂园区入口</span></figcaption>
+        </figure>
+        <figure class="gal-item wide reveal">
+          <img src="assets/img/memorial-hall.jpg" alt="黄昏时分的中正纪念堂园区" loading="lazy">
+          <figcaption><b>园区黄昏</b><span>两侧为国家戏剧院与国家音乐厅</span></figcaption>
+        </figure>
+        <figure class="gal-item reveal">
+          <img src="assets/img/statue-park.jpg" alt="慈湖纪念雕塑公园中的蒋介石坐像" loading="lazy">
+          <figcaption><b>慈湖雕塑公园</b><span>桃园 · 各地迁置的铜像</span></figcaption>
+        </figure>
+        <figure class="gal-item reveal">
+          <img src="assets/img/mausoleum.jpg" alt="慈湖陵寝仪仗队换班" loading="lazy">
+          <figcaption><b>慈湖陵寝</b><span>桃园 · 灵柩暂厝之地</span></figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 资料 ============ -->
+  <section class="section credits" id="credits">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="section-no">陆</span>
+        <h2>资料与说明</h2>
+        <span class="section-en">SOURCES &amp; CREDITS</span>
+      </div>
+
+      <div class="credits-grid">
+        <div class="credit-card reveal">
+          <h3>图像来源</h3>
+          <p>本页历史照片取自维基共享资源（Wikimedia Commons），多为美国政府档案、民国报刊与公有领域（Public Domain）影像，
+             部分为自由授权作品。图片已下载至本地 <code>assets/img/</code>。</p>
+          <ul class="credit-list">
+            <li>蒋介石 1955 年官方肖像 — 公有领域</li>
+            <li>1928 年美联社军装照 — 报刊照片，公有领域</li>
+            <li>1927 年结婚照（良友画报） — 公有领域</li>
+            <li>1941 年蒋介石宋美龄合影 — 公有领域</li>
+            <li>1943 年开罗会议 — 美国国家档案（NARA）</li>
+            <li>黄埔开学典礼、广州合影、中山陵致祭 — 民国档案</li>
+            <li>中正纪念堂、自由广场、慈湖 — 自由授权摄影</li>
+          </ul>
+        </div>
+
+        <div class="credit-card reveal">
+          <h3>文字与音乐</h3>
+          <p>页面文字为按时序整理的背景叙述，仅供概览；具体史实、数据与评价请参阅相关学术著作与档案。</p>
+          <p>背景音乐为本地文件《东南苦行山》，页面加载后自动循环播放，右下角悬浮球可随时暂停或继续。</p>
+          <p class="sign">&mdash; 民国人物志 · 第一辑 &mdash;</p>
+        </div>
+      </div>
+
+      <footer class="footer reveal">
+        <p>本页为历史资料展示，不代表任何政治立场。评价历史人物，宜兼听多方、对照档案。</p>
+        <p class="copy">© <span id="year">2025</span> 民国人物志 · 单页专题</p>
+      </footer>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ 音乐悬浮球 ============ -->
+<div class="music-ball" id="musicBall" role="group" aria-label="背景音乐控制">
+  <button class="disc-btn" id="discBtn" type="button" aria-pressed="false" aria-label="播放背景音乐">
+    <span class="disc" aria-hidden="true"><span class="disc-hole"></span></span>
+    <span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+  </button>
+  <span class="music-label" id="musicLabel">播放</span>
+  <span class="music-title" aria-hidden="true">东南苦行山</span>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<audio id="bgm" src="东南苦行山.mp3" loop preload="auto"></audio>
+
+<script>
+/* =========================================================
+   民国人物志 · 蒋介石 1887—1975
+   交互脚本：滚动揭示 / 视差 / 幻灯片 / 背景音乐
+   ========================================================= */
+(function () {
+  'use strict';
+
+  var reduceMotion = window.matchMedia
+    ? window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    : false;
+
+  /* ---------------- 提示条 ---------------- */
+  var toastEl = document.getElementById('toast');
+  var toastTimer = null;
+  function toast(msg, ms) {
+    if (!toastEl) return;
+    toastEl.textContent = msg;
+    toastEl.classList.add('show');
+    if (toastTimer) clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () {
+      toastEl.classList.remove('show');
+    }, ms || 3200);
+  }
+
+  /* ---------------- 阅读进度 & 报头 ---------------- */
+  var progressBar = document.getElementById('progressBar');
+  var masthead = document.getElementById('masthead');
+
+  function onScroll() {
+    var doc = document.documentElement;
+    var max = doc.scrollHeight - window.innerHeight;
+    var y = window.scrollY || doc.scrollTop || 0;
+
+    if (progressBar) {
+      var p = max > 0 ? Math.min(100, Math.max(0, (y / max) * 100)) : 0;
+      progressBar.style.width = p.toFixed(2) + '%';
+    }
+    if (masthead) {
+      if (y > 60) masthead.classList.add('solid');
+      else masthead.classList.remove('solid');
+    }
+  }
+
+  /* ---------------- 首屏视差 ---------------- */
+  var heroPhoto = document.getElementById('heroPhoto');
+  var hero = document.getElementById('hero');
+  var ticking = false;
+
+  function parallax() {
+    ticking = false;
+    if (!heroPhoto || !hero || reduceMotion) return;
+    var y = window.scrollY || 0;
+    if (y > window.innerHeight * 1.4) return;
+    heroPhoto.style.transform = 'translate3d(0,' + (y * 0.22).toFixed(2) + 'px,0) scale(1.05)';
+  }
+
+  window.addEventListener('scroll', function () {
+    onScroll();
+    if (!ticking) {
+      ticking = true;
+      window.requestAnimationFrame(function () {
+        parallax();
+        updateReveals();
+      });
+    }
+  }, { passive: true });
+
+  window.addEventListener('resize', function () {
+    window.requestAnimationFrame(updateReveals);
+  });
+
+  onScroll();
+  parallax();
+
+  /* ---------------- 滚动揭示 ---------------- */
+  var revealEls = Array.prototype.slice.call(document.querySelectorAll('.reveal'));
+
+  // 同一容器内的元素做轻微错峰
+  var groups = ['.fact-strip', '.gallery', '.credits-grid', '.hero-content'];
+  groups.forEach(function (sel) {
+    var box = document.querySelector(sel);
+    if (!box) return;
+    Array.prototype.forEach.call(box.children, function (child, i) {
+      if (child.classList.contains('reveal')) {
+        child.style.setProperty('--d', (i * 0.12).toFixed(2) + 's');
+      }
+    });
+  });
+
+  /* 离开视口后复位，使每次滚入都能重播动画 */
+  var revealState = revealEls.map(function (el) {
+    return { el: el, on: el.classList.contains('in') };
+  });
+
+  function updateReveals() {
+    var vh = window.innerHeight || document.documentElement.clientHeight;
+    var rects = revealState.map(function (s) { return s.el.getBoundingClientRect(); });
+    revealState.forEach(function (s, i) {
+      var r = rects[i];
+      if (r.width === 0 && r.height === 0) return; // 隐藏元素跳过
+      if (!s.on) {
+        // 进入可视区（上下各留 40px 缓冲）
+        if (r.top < vh - 40 && r.bottom > 40) {
+          s.el.style.transitionDelay = '';
+          s.el.classList.add('in');
+          s.on = true;
+        }
+      } else if (r.bottom < -80 || r.top > vh + 80) {
+        // 完全离开视口：无过渡地瞬间复位，保证下次进入从 0 重新播放
+        var t = s.el;
+        t.style.transition = 'none';
+        t.classList.remove('in');
+        void t.offsetWidth; // 强制回流，使复位立即生效
+        t.style.transition = '';
+        s.on = false;
+      }
+    });
+  }
+
+  updateReveals();
+
+  /* ---------------- 影像幻灯片 ---------------- */
+  var player = document.getElementById('player');
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var dotsBox = document.getElementById('dots');
+  var playBtn = document.getElementById('playBtn');
+  var prevBtn = document.getElementById('prevBtn');
+  var nextBtn = document.getElementById('nextBtn');
+  var captionEl = document.getElementById('playerCaption');
+
+  var captions = [
+    '1928 年报纸刊登的蒋介石军装照（美联社）',
+    '1924 年 6 月，黄埔军校开学典礼，孙中山居中检阅',
+    '1927 年 12 月，蒋介石与宋美龄在上海结婚',
+    '1943 年 11 月，开罗会议：蒋介石、罗斯福、丘吉尔',
+    '1946 年 10 月，蒋介石与宋美龄抵台，身后为 C-47 运输机',
+    '1928 年 8 月，蒋介石于南京中山陵前致祭',
+    '台北中正纪念堂园区黄昏，两侧为国家戏剧院与国家音乐厅'
+  ];
+
+  var slideIndex = 0;
+  var autoTimer = null;
+  var isPlaying = true;
+  var inView = true;
+  var SLIDE_MS = 6000;
+
+  function renderDots() {
+    if (!dotsBox) return;
+    dotsBox.innerHTML = '';
+    slides.forEach(function (_, i) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'dot' + (i === slideIndex ? ' is-active' : '');
+      b.setAttribute('aria-label', '第 ' + (i + 1) + ' 张影像');
+      b.addEventListener('click', function () {
+        showSlide(i);
+        restartAuto();
+      });
+      dotsBox.appendChild(b);
+    });
+  }
+
+  function showSlide(i) {
+    if (!slides.length) return;
+    slideIndex = ((i % slides.length) + slides.length) % slides.length;
+
+    slides.forEach(function (s, k) {
+      s.classList.toggle('is-active', k === slideIndex);
+      var img = s.querySelector('img');
+      if (img) {
+        // 重置 Ken Burns 动画，使其每次激活都从头播放
+        img.style.animation = 'none';
+        if (k === slideIndex) {
+          // 强制回流后再挂上动画
+          void img.offsetWidth;
+          img.style.animation = '';
+        }
+      }
+    });
+
+    if (captionEl) {
+      captionEl.textContent = captions[slideIndex] || '';
+    }
+    if (dotsBox) {
+      Array.prototype.forEach.call(dotsBox.children, function (d, k) {
+        d.classList.toggle('is-active', k === slideIndex);
+      });
+    }
+  }
+
+  function setPlayState(state) {
+    isPlaying = state;
+    if (playBtn) {
+      var icon = playBtn.querySelector('span');
+      if (icon) {
+        icon.className = state ? 'icon-pause' : 'icon-play';
+      }
+      playBtn.setAttribute('aria-label', state ? '暂停幻灯片' : '播放幻灯片');
+    }
+    restartAuto();
+  }
+
+  function stopAuto() {
+    if (autoTimer) {
+      clearInterval(autoTimer);
+      autoTimer = null;
+    }
+  }
+
+  function restartAuto() {
+    stopAuto();
+    if (!isPlaying || !inView || document.hidden || reduceMotion) return;
+    autoTimer = setInterval(function () {
+      showSlide(slideIndex + 1);
+    }, SLIDE_MS);
+  }
+
+  if (slides.length) {
+    renderDots();
+    showSlide(0);
+
+    if (playBtn) {
+      playBtn.addEventListener('click', function () {
+        setPlayState(!isPlaying);
+      });
+    }
+    if (prevBtn) {
+      prevBtn.addEventListener('click', function () {
+        showSlide(slideIndex - 1);
+        restartAuto();
+      });
+    }
+    if (nextBtn) {
+      nextBtn.addEventListener('click', function () {
+        showSlide(slideIndex + 1);
+        restartAuto();
+      });
+    }
+
+    if (player) {
+      player.addEventListener('keydown', function (e) {
+        if (e.key === 'ArrowLeft') {
+          e.preventDefault();
+          showSlide(slideIndex - 1);
+          restartAuto();
+        } else if (e.key === 'ArrowRight') {
+          e.preventDefault();
+          showSlide(slideIndex + 1);
+          restartAuto();
+        } else if (e.key === ' ' || e.code === 'Space') {
+          e.preventDefault();
+          setPlayState(!isPlaying);
+        }
+      });
+    }
+
+    if ('IntersectionObserver' in window) {
+      var pio = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          inView = entry.isIntersecting;
+          if (inView) restartAuto();
+          else stopAuto();
+        });
+      }, { threshold: 0.25 });
+      if (player) pio.observe(player);
+    }
+
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden) stopAuto();
+      else restartAuto();
+    });
+
+    restartAuto();
+  }
+
+  /* ---------------- 背景音乐 ---------------- */
+  var bgm = document.getElementById('bgm');
+  var musicBall = document.getElementById('musicBall');
+  var discBtn = document.getElementById('discBtn');
+  var musicLabel = document.getElementById('musicLabel');
+
+  var audioReady = false;
+  var userPaused = false;
+  var needStart = false;   // 自动播放被完全拦截，等待用户手势
+  var needSound = false;   // 已静音起播，等待用户手势开启声音
+  var playRetried = false; // 媒体未就绪时的重试一次
+
+  function paintMusic(playing) {
+    if (discBtn) {
+      discBtn.classList.toggle('playing', playing);
+      discBtn.setAttribute('aria-pressed', playing ? 'true' : 'false');
+      discBtn.setAttribute('aria-label', playing ? '暂停背景音乐' : '播放背景音乐');
+    }
+    if (musicBall) {
+      musicBall.classList.toggle('playing', playing);
+      musicBall.classList.toggle('needs-start', needStart || needSound);
+    }
+    if (musicLabel) {
+      if (needSound) musicLabel.textContent = '点击开声';
+      else if (needStart) musicLabel.textContent = '点击播放';
+      else musicLabel.textContent = playing ? '暂停' : '播放';
+    }
+  }
+
+  function enableSound() {
+    needSound = false;
+    needStart = false;
+    if (bgm) bgm.muted = false;
+    if (musicBall) musicBall.classList.remove('needs-start');
+    paintMusic(!bgm.paused);
+  }
+
+  function tryPlay(showHint) {
+    if (!bgm) return;
+    var p = bgm.play();
+    if (!p || typeof p.catch !== 'function') return;
+    p.catch(function (err) {
+      // 只有“被自动播放策略拦截”才需要静音起播；其它错误（如尚未加载完）等可播放后重试一次
+      if (!err || err.name !== 'NotAllowedError') {
+        if (!playRetried && bgm.readyState < 3) {
+          playRetried = true;
+          bgm.addEventListener('canplay', function () { tryPlay(showHint); }, { once: true });
+        }
+        return;
+      }
+      // 有声自动播放被浏览器拦截 —— 退一步：静音起播，等用户交互后开声
+      bgm.muted = true;
+      var p2 = bgm.play();
+      if (!p2 || typeof p2.then !== 'function') {
+        needStart = true;
+        bgm.muted = false;
+        paintMusic(false);
+        if (showHint !== false) toast('点击页面任意位置即可开始播放背景音乐', 8000);
+        return;
+      }
+      p2.then(function () {
+        needSound = true;
+        paintMusic(true);
+        if (showHint !== false) toast('浏览器已静音自动播放，点击页面任意位置可开启声音', 8000);
+      }).catch(function () {
+        needStart = true;
+        bgm.muted = false;
+        paintMusic(false);
+        if (showHint !== false) toast('点击页面任意位置即可开始播放背景音乐', 8000);
+      });
+    });
+  }
+
+  function removeUnlock() {
+    document.removeEventListener('pointerdown', unlock, true);
+    document.removeEventListener('keydown', unlock, true);
+  }
+
+  function unlock(e) {
+    // 点击悬浮球本身时交给它的 click 处理，避免“先播后暂停”
+    if (e && e.target && e.target.closest && e.target.closest('#musicBall')) return;
+    if (needSound) {
+      enableSound();
+    } else if (needStart) {
+      needStart = false;
+      userPaused = false;
+      tryPlay(false);
+    } else if (!userPaused && bgm.paused) {
+      tryPlay(false);
+    }
+    if (!bgm.paused || userPaused) removeUnlock();
+  }
+
+  if (bgm) {
+    bgm.loop = true;
+    bgm.volume = 0.55;
+
+    bgm.addEventListener('playing', function () {
+      needStart = false;
+      paintMusic(true);
+      // 已经开始播放，收起“点击播放”类提示
+      if (toastEl && toastEl.classList.contains('show') &&
+          /背景音乐|开启声音/.test(toastEl.textContent || '')) {
+        toastEl.classList.remove('show');
+      }
+    });
+    bgm.addEventListener('pause', function () { paintMusic(false); });
+    bgm.addEventListener('error', function () {
+      paintMusic(false);
+      toast('背景音乐加载失败，请确认根目录存在《东南苦行山.mp3》', 5000);
+    });
+    bgm.addEventListener('canplay', function () { audioReady = true; }, { once: true });
+
+    var toggleMusic = function () {
+      if (needSound) {
+        // 静音起播中：第一次点击先开声，不打断播放
+        enableSound();
+        return;
+      }
+      if (needStart) {
+        needStart = false;
+        userPaused = false;
+        tryPlay(true);
+        return;
+      }
+      if (bgm.paused) {
+        userPaused = false;
+        tryPlay(true);
+      } else {
+        userPaused = true;
+        bgm.pause();
+      }
+    };
+
+    // 整个悬浮球都可点击（按钮、标签、圆盘任意位置）
+    var hitArea = musicBall || discBtn;
+    if (hitArea) {
+      hitArea.addEventListener('click', function (e) {
+        e.preventDefault();
+        toggleMusic();
+        // 让按钮获得焦点，便于随后用空格/回车继续控制
+        if (discBtn && document.activeElement !== discBtn) {
+          try { discBtn.focus({ preventScroll: true }); } catch (err) { discBtn.focus(); }
+        }
+      });
+    }
+
+    // 默认自动播放；若被浏览器拦截，则静音起播并提示，任意交互后开声
+    tryPlay(true);
+
+    document.addEventListener('pointerdown', unlock, true);
+    document.addEventListener('keydown', unlock, true);
+
+    paintMusic(!bgm.paused);
+  }
+
+  /* ---------------- 其它 ---------------- */
+  var yearEl = document.getElementById('year');
+  if (yearEl) yearEl.textContent = String(new Date().getFullYear());
+
+  // 锚点跳转时为固定报头留出空间
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest ? e.target.closest('a[href^="#"]') : null;
+    if (!a) return;
+    var id = a.getAttribute('href');
+    if (!id || id === '#') return;
+    var target = document.querySelector(id);
+    if (!target) return;
+    e.preventDefault();
+    var offset = 64;
+    var top = target.getBoundingClientRect().top + window.scrollY - offset;
+    window.scrollTo({ top: top, behavior: reduceMotion ? 'auto' : 'smooth' });
+    if (history.replaceState) history.replaceState(null, '', id);
+  });
+
+  // 页面重新可见时校正一次进度条
+  document.addEventListener('visibilitychange', function () {
+    if (!document.hidden) onScroll();
+  });
+})();
+
+</script>
+</body>
+</html>
